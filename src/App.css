@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+:root {
+  --blueDark: rgb(0, 153, 255);
+  --blueLight: rgb(0, 132, 255);
+}
+
+* {
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f5f6fa;
+}
+
+.App {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.topBar {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.topBar i {
+  font-size: 18px;
+}
+.topBar i:hover {
+  color: var(--blueLight);
+}
