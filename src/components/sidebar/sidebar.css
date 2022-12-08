@@ -70,7 +70,11 @@ ul {
 .content {
   width: 100%;
   height: 100%;
-  margin-left: 225px;
   display: flex;
   justify-content: flex-start;
+  transition: all 0.5s ease;
+}
+
+.content.full {
+  margin-left: 225px;
 }

@@ -7,6 +7,7 @@ import useStore from "./store";
 
 function App() {
   const toggleSideBar = useStore((state) => state.toggleSideBar);
+  const isSidebarHidden = useStore((state) => state.isSidebarHidden);
   const activeTab = useStore((state) => state.activeTab);
 
   const handleTabs = () => {
@@ -23,7 +24,7 @@ function App() {
   return (
     <div className="App">
       <Sidebar />
-      <div className="content">
+      <div className={`content ${!isSidebarHidden ? "full" : ""}`}>
         <div className="topBar">
           <i className="fa-solid fa-bars btn" onClick={toggleSideBar}></i>
         </div>
