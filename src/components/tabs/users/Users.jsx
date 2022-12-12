@@ -1,11 +1,14 @@
 import "./users_styles.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
 import EditUser from "./EditUser";
+import AddUser from "./AddUser";
+import DeleteUser from "./DeleteUser";
 
 const Users = () => {
   const getUsers = useStore((state) => state.getUsers);
   const users = useStore((state) => state.users);
+  const [deleteData, setDeleteData] = useState("");
   useEffect(() => {
     if (!users.length) {
       getUsers();
@@ -15,7 +18,11 @@ const Users = () => {
     <div>
       <div className="d-flex align-items-center mb-5">
         <h3 className="m-0 me-3">Utilisateurs</h3>
-        <i className="fa-solid fa-plus btn btn-primary p-2"></i>
+        <i
+          className="fa-solid fa-plus btn btn-primary p-2"
+          data-bs-toggle="modal"
+          data-bs-target="#addUser"
+        ></i>
       </div>
 
       <table class="table table-bordered">
@@ -39,13 +46,20 @@ const Users = () => {
                   data-bs-toggle="modal"
                   data-bs-target="#editUser"
                 ></i>
-                <i className="fa-solid fa-trash btn text-danger"></i>
+                <i
+                  className="fa-solid fa-trash btn text-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteUser"
+                  onClick={() => setDeleteData(user)}
+                ></i>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <AddUser />
       <EditUser />
+      <DeleteUser user={deleteData} />
     </div>
   );
 };

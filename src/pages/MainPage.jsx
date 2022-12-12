@@ -3,6 +3,7 @@ import Sidebar from "../components/sidebar/Sidebar";
 import Calculator from "../components/tabs/calculator/Calculator";
 import Dashboard from "../components/tabs/dashboard/Dashboard";
 import Users from "../components/tabs/users/Users";
+import Sites from "../components/tabs/sites/Sites";
 import useStore from "../store";
 
 const MainPage = () => {
@@ -18,6 +19,9 @@ const MainPage = () => {
     }
     if (activeTab === "users") {
       return <Users />;
+    }
+    if (activeTab === "sites") {
+      return <Sites />;
     }
     if (activeTab === "calculator") {
       return <Calculator />;

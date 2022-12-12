@@ -44,6 +44,17 @@ const Sidebar = () => {
 
         <li>
           <div
+            className={`navlink ${activeTab === "sites" ? "active" : ""}`}
+            onClick={() => switchTab("sites")}
+          >
+            <span className="icon">
+              <i className="fa-solid fa-tablet-screen-button"></i>
+            </span>
+            <span className="item">Sites</span>
+          </div>
+        </li>
+        <li>
+          <div
             className={`navlink ${activeTab === "calculator" ? "active" : ""}`}
             onClick={() => switchTab("calculator")}
           >
