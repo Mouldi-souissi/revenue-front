@@ -1,35 +1,18 @@
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import Sidebar from "./components/sidebar/Sidebar";
-import Calculator from "./components/tabs/calculator/Calculator";
-import Dashboard from "./components/tabs/dashboard/Dashboard";
-import Sites from "./components/tabs/sites/Sites";
-import useStore from "./store";
+import { PrivateRoute } from "./components/PrivateRoute";
+import Login from "./pages/Login";
+import MainPage from "./pages/MainPage";
 
 function App() {
-  const toggleSideBar = useStore((state) => state.toggleSideBar);
-  const isSidebarHidden = useStore((state) => state.isSidebarHidden);
-  const activeTab = useStore((state) => state.activeTab);
-
-  const handleTabs = () => {
-    if (activeTab === "dashboard") {
-      return <Dashboard />;
-    }
-    if (activeTab === "sites") {
-      return <Sites />;
-    }
-    if (activeTab === "calculator") {
-      return <Calculator />;
-    }
-  };
   return (
     <div className="App">
-      <Sidebar />
-      <div className={`content ${!isSidebarHidden ? "full" : ""}`}>
-        <div className="topBar">
-          <i className="fa-solid fa-bars btn" onClick={toggleSideBar}></i>
-        </div>
-        <div className="container">{handleTabs()}</div>
-      </div>
+      <Router>
+        <Switch>
+          <PrivateRoute exact path="/" component={MainPage} />
+          <Route exact path="/login" component={Login} />
+        </Switch>
+      </Router>
     </div>
   );
 }

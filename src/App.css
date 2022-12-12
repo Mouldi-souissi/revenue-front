@@ -16,12 +16,16 @@
 body {
   font-family: "Poppins", sans-serif;
   background: #f5f6fa;
-  /* background: #e0e0e0; */
 }
 
 .App {
   min-height: 100vh;
   min-width: 100vw;
+}
+
+.mainPage {
+  height: 100%;
+  width: 100%;
   display: flex;
 }
 
@@ -44,4 +48,92 @@ body {
 }
 .topBar i:hover {
   color: var(--blueLight);
+}
+
+.btn-primary {
+  background: linear-gradient(var(--blueDark), var(--blueDark)) !important;
+  border-color: var(--blueLight) !important ;
+}
+
+/* sidebar */
+.sidebar {
+  background: linear-gradient(var(--blueDark), var(--blueDark));
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  padding: 20px 0;
+  transition: all 0.5s ease;
+}
+
+.sidebar.hidden {
+  transform: translate(-250px);
+}
+
+.sidebar .profile img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  /* border-radius: 50%; */
+  margin: 0 auto;
+}
+
+ul {
+  padding: 0;
+}
+
+.navlink {
+  cursor: pointer;
+}
+.sidebar ul li .navlink:hover,
+.sidebar ul li .navlink.active {
+  color: var(--blueLight);
+
+  background: white;
+  border-right: 2px solid var(--blueLight);
+}
+
+.sidebar ul li .navlink:hover .icon,
+.sidebar ul li .navlink.active .icon {
+  color: var(--blueLight);
+}
+
+.sidebar ul li .navlink:hover:before,
+.sidebar ul li .navlink.active:before {
+  display: block;
+}
+
+.sidebar ul li .navlink {
+  display: block;
+  padding: 13px 30px;
+  border-bottom: 1px solid var(--blueLight);
+  color: rgb(241, 237, 237);
+  font-size: 16px;
+  position: relative;
+}
+
+.sidebar ul li .navlink .icon {
+  color: #dee4ec;
+  width: 30px;
+  display: inline-block;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  transition: all 0.5s ease;
+  margin-left: 250px;
+}
+
+.content.full {
+  margin-left: 0;
+}
+
+/* login  */
+.login {
+  min-height: 100vh;
+  background: linear-gradient(var(--blueDark), var(--blueDark));
 }
