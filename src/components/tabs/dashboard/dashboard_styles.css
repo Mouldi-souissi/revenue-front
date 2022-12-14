@@ -36,3 +36,16 @@
   font-weight: bold;
   font-size: 28px;
 }
+
+.small {
+  font-weight: bold;
+  text-shadow: 1px 1px 1px grey;
+}
+
+.green {
+  color: greenyellow;
+}
+
+.red {
+  color: red;
+}

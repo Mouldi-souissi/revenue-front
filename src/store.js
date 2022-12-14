@@ -99,6 +99,27 @@ const useStore = create((set) => ({
       })
       .catch((err) => console.log(err));
   },
+
+  // accounts
+  accounts: [],
+  addAccount: (account) => {
+    axios
+      .post(`${API_URL}/account`, account)
+      .then((res) => {
+        set((state) => ({
+          accounts: state.accounts.push(res.data),
+        }));
+      })
+      .catch((err) => console.log(err));
+  },
+  getAccounts: () => {
+    axios
+      .get(`${API_URL}/account`)
+      .then((res) => {
+        set({ accounts: res.data });
+      })
+      .catch((err) => console.log(err));
+  },
 }));
 
 export default useStore;

@@ -1,23 +1,62 @@
 import "./dashboard_styles.css";
-import React from "react";
+import React, { useEffect } from "react";
+import useStore from "../../../store";
+
+// const stoteData = {
+//   deposit: 1000,
+//   sites: [
+//     { name: "Cbet", deposit: 900 },
+//     { name: "Maxbet", deposit: 750 },
+//   ],
+// };
 
 const Dashboard = () => {
-  const general = [
-    { title: "Fond de caisse", value: 1500, icon: "fa-solid fa-landmark" },
-    { title: "Fond Bet 24", value: 900, icon: "fa-solid fa-landmark" },
-    { title: "Fond Max bet", value: 750, icon: "fa-solid fa-landmark" },
-  ];
+  const addAccount = useStore((state) => state.addAccount);
+  const getAccounts = useStore((state) => state.getAccounts);
+  const accounts = useStore((state) => state.accounts);
+
+  useEffect(() => {
+    if (!accounts.length) {
+      getAccounts();
+    }
+  }, []);
+
+  const handleAdd = () => {
+    const acc = [
+      { name: "Cbet", deposit: 900, previousDeposit: 0 },
+      { name: "Maxbet", deposit: 750, previousDeposit: 0 },
+      { name: "Fond", deposit: 1000, previousDeposit: 0 },
+    ];
+
+    acc.forEach((a) => {
+      addAccount(a);
+    });
+  };
+
   return (
     <div className="dashboard_cards">
-      {general.map((doc, i) => (
-        <div className="dashboard_card" key={i}>
-          <div className="card_title">{doc.title}</div>
-          <div className="d-flex justify-content-between w-100 align-items-center">
-            <i className={doc.icon}></i>
-            <div className="card_value">{doc.value}</div>
+      {accounts.map((account) => (
+        <div className="dashboard_card" key={account._id}>
+          <div className="card_title">{account.name}</div>
+          <div className="d-flex justify-content-between w-100 align-items-start">
+            <i className="fa-solid fa-landmark mt-2"></i>
+            <div>
+              <div className="card_value">{account.deposit}</div>
+              <div
+                className={`small ${
+                  account.deposit - account.previousDeposit < 0
+                    ? "red"
+                    : "green"
+                }`}
+              >
+                {account.deposit - account.previousDeposit > 0 && "+"}
+                {account.deposit - account.previousDeposit}
+              </div>
+            </div>
           </div>
         </div>
       ))}
+      {/* <button className="btn btn-primary" onClick={handleAdd}>test</button> */}
     </div>
   );
 };

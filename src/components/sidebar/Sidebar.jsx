@@ -26,7 +26,7 @@ const Sidebar = () => {
             <span className="icon">
               <i className="fas fa-desktop"></i>
             </span>
-            <span className="item">My Dashboard</span>
+            <span className="item">Tableau de bord</span>
           </div>
         </li>
 
@@ -38,7 +38,7 @@ const Sidebar = () => {
             <span className="icon">
               <i className="fas fa-user-friends"></i>
             </span>
-            <span className="item">People</span>
+            <span className="item">Utilisateurs</span>
           </div>
         </li>
 
