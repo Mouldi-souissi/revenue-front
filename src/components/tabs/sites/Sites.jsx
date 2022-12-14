@@ -37,7 +37,8 @@ const Sites = () => {
           data-bs-target="#addSite"
         ></i>
       </div>
-      <table class="table table-bordered">
+
+      <table class="table">
         <thead>
           <tr>
             <th scope="col">Logo</th>
@@ -71,6 +72,7 @@ const Sites = () => {
           ))}
         </tbody>
       </table>
+
       <AddSite />
     </div>
   );

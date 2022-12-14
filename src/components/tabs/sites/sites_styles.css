@@ -1,3 +1,16 @@
 .logo {
   height: 60px;
 }
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0 0.5em;
+  min-width: 450px;
+}
+
+tbody tr {
+  background: white;
+  vertical-align: middle;
+  filter: drop-shadow(0px 1px 1px rgba(128, 128, 128, 0.795));
+  border-bottom: 2px solid var(--blueDark);
+}
