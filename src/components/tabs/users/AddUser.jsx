@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useStore from "../../../store";
 
 const AddUser = () => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState({ type: "utilisateur" });
   const addUser = useStore((state) => state.addUser);
 
   const handleInput = (e) => {
@@ -68,8 +68,13 @@ const AddUser = () => {
               </div>
 
               <div className="form-floating mb-3">
-                <select class="form-select" name="type" onChange={handleInput}>
-                  <option value="simple user">Simple utilisateur</option>
+                <select
+                  class="form-select"
+                  name="type"
+                  onChange={handleInput}
+                  value={data.type}
+                >
+                  <option value="utilisateur">Simple utilisateur</option>
                   <option value="admin">Admin</option>
                 </select>
                 <label>Type</label>

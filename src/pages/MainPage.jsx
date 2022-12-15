@@ -5,6 +5,7 @@ import Dashboard from "../components/tabs/dashboard/Dashboard";
 import Users from "../components/tabs/users/Users";
 import Sites from "../components/tabs/sites/Sites";
 import useStore from "../store";
+import SpendingAndWins from "../components/tabs/SpendingAndWins/SpendingAndWins";
 
 const MainPage = () => {
   const toggleSideBar = useStore((state) => state.toggleSideBar);
@@ -23,8 +24,8 @@ const MainPage = () => {
     if (activeTab === "sites") {
       return <Sites />;
     }
-    if (activeTab === "calculator") {
-      return <Calculator />;
+    if (activeTab === "spendingAndWins") {
+      return <SpendingAndWins />;
     }
   };
   const handleLogout = () => {

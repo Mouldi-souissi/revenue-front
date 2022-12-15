@@ -54,8 +54,30 @@ const Sidebar = () => {
           </div>
         </li>
         <li>
+          <div className={`navlink ${activeTab === "sales" ? "active" : ""}`}>
+            <span className="icon">
+              <i className="fa-solid fa-up-long green"></i>
+            </span>
+            <span className="item">Ventes</span>
+          </div>
+        </li>
+        <li>
           <div
-            className={`navlink ${activeTab === "calculator" ? "active" : ""}`}
+            className={`navlink ${
+              activeTab === "spendingAndWins" ? "active" : ""
+            }`}
+            onClick={() => switchTab("spendingAndWins")}
+          >
+            <span className="icon">
+              <i className="fa-solid fa-down-long red"></i>
+            </span>
+            <span className="item">Dépenses et gains</span>
+          </div>
+        </li>
+
+        <li>
+          <div
+            className={`navlink ${activeTab === "reports" ? "active" : ""}`}
             onClick={() => switchTab("calculator")}
           >
             <span className="icon">
@@ -64,15 +86,7 @@ const Sidebar = () => {
             <span className="item">Reports</span>
           </div>
         </li>
-        <li>
-          <div className={`navlink ${activeTab === "admin" ? "active" : ""}`}>
-            <span className="icon">
-              <i className="fas fa-user-shield"></i>
-            </span>
-            <span className="item">Admin</span>
-          </div>
-        </li>
-        <li>
+        {/* <li>
           <div
             className={`navlink ${activeTab === "settings" ? "active" : ""}`}
           >
@@ -81,7 +95,7 @@ const Sidebar = () => {
             </span>
             <span className="item">Settings</span>
           </div>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

@@ -60,7 +60,9 @@ const useStore = create((set) => ({
 
   deleteUser: (id) => {
     axios
-      .delete(`${API_URL}/user/${id}`)
+      .delete(`${API_URL}/user/${id}`, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         set((state) => ({
           users: state.users.filter((user) => user._id !== res.data._id),
@@ -117,6 +119,56 @@ const useStore = create((set) => ({
       .get(`${API_URL}/account`)
       .then((res) => {
         set({ accounts: res.data });
+      })
+      .catch((err) => console.log(err));
+  },
+
+  // spending
+  inOut: [],
+  out: [],
+  in: [],
+  wins: [],
+  spending: [],
+  getSpendingAndWins: () => {
+    axios
+      .get(`${API_URL}/inOut/out`)
+      .then((res) => {
+        set({ out: res.data });
+        if (res.data.length) {
+          set({
+            wins: res.data.filter((doc) => doc.subType === "gain"),
+            spending: res.data.filter((doc) => doc.subType === "dépense"),
+          });
+        }
+      })
+      .catch((err) => console.log(err));
+  },
+
+  getInOut: () => {
+    axios
+      .get(`${API_URL}/inOut`)
+      .then((res) => {
+        set({ inOut: res.data });
+      })
+      .catch((err) => console.log(err));
+  },
+
+  addOutDoc: (outDoc) => {
+    axios
+      .post(`${API_URL}/inOut`, outDoc, {
+        headers: { token: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        if (res.data.subType === "gain") {
+          set((state) => ({
+            wins: state.wins.push(res.data),
+          }));
+        }
+        if (res.data.subType === "dépense") {
+          set((state) => ({
+            spending: state.spending.push(res.data),
+          }));
+        }
       })
       .catch((err) => console.log(err));
   },

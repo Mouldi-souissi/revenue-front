@@ -137,3 +137,11 @@ ul {
   min-height: 100vh;
   background: linear-gradient(var(--blueDark), var(--blueDark));
 }
+
+.green {
+  color: greenyellow;
+}
+
+.red {
+  color: red;
+}
