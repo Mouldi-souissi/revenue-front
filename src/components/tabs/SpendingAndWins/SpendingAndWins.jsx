@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
 import AddSpending from "./AddSpending";
+import DeleteSpending from "./DeleteSpending";
 
 const SpendingAndWins = () => {
   const [modalType, setModalType] = useState("");
+  const [outId, setOutId] = useState("");
   const getSpendingAndWins = useStore((state) => state.getSpendingAndWins);
   const out = useStore((state) => state.out);
   const wins = useStore((state) => state.wins);
   const spending = useStore((state) => state.spending);
+  const getSites = useStore((state) => state.getSites);
+  const sites = useStore((state) => state.sites);
 
   useEffect(() => {
     if (!out.length) {
       getSpendingAndWins();
     }
+    if (!sites.length) {
+      getSites();
+    }
   }, []);
   return (
-    <div>
+    <div className="container">
       <div className="d-flex align-items-center">
         <h3 className="m-0 me-3">Gains</h3>
         <i
@@ -52,8 +59,8 @@ const SpendingAndWins = () => {
                 <i
                   className="fa-solid fa-trash btn text-danger"
                   data-bs-toggle="modal"
-                  data-bs-target="#deleteUser"
-                  // onClick={() => setDeleteData(user)}
+                  data-bs-target="#deleteSpending"
+                  onClick={() => setOutId(win._id)}
                 ></i>
               </td>
             </tr>
@@ -95,8 +102,8 @@ const SpendingAndWins = () => {
                 <i
                   className="fa-solid fa-trash btn text-danger"
                   data-bs-toggle="modal"
-                  data-bs-target="#deleteUser"
-                  // onClick={() => setDeleteData(user)}
+                  data-bs-target="#deleteSpending"
+                  onClick={() => setOutId(spendingDoc._id)}
                 ></i>
               </td>
             </tr>
@@ -104,6 +111,7 @@ const SpendingAndWins = () => {
         </tbody>
       </table>
       <AddSpending modalType={modalType} />
+      <DeleteSpending id={outId} />
     </div>
   );
 };

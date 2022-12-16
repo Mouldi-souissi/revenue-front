@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
 const AddSpending = ({ modalType }) => {
   const [data, setData] = useState({ type: "sortie" });
   const addOutDoc = useStore((state) => state.addOutDoc);
   const sites = useStore((state) => state.sites);
-  const getSites = useStore((state) => state.getSites);
+  const refClose = useRef();
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -14,22 +14,14 @@ const AddSpending = ({ modalType }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     addOutDoc(data);
-    // type,
-    // subType,
-    // amount,
-    // account,
-    // description,
-    // user
+    refClose.current.click();
   };
 
   useEffect(() => {
-    if (modalType === "gain" && !sites.length) {
-      getSites();
-    }
     setData({
       ...data,
       subType: modalType,
-      account: modalType === "gain" ? sites[0] : "Fond",
+      account: modalType === "gain" ? sites[0].name : "Fond",
     });
   }, [modalType]);
 
@@ -55,14 +47,21 @@ const AddSpending = ({ modalType }) => {
             ></button>
           </div>
           <div class="modal-body">
-            <div className="form-floating mb-3">
-              <select class="form-select" name="account" onChange={handleInput}>
-                {sites.map((site) => (
-                  <option value={site.name}>{site.name}</option>
-                ))}
-              </select>
-              <label>Type</label>
-            </div>
+            {modalType === "gain" && (
+              <div className="form-floating mb-3">
+                <select
+                  class="form-select"
+                  name="account"
+                  onChange={handleInput}
+                >
+                  {sites.map((site) => (
+                    <option value={site.name}>{site.name}</option>
+                  ))}
+                </select>
+                <label>Type</label>
+              </div>
+            )}
+
             <div class="form-floating mb-3">
               <input
                 type="text"
@@ -93,6 +92,7 @@ const AddSpending = ({ modalType }) => {
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              ref={refClose}
             >
               Fermer
             </button>

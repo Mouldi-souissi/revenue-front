@@ -159,14 +159,33 @@ const useStore = create((set) => ({
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
+        console.log(res.data);
         if (res.data.subType === "gain") {
           set((state) => ({
-            wins: state.wins.push(res.data),
+            wins: [...state.wins, res.data],
           }));
         }
         if (res.data.subType === "dépense") {
           set((state) => ({
-            spending: state.spending.push(res.data),
+            spending: [...state.spending, res.data],
+          }));
+        }
+      })
+      .catch((err) => console.log(err));
+  },
+
+  deleteOutdoc: (id) => {
+    axios
+      .delete(`${API_URL}/inOut/${id}`)
+      .then((res) => {
+        if (res.data.subType === "gain") {
+          set((state) => ({
+            wins: state.wins.filter((win) => win._id !== res.data._id),
+          }));
+        }
+        if (res.data.subType === "dépense") {
+          set((state) => ({
+            spending: state.spending.filter((sp) => sp._id !== res.data._id),
           }));
         }
       })
