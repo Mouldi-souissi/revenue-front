@@ -70,6 +70,26 @@ const useStore = create((set) => ({
       })
       .catch((err) => console.log(err));
   },
+
+  editUser: (user) => {
+    axios
+      .put(
+        `${API_URL}/user/${user._id}`,
+        { name: user.name, type: user.type },
+        {
+          headers: { token: localStorage.getItem("token") },
+        }
+      )
+      .then((res) => {
+        set((state) => ({
+          users: [
+            ...state.users.filter((user) => user._id !== res.data._id),
+            res.data,
+          ],
+        }));
+      })
+      .catch((err) => console.log(err));
+  },
   //*********  site
   sites: [],
 
@@ -159,7 +179,6 @@ const useStore = create((set) => ({
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res.data);
         if (res.data.subType === "gain") {
           set((state) => ({
             wins: [...state.wins, res.data],
@@ -186,6 +205,32 @@ const useStore = create((set) => ({
         if (res.data.subType === "dépense") {
           set((state) => ({
             spending: state.spending.filter((sp) => sp._id !== res.data._id),
+          }));
+        }
+      })
+      .catch((err) => console.log(err));
+  },
+
+  editOut: (out) => {
+    axios
+      .put(`${API_URL}/inOut/${out._id}`, out, {
+        headers: { token: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        if (res.data.subType === "gain") {
+          set((state) => ({
+            wins: [
+              ...state.wins.filter((doc) => doc._id !== res.data._id),
+              res.data,
+            ],
+          }));
+        }
+        if (res.data.subType === "dépense") {
+          set((state) => ({
+            spending: [
+              ...state.spending.filter((doc) => doc._id !== res.data._id),
+              res.data,
+            ],
           }));
         }
       })

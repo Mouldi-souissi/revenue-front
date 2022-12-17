@@ -1,14 +1,5 @@
-import "./dashboard_styles.css";
 import React, { useEffect } from "react";
 import useStore from "../../../store";
-
-// const stoteData = {
-//   deposit: 1000,
-//   sites: [
-//     { name: "Cbet", deposit: 900 },
-//     { name: "Maxbet", deposit: 750 },
-//   ],
-// };
 
 const Dashboard = () => {
   const addAccount = useStore((state) => state.addAccount);

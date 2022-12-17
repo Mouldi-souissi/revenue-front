@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import useStore from "../../../store";
 
 const AddUser = () => {
   const [data, setData] = useState({ type: "utilisateur" });
   const addUser = useStore((state) => state.addUser);
+  const refClose = useRef();
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -12,6 +13,7 @@ const AddUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     addUser(data);
+    refClose.current.click();
   };
   return (
     <div
@@ -21,7 +23,7 @@ const AddUser = () => {
       aria-labelledby="addUserLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-xl">
+      <div class="modal-dialog ">
         <form onSubmit={handleSubmit}>
           <div class="modal-content">
             <div class="modal-header">
@@ -85,6 +87,7 @@ const AddUser = () => {
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
+                ref={refClose}
               >
                 Fermer
               </button>

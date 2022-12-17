@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import useStore from "../../../store";
 
 const DeleteUser = ({ user }) => {
   const deleteUser = useStore((state) => state.deleteUser);
+  const refClose = useRef();
+
   const handleDelete = () => {
     deleteUser(user._id);
+    refClose.current.click();
   };
 
   return (
@@ -34,6 +37,7 @@ const DeleteUser = ({ user }) => {
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              ref={refClose}
             >
               Fermer
             </button>

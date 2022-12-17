@@ -1,4 +1,3 @@
-import "./users_styles.css";
 import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
 import EditUser from "./EditUser";
@@ -9,6 +8,7 @@ const Users = () => {
   const getUsers = useStore((state) => state.getUsers);
   const users = useStore((state) => state.users);
   const [deleteData, setDeleteData] = useState("");
+  const [user, setUser] = useState("");
   useEffect(() => {
     if (!users.length) {
       getUsers();
@@ -45,6 +45,7 @@ const Users = () => {
                   className="fa-solid fa-gear btn"
                   data-bs-toggle="modal"
                   data-bs-target="#editUser"
+                  onClick={() => setUser(user)}
                 ></i>
                 <i
                   className="fa-solid fa-trash btn text-danger"
@@ -58,7 +59,7 @@ const Users = () => {
         </tbody>
       </table>
       <AddUser />
-      <EditUser />
+      <EditUser user={user} />
       <DeleteUser user={deleteData} />
     </div>
   );

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
 import AddSpending from "./AddSpending";
 import DeleteSpending from "./DeleteSpending";
+import EditOut from "./EditOut";
 
 const SpendingAndWins = () => {
   const [modalType, setModalType] = useState("");
   const [outId, setOutId] = useState("");
+  const [outDoc, setOutDoc] = useState("");
   const getSpendingAndWins = useStore((state) => state.getSpendingAndWins);
   const out = useStore((state) => state.out);
   const wins = useStore((state) => state.wins);
@@ -22,7 +24,7 @@ const SpendingAndWins = () => {
     }
   }, []);
   return (
-    <div className="container">
+    <div>
       <div className="d-flex align-items-center">
         <h3 className="m-0 me-3">Gains</h3>
         <i
@@ -54,7 +56,8 @@ const SpendingAndWins = () => {
                 <i
                   className="fa-solid fa-gear btn"
                   data-bs-toggle="modal"
-                  data-bs-target="#editUser"
+                  data-bs-target="#editOut"
+                  onClick={() => setOutDoc(win)}
                 ></i>
                 <i
                   className="fa-solid fa-trash btn text-danger"
@@ -97,7 +100,8 @@ const SpendingAndWins = () => {
                 <i
                   className="fa-solid fa-gear btn"
                   data-bs-toggle="modal"
-                  data-bs-target="#editUser"
+                  data-bs-target="#editOut"
+                  onClick={() => setOutDoc(spendingDoc)}
                 ></i>
                 <i
                   className="fa-solid fa-trash btn text-danger"
@@ -112,6 +116,7 @@ const SpendingAndWins = () => {
       </table>
       <AddSpending modalType={modalType} />
       <DeleteSpending id={outId} />
+      <EditOut out={outDoc} />
     </div>
   );
 };

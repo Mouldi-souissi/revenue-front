@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import useStore from "../../../store";
 import AddSite from "./AddSite";
-import "./sites_styles.css";
+
 const sites = [
   {
     _id: 1,
