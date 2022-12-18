@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import Dashboard from "../components/tabs/dashboard/Dashboard";
 import Users from "../components/tabs/users/Users";
-import Sites from "../components/tabs/sites/Sites";
+import Accounts from "../components/tabs/accounts/Accounts";
 import useStore from "../store";
-import SpendingAndWins from "../components/tabs/SpendingAndWins/SpendingAndWins";
+import Spending from "../components/tabs/spending/Spending";
+import Wins from "../components/tabs/wins/Wins";
+import Sales from "../components/tabs/sales/Sales";
 
 const MainPage = () => {
   const toggleSideBar = useStore((state) => state.toggleSideBar);
@@ -20,11 +22,17 @@ const MainPage = () => {
     if (activeTab === "users") {
       return <Users />;
     }
-    if (activeTab === "sites") {
-      return <Sites />;
+    if (activeTab === "accounts") {
+      return <Accounts />;
     }
-    if (activeTab === "spendingAndWins") {
-      return <SpendingAndWins />;
+    if (activeTab === "spending") {
+      return <Spending />;
+    }
+    if (activeTab === "wins") {
+      return <Wins />;
+    }
+    if (activeTab === "sales") {
+      return <Sales />;
     }
   };
   const handleLogout = () => {

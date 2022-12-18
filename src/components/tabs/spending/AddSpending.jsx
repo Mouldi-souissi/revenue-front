@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
-const EditOut = ({ out }) => {
-  const [data, setData] = useState("");
-  const editOut = useStore((state) => state.editOut);
-  const sites = useStore((state) => state.sites);
+const AddSpending = ({ spendingDoc }) => {
+  const [data, setData] = useState({ type: "sortie" });
+  const addMove = useStore((state) => state.addMove);
   const refClose = useRef();
 
   const handleInput = (e) => {
@@ -13,25 +12,32 @@ const EditOut = ({ out }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    editOut(data);
+    addMove(data);
     refClose.current.click();
   };
 
   useEffect(() => {
-    setData(out);
-  }, [out]);
+    setData({
+      ...data,
+      subType: "dépense",
+      account: "Caisse",
+    });
+  }, [spendingDoc]);
+
   return (
     <div
       class="modal fade"
-      id="editOut"
+      id="addSpending"
       tabindex="-1"
-      aria-labelledby="editOutLabel"
+      aria-labelledby="addSpendingLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <form class="modal-content" onSubmit={handleSubmit}>
           <div class="modal-header">
-            <h1 class="modal-title fs-5">Editer l'utilisateur</h1>
+            <h1 class="modal-title fs-5" id="addSpendingLabel">
+              Ajouter une dépense
+            </h1>
             <button
               type="button"
               class="btn-close"
@@ -40,36 +46,15 @@ const EditOut = ({ out }) => {
             ></button>
           </div>
           <div class="modal-body">
-            {data.subType === "gain" && (
-              <div className="form-floating mb-3">
-                <select
-                  class="form-select"
-                  name="account"
-                  onChange={handleInput}
-                  value={data.account}
-                >
-                  {sites.map((site) => (
-                    <option value={site.name}>{site.name}</option>
-                  ))}
-                </select>
-                <label>Type</label>
-              </div>
-            )}
-
             <div class="form-floating mb-3">
               <input
                 type="text"
                 class="form-control"
-                placeholder={
-                  data.subType === "gain" ? "client/Tél" : "Description"
-                }
+                placeholder="Description"
                 name="description"
                 onChange={handleInput}
-                value={data.description}
               />
-              <label>
-                {data.subType === "gain" ? "client/Tél" : "Description"}
-              </label>
+              <label>Description</label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -78,7 +63,6 @@ const EditOut = ({ out }) => {
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
-                value={data.amount}
               />
               <label>Montant</label>
             </div>
@@ -93,7 +77,7 @@ const EditOut = ({ out }) => {
               Fermer
             </button>
             <button type="submit" class="btn btn-primary">
-              Sauvgarder
+              Ajouter
             </button>
           </div>
         </form>
@@ -102,4 +86,4 @@ const EditOut = ({ out }) => {
   );
 };
 
-export default EditOut;
+export default AddSpending;

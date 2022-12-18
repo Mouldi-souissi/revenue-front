@@ -90,50 +90,9 @@ const useStore = create((set) => ({
       })
       .catch((err) => console.log(err));
   },
-  //*********  site
-  sites: [],
-
-  getSites: () => {
-    axios
-      .get(`${API_URL}/site`)
-      .then((res) => {
-        set({ sites: res.data });
-      })
-      .catch((err) => console.log(err));
-  },
-
-  addSite: (site) => {
-    axios
-      .post(`${API_URL}/site`, site)
-      .then((res) => {
-        set((state) => ({ sites: [...state.sites, res.data] }));
-      })
-      .catch((err) => console.log(err));
-  },
-
-  deleteSite: (id) => {
-    axios
-      .delete(`${API_URL}/site/${id}`)
-      .then((res) => {
-        set((state) => ({
-          sites: state.sites.filter((site) => site._id !== res.data.id),
-        }));
-      })
-      .catch((err) => console.log(err));
-  },
-
   // accounts
   accounts: [],
-  addAccount: (account) => {
-    axios
-      .post(`${API_URL}/account`, account)
-      .then((res) => {
-        set((state) => ({
-          accounts: state.accounts.push(res.data),
-        }));
-      })
-      .catch((err) => console.log(err));
-  },
+
   getAccounts: () => {
     axios
       .get(`${API_URL}/account`)
@@ -142,40 +101,70 @@ const useStore = create((set) => ({
       })
       .catch((err) => console.log(err));
   },
+  addAccount: (account) => {
+    axios
+      .post(`${API_URL}/account`, account)
+      .then((res) => {
+        set((state) => ({ accounts: [...state.accounts, res.data] }));
+      })
+      .catch((err) => console.log(err));
+  },
+  deleteAccount: (id) => {
+    axios
+      .delete(`${API_URL}/account/${id}`)
+      .then((res) => {
+        set((state) => ({
+          accounts: state.accounts.filter((site) => site._id !== res.data._id),
+        }));
+      })
+      .catch((err) => console.log(err));
+  },
+  editAccount: (account) => {
+    axios
+      .put(`${API_URL}/account/${account._id}`, account, {
+        headers: { token: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        set((state) => ({
+          accounts: [
+            ...state.accounts.filter((doc) => doc._id !== res.data._id),
+            res.data,
+          ],
+        }));
+      })
+      .catch((err) => console.log(err));
+  },
 
-  // spending
-  inOut: [],
-  out: [],
-  in: [],
-  wins: [],
+  // moves
   spending: [],
-  getSpendingAndWins: () => {
+  wins: [],
+  moves: [],
+
+  getSpending: () => {
     axios
-      .get(`${API_URL}/inOut/out`)
+      .get(`${API_URL}/move/spending`)
       .then((res) => {
-        set({ out: res.data });
-        if (res.data.length) {
-          set({
-            wins: res.data.filter((doc) => doc.subType === "gain"),
-            spending: res.data.filter((doc) => doc.subType === "dépense"),
-          });
-        }
+        set({
+          spending: res.data,
+        });
       })
       .catch((err) => console.log(err));
   },
 
-  getInOut: () => {
+  getWins: () => {
     axios
-      .get(`${API_URL}/inOut`)
+      .get(`${API_URL}/move/win`)
       .then((res) => {
-        set({ inOut: res.data });
+        set({
+          wins: res.data,
+        });
       })
       .catch((err) => console.log(err));
   },
 
-  addOutDoc: (outDoc) => {
+  addMove: (move) => {
     axios
-      .post(`${API_URL}/inOut`, outDoc, {
+      .post(`${API_URL}/move`, move, {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
@@ -193,27 +182,9 @@ const useStore = create((set) => ({
       .catch((err) => console.log(err));
   },
 
-  deleteOutdoc: (id) => {
+  editMove: (move) => {
     axios
-      .delete(`${API_URL}/inOut/${id}`)
-      .then((res) => {
-        if (res.data.subType === "gain") {
-          set((state) => ({
-            wins: state.wins.filter((win) => win._id !== res.data._id),
-          }));
-        }
-        if (res.data.subType === "dépense") {
-          set((state) => ({
-            spending: state.spending.filter((sp) => sp._id !== res.data._id),
-          }));
-        }
-      })
-      .catch((err) => console.log(err));
-  },
-
-  editOut: (out) => {
-    axios
-      .put(`${API_URL}/inOut/${out._id}`, out, {
+      .put(`${API_URL}/move/${move._id}`, move, {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
@@ -233,6 +204,43 @@ const useStore = create((set) => ({
             ],
           }));
         }
+      })
+      .catch((err) => console.log(err));
+  },
+
+  deleteMove: (id) => {
+    axios
+      .delete(`${API_URL}/move/${id}`)
+      .then((res) => {
+        if (res.data.subType === "gain") {
+          set((state) => ({
+            wins: state.wins.filter((win) => win._id !== res.data._id),
+          }));
+        }
+        if (res.data.subType === "dépense") {
+          set((state) => ({
+            spending: state.spending.filter((sp) => sp._id !== res.data._id),
+          }));
+        }
+      })
+      .catch((err) => console.log(err));
+  },
+
+  sales: [],
+  getMoves: () => {
+    axios
+      .get(`${API_URL}/move`)
+      .then((res) => {
+        set({ moves: res.data });
+      })
+      .catch((err) => console.log(err));
+  },
+
+  getSales: () => {
+    axios
+      .get(`${API_URL}/move/sales`)
+      .then((res) => {
+        set({ sales: res.data });
       })
       .catch((err) => console.log(err));
   },

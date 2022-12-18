@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
-const AddSpending = ({ modalType }) => {
-  const [data, setData] = useState({ type: "sortie" });
-  const addOutDoc = useStore((state) => state.addOutDoc);
-  const sites = useStore((state) => state.sites);
+const EditWin = ({ winDoc }) => {
+  const [data, setData] = useState("");
+  const editMove = useStore((state) => state.editMove);
+  const accounts = useStore((state) => state.accounts);
   const refClose = useRef();
 
   const handleInput = (e) => {
@@ -13,32 +13,20 @@ const AddSpending = ({ modalType }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addOutDoc(data);
+    editMove(data);
     refClose.current.click();
   };
 
   useEffect(() => {
-    setData({
-      ...data,
-      subType: modalType,
-      account: modalType === "gain" ? sites[0].name : "Fond",
-    });
-  }, [modalType]);
+    setData(winDoc);
+  }, [winDoc]);
 
   return (
-    <div
-      class="modal fade"
-      id="addSpending"
-      tabindex="-1"
-      aria-labelledby="addSpendingLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="editWin" tabIndex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <form class="modal-content" onSubmit={handleSubmit}>
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="addSpendingLabel">
-              Ajouter {modalType === "gain" ? "un gain" : "une dépense"}
-            </h1>
+            <h1 class="modal-title fs-5">Ajouter un gain</h1>
             <button
               type="button"
               class="btn-close"
@@ -47,34 +35,32 @@ const AddSpending = ({ modalType }) => {
             ></button>
           </div>
           <div class="modal-body">
-            {modalType === "gain" && (
-              <div className="form-floating mb-3">
-                <select
-                  class="form-select"
-                  name="account"
-                  onChange={handleInput}
-                >
-                  {sites.map((site) => (
-                    <option value={site.name}>{site.name}</option>
-                  ))}
-                </select>
-                <label>Type</label>
-              </div>
-            )}
+            <div className="form-floating mb-3">
+              <select
+                class="form-select"
+                name="account"
+                onChange={handleInput}
+                value={data.account}
+              >
+                {accounts.map((account) => (
+                  <option key={account._id} value={account.name}>
+                    {account.name}
+                  </option>
+                ))}
+              </select>
+              <label>Type</label>
+            </div>
 
             <div class="form-floating mb-3">
               <input
                 type="text"
                 class="form-control"
-                placeholder={
-                  modalType === "gain" ? "client/Tél" : "Description"
-                }
+                placeholder="client/Tél"
                 name="description"
                 onChange={handleInput}
+                value={data.description}
               />
-              <label>
-                {modalType === "gain" ? "client/Tél" : "Description"}
-              </label>
+              <label>client/Tél</label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -83,6 +69,7 @@ const AddSpending = ({ modalType }) => {
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
+                value={data.amount}
               />
               <label>Montant</label>
             </div>
@@ -97,7 +84,7 @@ const AddSpending = ({ modalType }) => {
               Fermer
             </button>
             <button type="submit" class="btn btn-primary">
-              Ajouter
+              Sauvegarder
             </button>
           </div>
         </form>
@@ -106,4 +93,4 @@ const AddSpending = ({ modalType }) => {
   );
 };
 
-export default AddSpending;
+export default EditWin;

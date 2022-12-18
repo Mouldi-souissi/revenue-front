@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
-const AddSite = () => {
+const EditAccount = ({ account }) => {
   const [data, setData] = useState("");
-  const addSite = useStore((state) => state.addSite);
+  const editAccount = useStore((state) => state.editAccount);
+  const refClose = useRef();
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -11,22 +12,21 @@ const AddSite = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addSite(data);
+    editAccount(data);
+    refClose.current.click();
   };
 
+  useEffect(() => {
+    setData(account);
+  }, [account]);
+
   return (
-    <div
-      class="modal fade"
-      id="addSite"
-      tabindex="-1"
-      aria-labelledby="addSiteLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="editAccount">
       <div class="modal-dialog">
         <form class="modal-content" onSubmit={handleSubmit}>
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="addSiteLabel">
-              Ajouter un nouveau site
+            <h1 class="modal-title fs-5">
+              {`Editer le compte ${account?.name}`}
             </h1>
             <button
               type="button"
@@ -43,6 +43,7 @@ const AddSite = () => {
                 placeholder="Nom"
                 name="name"
                 onChange={handleInput}
+                value={data.name}
               />
               <label>Nom</label>
             </div>
@@ -53,6 +54,7 @@ const AddSite = () => {
                 placeholder="Taux de change"
                 name="rate"
                 onChange={handleInput}
+                value={data.rate}
               />
               <label>Taux de change</label>
             </div>
@@ -63,8 +65,20 @@ const AddSite = () => {
                 placeholder="Lien du logo"
                 name="img"
                 onChange={handleInput}
+                value={data.img}
               />
               <label>Lien de logo</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Solde"
+                name="deposit"
+                onChange={handleInput}
+                value={data.deposit}
+              />
+              <label>Solde</label>
             </div>
           </div>
           <div class="modal-footer">
@@ -72,11 +86,12 @@ const AddSite = () => {
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              ref={refClose}
             >
               Fermer
             </button>
             <button type="submit" class="btn btn-primary">
-              Ajouter
+              Sauvegarder
             </button>
           </div>
         </form>
@@ -85,4 +100,4 @@ const AddSite = () => {
   );
 };
 
-export default AddSite;
+export default EditAccount;

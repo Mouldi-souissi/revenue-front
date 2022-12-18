@@ -44,17 +44,20 @@ const Sidebar = () => {
 
         <li>
           <div
-            className={`navlink ${activeTab === "sites" ? "active" : ""}`}
-            onClick={() => switchTab("sites")}
+            className={`navlink ${activeTab === "accounts" ? "active" : ""}`}
+            onClick={() => switchTab("accounts")}
           >
             <span className="icon">
               <i className="fa-solid fa-tablet-screen-button"></i>
             </span>
-            <span className="item">Sites</span>
+            <span className="item">Comptes</span>
           </div>
         </li>
         <li>
-          <div className={`navlink ${activeTab === "sales" ? "active" : ""}`}>
+          <div
+            className={`navlink ${activeTab === "sales" ? "active" : ""}`}
+            onClick={() => switchTab("sales")}
+          >
             <span className="icon">
               <i className="fa-solid fa-up-long green"></i>
             </span>
@@ -63,15 +66,24 @@ const Sidebar = () => {
         </li>
         <li>
           <div
-            className={`navlink ${
-              activeTab === "spendingAndWins" ? "active" : ""
-            }`}
-            onClick={() => switchTab("spendingAndWins")}
+            className={`navlink ${activeTab === "spending" ? "active" : ""}`}
+            onClick={() => switchTab("spending")}
           >
             <span className="icon">
               <i className="fa-solid fa-down-long red"></i>
             </span>
-            <span className="item">Dépenses et gains</span>
+            <span className="item">Dépenses</span>
+          </div>
+        </li>
+        <li>
+          <div
+            className={`navlink ${activeTab === "wins" ? "active" : ""}`}
+            onClick={() => switchTab("wins")}
+          >
+            <span className="icon">
+              <i className="fa-solid fa-circle-dollar-to-slot"></i>
+            </span>
+            <span className="item">Gain</span>
           </div>
         </li>
 

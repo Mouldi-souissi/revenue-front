@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
 import useStore from "../../../store";
 
-const DeleteSpending = ({ id }) => {
-  const deleteOutdoc = useStore((state) => state.deleteOutdoc);
+const DeleteSpending = ({ spendingDoc }) => {
+  const deleteMove = useStore((state) => state.deleteMove);
   const refClose = useRef();
 
   const handleDelete = () => {
-    deleteOutdoc(id);
+    deleteMove(spendingDoc._id);
     refClose.current.click();
   };
   return (

@@ -199,7 +199,8 @@ ul {
 .table {
   border-collapse: separate;
   border-spacing: 0 0.5em;
-  min-width: 450px;
+  /* min-width: 450px; */
+  max-width: 95%;
 }
 
 tbody tr {
