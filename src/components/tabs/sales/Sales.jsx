@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
 import AddSale from "./AddSale";
+import DeleteSale from "./DeleteSale";
+import EditSale from "./EditSale";
 
 const Sails = () => {
+  const [sale, setSale] = useState("");
   const sales = useStore((state) => state.sales);
   const getSales = useStore((state) => state.getSales);
   const accounts = useStore((state) => state.accounts);
@@ -47,25 +50,23 @@ const Sails = () => {
                 <i
                   className="fa-solid fa-gear btn"
                   data-bs-toggle="modal"
-                  data-bs-target="#editWin"
-                  //   onClick={() => setWinDoc(win)}
+                  data-bs-target="#editSale"
+                  onClick={() => setSale(sale)}
                 ></i>
                 <i
                   className="fa-solid fa-trash btn text-danger"
                   data-bs-toggle="modal"
-                  data-bs-target="#deleteWin"
-                  //   onClick={() => setWinDoc(win)}
+                  data-bs-target="#deleteSale"
+                  onClick={() => setSale(sale)}
                 ></i>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {/* 
-      <AddWin />
-      <DeleteWin winDoc={winDoc} />
-      <EditWin winDoc={winDoc} /> */}
       <AddSale />
+      <DeleteSale sale={sale} />
+      <EditSale sale={sale} />
     </div>
   );
 };

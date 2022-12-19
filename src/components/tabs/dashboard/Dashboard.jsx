@@ -35,13 +35,12 @@ const Dashboard = () => {
               <div className="card_value">{account.deposit}</div>
               <div
                 className={`small ${
-                  account.deposit - account.previousDeposit < 0
-                    ? "red"
-                    : "green"
+                  account.lastMove.type === "sortie" ? "red" : "green"
                 }`}
               >
-                {account.deposit - account.previousDeposit > 0 && "+"}
-                {account.deposit - account.previousDeposit}
+                {account.lastMove.type === "entrée" && "+"}
+                {account.lastMove.type === "sortie" && "-"}
+                {account.lastMove.amount}
               </div>
             </div>
           </div>

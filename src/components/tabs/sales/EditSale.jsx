@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
-const AddWin = () => {
+const EditSale = ({ sale }) => {
   const [data, setData] = useState("");
-  const addMove = useStore((state) => state.addMove);
+  const editMove = useStore((state) => state.editMove);
   const accounts = useStore((state) => state.accounts);
   const refClose = useRef();
 
@@ -13,36 +13,20 @@ const AddWin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addMove(data);
+    editMove(data);
     refClose.current.click();
   };
 
-  const handleAccount = (e) => {
-    const accountId = e.target.value;
-    setData({
-      ...data,
-      account: {
-        name: accounts.find((acc) => acc._id === accountId).name,
-        id: accountId,
-      },
-    });
-  };
-
   useEffect(() => {
-    setData({
-      ...data,
-      type: "sortie",
-      subType: "gain",
-      account: { name: accounts[0].name, id: accounts[0]._id },
-    });
-  }, []);
+    setData(sale);
+  }, [sale]);
 
   return (
-    <div className="modal fade" id="addWin" tabIndex="-1" aria-hidden="true">
+    <div className="modal fade" id="editSale" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog">
         <form className="modal-content" onSubmit={handleSubmit}>
           <div className="modal-header">
-            <h1 className="modal-title fs-5">Ajouter un gain</h1>
+            <h1 className="modal-title fs-5">Ajouter une vente</h1>
             <button
               type="button"
               className="btn-close"
@@ -55,26 +39,16 @@ const AddWin = () => {
               <select
                 className="form-select"
                 name="account"
-                onChange={handleAccount}
+                onChange={handleInput}
+                value={data.account}
               >
                 {accounts.map((account) => (
-                  <option key={account._id} value={account._id}>
+                  <option key={account._id} value={account.name}>
                     {account.name}
                   </option>
                 ))}
               </select>
               <label>Type</label>
-            </div>
-
-            <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="client/Tél"
-                name="description"
-                onChange={handleInput}
-              />
-              <label>client/Tél</label>
             </div>
             <div className="form-floating mb-3">
               <input
@@ -83,6 +57,7 @@ const AddWin = () => {
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
+                value={data.amount}
               />
               <label>Montant</label>
             </div>
@@ -97,7 +72,7 @@ const AddWin = () => {
               Fermer
             </button>
             <button type="submit" className="btn btn-primary">
-              Ajouter
+              Sauvegarder
             </button>
           </div>
         </form>
@@ -106,4 +81,4 @@ const AddWin = () => {
   );
 };
 
-export default AddWin;
+export default EditSale;

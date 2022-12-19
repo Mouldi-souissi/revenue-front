@@ -43,7 +43,7 @@ const Wins = () => {
         <tbody>
           {wins.map((win) => (
             <tr key={win._id}>
-              <td>{win.account}</td>
+              <td>{win.account.name}</td>
               <td>{win.description}</td>
               <td>{win.amount}</td>
               <td>{win.user}</td>

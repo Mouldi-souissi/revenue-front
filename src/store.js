@@ -4,7 +4,7 @@ import decode from "jwt-decode";
 
 const API_URL = "http://localhost:5000/api";
 
-const useStore = create((set) => ({
+const useStore = create((set, get) => ({
   isSidebarHidden: false,
   activeTab: "dashboard",
   users: [],
@@ -172,10 +172,20 @@ const useStore = create((set) => ({
           set((state) => ({
             wins: [...state.wins, res.data],
           }));
+
+          get().editAccount({
+            _id: res.data.account.id,
+            lastMove: { type: "entrée", amount: res.data.amount },
+          });
         }
         if (res.data.subType === "dépense") {
           set((state) => ({
             spending: [...state.spending, res.data],
+          }));
+        }
+        if (res.data.subType === "vente") {
+          set((state) => ({
+            sales: [...state.sales, res.data],
           }));
         }
       })
@@ -204,6 +214,14 @@ const useStore = create((set) => ({
             ],
           }));
         }
+        if (res.data.subType === "vente") {
+          set((state) => ({
+            sales: [
+              ...state.sales.filter((doc) => doc._id !== res.data._id),
+              res.data,
+            ],
+          }));
+        }
       })
       .catch((err) => console.log(err));
   },
@@ -214,12 +232,17 @@ const useStore = create((set) => ({
       .then((res) => {
         if (res.data.subType === "gain") {
           set((state) => ({
-            wins: state.wins.filter((win) => win._id !== res.data._id),
+            wins: state.wins.filter((doc) => doc._id !== res.data._id),
           }));
         }
         if (res.data.subType === "dépense") {
           set((state) => ({
-            spending: state.spending.filter((sp) => sp._id !== res.data._id),
+            spending: state.spending.filter((doc) => doc._id !== res.data._id),
+          }));
+        }
+        if (res.data.subType === "vente") {
+          set((state) => ({
+            sales: state.sales.filter((doc) => doc._id !== res.data._id),
           }));
         }
       })
