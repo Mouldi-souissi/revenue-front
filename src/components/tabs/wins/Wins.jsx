@@ -48,12 +48,12 @@ const Wins = () => {
               <td>{win.amount}</td>
               <td>{win.user}</td>
               <td>
-                <i
+                {/* <i
                   className="fa-solid fa-gear btn"
                   data-bs-toggle="modal"
                   data-bs-target="#editWin"
                   onClick={() => setWinDoc(win)}
-                ></i>
+                ></i> */}
                 <i
                   className="fa-solid fa-trash btn text-danger"
                   data-bs-toggle="modal"

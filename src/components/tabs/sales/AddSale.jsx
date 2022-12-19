@@ -22,7 +22,7 @@ const AddSale = () => {
       ...data,
       type: "entrée",
       subType: "vente",
-      account: accounts[0].name,
+      account: accounts[0]?.name,
     });
   }, []);
 

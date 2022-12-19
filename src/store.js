@@ -9,6 +9,48 @@ const useStore = create((set, get) => ({
   activeTab: "dashboard",
   users: [],
   username: "User",
+  userType: "",
+  adminRoutes: [
+    { link: "dashboard", icon: "fas fa-desktop", text: "Tableau de bord" },
+    { link: "users", icon: "fas fa-user-friends", text: "Utilisateurs" },
+    {
+      link: "accounts",
+      icon: "fa-solid fa-tablet-screen-button",
+      text: "Comptes",
+    },
+    {
+      link: "sales",
+      icon: "fa-solid fa-up-long green",
+      text: "Ventes",
+    },
+    {
+      link: "spending",
+      icon: "fa-solid fa-down-long red",
+      text: "Dépenses",
+    },
+    {
+      link: "wins",
+      icon: "fa-solid fa-circle-dollar-to-slot",
+      text: "Gain",
+    },
+  ],
+  userRoutes: [
+    {
+      link: "sales",
+      icon: "fa-solid fa-up-long green",
+      text: "Ventes",
+    },
+    {
+      link: "spending",
+      icon: "fa-solid fa-down-long red",
+      text: "Dépenses",
+    },
+    {
+      link: "wins",
+      icon: "fa-solid fa-circle-dollar-to-slot",
+      text: "Gain",
+    },
+  ],
 
   toggleSideBar: () => {
     set((state) => ({ isSidebarHidden: !state.isSidebarHidden }));
@@ -46,7 +88,11 @@ const useStore = create((set, get) => ({
     const token =
       localStorage.getItem("token") && localStorage.getItem("token");
     const decodedToken = token && decode(token);
-    set({ username: decodedToken?.name });
+    set({
+      username: decodedToken?.name,
+      userType: decodedToken?.type,
+      activeTab: decodedToken?.type === "admin" ? "dashboard" : "sales",
+    });
   },
 
   addUser: (userData) => {

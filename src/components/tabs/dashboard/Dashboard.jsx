@@ -7,9 +7,9 @@ const Dashboard = () => {
   const accounts = useStore((state) => state.accounts);
 
   useEffect(() => {
-    if (!accounts.length) {
-      getAccounts();
-    }
+    // if (!accounts.length) {
+    getAccounts();
+    // }
   }, []);
 
   const handleAdd = () => {

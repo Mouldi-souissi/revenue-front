@@ -47,12 +47,12 @@ const Sales = () => {
               <td>{sale.amount}</td>
               <td>{sale.user}</td>
               <td>
-                <i
+                {/* <i
                   className="fa-solid fa-gear btn"
                   data-bs-toggle="modal"
                   data-bs-target="#editSale"
                   onClick={() => setSale(sale)}
-                ></i>
+                ></i> */}
                 <i
                   className="fa-solid fa-trash btn text-danger"
                   data-bs-toggle="modal"

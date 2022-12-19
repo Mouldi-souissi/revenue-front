@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import userIcon from "../../assets/user.svg";
 import useStore from "../../store";
 
@@ -7,9 +7,9 @@ const Sidebar = () => {
   const switchTab = useStore((state) => state.switchTab);
   const activeTab = useStore((state) => state.activeTab);
   const username = useStore((state) => state.username);
-  useEffect(() => {
-    console.log(username);
-  }, []);
+  const userType = useStore((state) => state.userType);
+  const adminRoutes = useStore((state) => state.adminRoutes);
+  const userRoutes = useStore((state) => state.userRoutes);
 
   return (
     <div className={`sidebar ${isSidebarHidden ? "hidden" : ""}`}>
@@ -18,76 +18,40 @@ const Sidebar = () => {
         <h5 className="text-center text-white">{username}</h5>
       </div>
       <ul>
-        <li>
-          <div
-            className={`navlink ${activeTab === "dashboard" ? "active" : ""}`}
-            onClick={() => switchTab("dashboard")}
-          >
-            <span className="icon">
-              <i className="fas fa-desktop"></i>
-            </span>
-            <span className="item">Tableau de bord</span>
-          </div>
-        </li>
+        {userType === "admin" &&
+          adminRoutes.map((route, i) => (
+            <li key={i}>
+              <div
+                className={`navlink ${
+                  activeTab === route.link ? "active" : ""
+                }`}
+                onClick={() => switchTab(route.link)}
+              >
+                <span className="icon">
+                  <i className={route.icon}></i>
+                </span>
+                <span className="item">{route.text}</span>
+              </div>
+            </li>
+          ))}
+        {userType === "utilisateur" &&
+          userRoutes.map((route, i) => (
+            <li key={i}>
+              <div
+                className={`navlink ${
+                  activeTab === route.link ? "active" : ""
+                }`}
+                onClick={() => switchTab(route.link)}
+              >
+                <span className="icon">
+                  <i className={route.icon}></i>
+                </span>
+                <span className="item">{route.text}</span>
+              </div>
+            </li>
+          ))}
 
-        <li>
-          <div
-            className={`navlink ${activeTab === "users" ? "active" : ""}`}
-            onClick={() => switchTab("users")}
-          >
-            <span className="icon">
-              <i className="fas fa-user-friends"></i>
-            </span>
-            <span className="item">Utilisateurs</span>
-          </div>
-        </li>
-
-        <li>
-          <div
-            className={`navlink ${activeTab === "accounts" ? "active" : ""}`}
-            onClick={() => switchTab("accounts")}
-          >
-            <span className="icon">
-              <i className="fa-solid fa-tablet-screen-button"></i>
-            </span>
-            <span className="item">Comptes</span>
-          </div>
-        </li>
-        <li>
-          <div
-            className={`navlink ${activeTab === "sales" ? "active" : ""}`}
-            onClick={() => switchTab("sales")}
-          >
-            <span className="icon">
-              <i className="fa-solid fa-up-long green"></i>
-            </span>
-            <span className="item">Ventes</span>
-          </div>
-        </li>
-        <li>
-          <div
-            className={`navlink ${activeTab === "spending" ? "active" : ""}`}
-            onClick={() => switchTab("spending")}
-          >
-            <span className="icon">
-              <i className="fa-solid fa-down-long red"></i>
-            </span>
-            <span className="item">Dépenses</span>
-          </div>
-        </li>
-        <li>
-          <div
-            className={`navlink ${activeTab === "wins" ? "active" : ""}`}
-            onClick={() => switchTab("wins")}
-          >
-            <span className="icon">
-              <i className="fa-solid fa-circle-dollar-to-slot"></i>
-            </span>
-            <span className="item">Gain</span>
-          </div>
-        </li>
-
-        <li>
+        {/* <li>
           <div
             className={`navlink ${activeTab === "reports" ? "active" : ""}`}
             onClick={() => switchTab("calculator")}
@@ -97,7 +61,7 @@ const Sidebar = () => {
             </span>
             <span className="item">Reports</span>
           </div>
-        </li>
+        </li> */}
         {/* <li>
           <div
             className={`navlink ${activeTab === "settings" ? "active" : ""}`}
