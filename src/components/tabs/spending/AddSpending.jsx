@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
-const AddSpending = ({ spendingDoc }) => {
+const AddSpending = () => {
   const [data, setData] = useState({ type: "sortie" });
   const addMove = useStore((state) => state.addMove);
   const refClose = useRef();
@@ -22,7 +22,7 @@ const AddSpending = ({ spendingDoc }) => {
       subType: "dépense",
       account: "Caisse",
     });
-  }, [spendingDoc]);
+  }, []);
 
   return (
     <div

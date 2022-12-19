@@ -17,23 +17,23 @@ const AddWin = () => {
     refClose.current.click();
   };
 
-  const handleAccount = (e) => {
-    const accountId = e.target.value;
-    setData({
-      ...data,
-      account: {
-        name: accounts.find((acc) => acc._id === accountId).name,
-        id: accountId,
-      },
-    });
-  };
+  // const handleAccount = (e) => {
+  //   const accountId = e.target.value;
+  //   setData({
+  //     ...data,
+  //     account: {
+  //       name: accounts.find((acc) => acc._id === accountId).name,
+  //       id: accountId,
+  //     },
+  //   });
+  // };
 
   useEffect(() => {
     setData({
       ...data,
       type: "sortie",
       subType: "gain",
-      account: { name: accounts[0].name, id: accounts[0]._id },
+      account: accounts[0].name,
     });
   }, []);
 
@@ -55,10 +55,10 @@ const AddWin = () => {
               <select
                 className="form-select"
                 name="account"
-                onChange={handleAccount}
+                onChange={handleInput}
               >
                 {accounts.map((account) => (
-                  <option key={account._id} value={account._id}>
+                  <option key={account._id} value={account.name}>
                     {account.name}
                   </option>
                 ))}

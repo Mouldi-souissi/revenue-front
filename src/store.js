@@ -172,11 +172,6 @@ const useStore = create((set, get) => ({
           set((state) => ({
             wins: [...state.wins, res.data],
           }));
-
-          get().editAccount({
-            _id: res.data.account.id,
-            lastMove: { type: "entrée", amount: res.data.amount },
-          });
         }
         if (res.data.subType === "dépense") {
           set((state) => ({

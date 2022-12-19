@@ -4,7 +4,7 @@ import AddSale from "./AddSale";
 import DeleteSale from "./DeleteSale";
 import EditSale from "./EditSale";
 
-const Sails = () => {
+const Sales = () => {
   const [sale, setSale] = useState("");
   const sales = useStore((state) => state.sales);
   const getSales = useStore((state) => state.getSales);
@@ -71,4 +71,4 @@ const Sails = () => {
   );
 };
 
-export default Sails;
+export default Sales;
