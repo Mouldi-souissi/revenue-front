@@ -25,7 +25,7 @@ const SpendingAndWins = () => {
         ></i>
       </div>
 
-      <table class="table my-5">
+      <table className="table my-5">
         <thead>
           <tr>
             <th scope="col">Description</th>

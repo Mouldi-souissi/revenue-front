@@ -22,22 +22,22 @@ const EditWin = ({ winDoc }) => {
   }, [winDoc]);
 
   return (
-    <div class="modal fade" id="editWin" tabIndex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <form class="modal-content" onSubmit={handleSubmit}>
-          <div class="modal-header">
-            <h1 class="modal-title fs-5">Ajouter un gain</h1>
+    <div className="modal fade" id="editWin" tabIndex="-1" aria-hidden="true">
+      <div className="modal-dialog">
+        <form className="modal-content" onSubmit={handleSubmit}>
+          <div className="modal-header">
+            <h1 className="modal-title fs-5">Ajouter un gain</h1>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <div className="form-floating mb-3">
               <select
-                class="form-select"
+                className="form-select"
                 name="account"
                 onChange={handleInput}
                 value={data.account}
@@ -51,10 +51,10 @@ const EditWin = ({ winDoc }) => {
               <label>Type</label>
             </div>
 
-            <div class="form-floating mb-3">
+            <div className="form-floating mb-3">
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 placeholder="client/Tél"
                 name="description"
                 onChange={handleInput}
@@ -62,10 +62,10 @@ const EditWin = ({ winDoc }) => {
               />
               <label>client/Tél</label>
             </div>
-            <div class="form-floating mb-3">
+            <div className="form-floating mb-3">
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
@@ -74,16 +74,16 @@ const EditWin = ({ winDoc }) => {
               <label>Montant</label>
             </div>
           </div>
-          <div class="modal-footer">
+          <div className="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-bs-dismiss="modal"
               ref={refClose}
             >
               Fermer
             </button>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" className="btn btn-primary">
               Sauvegarder
             </button>
           </div>

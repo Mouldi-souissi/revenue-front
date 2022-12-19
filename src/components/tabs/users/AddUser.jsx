@@ -17,51 +17,51 @@ const AddUser = () => {
   };
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="addUser"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="addUserLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog ">
+      <div className="modal-dialog ">
         <form onSubmit={handleSubmit}>
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="addUserLabel">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="addUserLabel">
                 Ajouter un nouveau utilisateur
               </h1>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div class="form-floating mb-3">
+            <div className="modal-body">
+              <div className="form-floating mb-3">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Nom"
                   name="name"
                   onChange={handleInput}
                 />
                 <label>Nom</label>
               </div>
-              <div class="form-floating mb-3">
+              <div className="form-floating mb-3">
                 <input
                   type="email"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Email"
                   name="email"
                   onChange={handleInput}
                 />
                 <label>Email</label>
               </div>
-              <div class="form-floating mb-3">
+              <div className="form-floating mb-3">
                 <input
                   type="password"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Mot de passe"
                   name="password"
                   onChange={handleInput}
@@ -71,7 +71,7 @@ const AddUser = () => {
 
               <div className="form-floating mb-3">
                 <select
-                  class="form-select"
+                  className="form-select"
                   name="type"
                   onChange={handleInput}
                   value={data.type}
@@ -82,16 +82,16 @@ const AddUser = () => {
                 <label>Type</label>
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 data-bs-dismiss="modal"
                 ref={refClose}
               >
                 Fermer
               </button>
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" className="btn btn-primary">
                 Ajouter
               </button>
             </div>

@@ -26,7 +26,7 @@ const Sites = () => {
         ></i>
       </div>
 
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">Logo</th>

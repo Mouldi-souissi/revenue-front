@@ -10,23 +10,23 @@ const DeleteWin = ({ winDoc }) => {
     refClose.current.click();
   };
   return (
-    <div class="modal fade" id="deleteWin" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5"></h1>
+    <div className="modal fade" id="deleteWin" tabIndex="-1" aria-hidden="true">
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5"></h1>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">Veillez confirmer la supression</div>
-          <div class="modal-footer">
+          <div className="modal-body">Veillez confirmer la supression</div>
+          <div className="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-bs-dismiss="modal"
               ref={refClose}
             >
@@ -34,7 +34,7 @@ const DeleteWin = ({ winDoc }) => {
             </button>
             <button
               type="button"
-              class="btn btn-primary"
+              className="btn btn-primary"
               onClick={handleDelete}
             >
               Supprimer
