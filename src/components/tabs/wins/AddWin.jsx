@@ -57,11 +57,13 @@ const AddWin = () => {
                 name="account"
                 onChange={handleInput}
               >
-                {accounts.map((account) => (
-                  <option key={account._id} value={account.name}>
-                    {account.name}
-                  </option>
-                ))}
+                {accounts
+                  .filter((account) => account.name !== "Caisse")
+                  .map((account) => (
+                    <option key={account._id} value={account.name}>
+                      {account.name}
+                    </option>
+                  ))}
               </select>
               <label>Type</label>
             </div>

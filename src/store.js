@@ -62,7 +62,9 @@ const useStore = create((set, get) => ({
   //*********  user
   getUsers: () => {
     axios
-      .get(`${API_URL}/user`)
+      .get(`${API_URL}/user`, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         set({ users: res.data });
       })
@@ -97,7 +99,9 @@ const useStore = create((set, get) => ({
 
   addUser: (userData) => {
     axios
-      .post(`${API_URL}/user/register`, userData)
+      .post(`${API_URL}/user/register`, userData, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         set((state) => ({ users: [...state.users, res.data] }));
       })
@@ -141,7 +145,9 @@ const useStore = create((set, get) => ({
 
   getAccounts: () => {
     axios
-      .get(`${API_URL}/account`)
+      .get(`${API_URL}/account`, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         set({ accounts: res.data });
       })
@@ -149,7 +155,9 @@ const useStore = create((set, get) => ({
   },
   addAccount: (account) => {
     axios
-      .post(`${API_URL}/account`, account)
+      .post(`${API_URL}/account`, account, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         set((state) => ({ accounts: [...state.accounts, res.data] }));
       })
@@ -157,7 +165,9 @@ const useStore = create((set, get) => ({
   },
   deleteAccount: (id) => {
     axios
-      .delete(`${API_URL}/account/${id}`)
+      .delete(`${API_URL}/account/${id}`, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         set((state) => ({
           accounts: state.accounts.filter((site) => site._id !== res.data._id),
@@ -188,7 +198,9 @@ const useStore = create((set, get) => ({
 
   getSpending: () => {
     axios
-      .get(`${API_URL}/move/spending`)
+      .get(`${API_URL}/move/spending`, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         set({
           spending: res.data,
@@ -199,7 +211,9 @@ const useStore = create((set, get) => ({
 
   getWins: () => {
     axios
-      .get(`${API_URL}/move/win`)
+      .get(`${API_URL}/move/win`, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         set({
           wins: res.data,
@@ -269,7 +283,9 @@ const useStore = create((set, get) => ({
 
   deleteMove: (id) => {
     axios
-      .delete(`${API_URL}/move/${id}`)
+      .delete(`${API_URL}/move/${id}`, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         if (res.data.subType === "gain") {
           set((state) => ({
@@ -291,9 +307,11 @@ const useStore = create((set, get) => ({
   },
 
   sales: [],
-  getMoves: () => {
+  getMoves: (period = "daily") => {
     axios
-      .get(`${API_URL}/move`)
+      .get(`${API_URL}/move/${period}`, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         set({ moves: res.data });
       })
@@ -302,7 +320,9 @@ const useStore = create((set, get) => ({
 
   getSales: () => {
     axios
-      .get(`${API_URL}/move/sales`)
+      .get(`${API_URL}/move/sales`, {
+        headers: { token: localStorage.getItem("token") },
+      })
       .then((res) => {
         set({ sales: res.data });
       })

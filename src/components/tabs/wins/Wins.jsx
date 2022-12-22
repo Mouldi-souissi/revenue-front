@@ -65,9 +65,6 @@ const Wins = () => {
           ))}
         </tbody>
       </table>
-      {/* <AddSpending />
-        <DeleteSpending spendingDoc={spendingDoc} />
-        <EditOut spendingDoc={spendingDoc} /> */}
       <AddWin />
       <DeleteWin winDoc={winDoc} />
       <EditWin winDoc={winDoc} />
