@@ -5,7 +5,7 @@ import decode from "jwt-decode";
 // const API_URL = "http://localhost:5000/api";
 const API_URL = "https://revenue-api.vercel.app/api";
 
-const useStore = create((set, get) => ({
+const useStore = create((set) => ({
   isSidebarHidden: false,
   activeTab: "dashboard",
   users: [],
@@ -212,7 +212,7 @@ const useStore = create((set, get) => ({
 
   getWins: () => {
     axios
-      .get(`${API_URL}/move/win`, {
+      .get(`${API_URL}/move/wins`, {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
