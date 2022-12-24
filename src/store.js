@@ -217,6 +217,7 @@ const useStore = create((set) => ({
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
+        console.log("wins", res.data);
         set({
           wins: res.data,
         });
