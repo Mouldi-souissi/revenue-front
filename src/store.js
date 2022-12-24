@@ -4,7 +4,7 @@ import decode from "jwt-decode";
 
 // const API_URL = "http://localhost:5000/api";
 const API_URL = "https://revenue-api.vercel.app/api";
-const today = new Date();
+const today = new Date().toISOString();
 
 const useStore = create((set) => ({
   isSidebarHidden: false,
