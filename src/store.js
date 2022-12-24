@@ -2,8 +2,9 @@ import create from "zustand";
 import axios from "axios";
 import decode from "jwt-decode";
 
-// const API_URL = "http://localhost:5000/api";
-const API_URL = "https://revenue-api.vercel.app/api";
+const API_URL = "http://localhost:5000/api";
+// const API_URL = "https://revenue-api.vercel.app/api";
+const today = new Date();
 
 const useStore = create((set) => ({
   isSidebarHidden: false,
@@ -321,7 +322,7 @@ const useStore = create((set) => ({
 
   getSales: () => {
     axios
-      .get(`${API_URL}/move/sales`, {
+      .get(`${API_URL}/move/sales/${today}`, {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
