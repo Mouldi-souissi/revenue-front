@@ -2,8 +2,8 @@ import create from "zustand";
 import axios from "axios";
 import decode from "jwt-decode";
 
-const API_URL = "http://localhost:5000/api";
-// const API_URL = "https://revenue-api.vercel.app/api";
+// const API_URL = "http://localhost:5000/api";
+const API_URL = "https://revenue-api.vercel.app/api";
 const today = new Date();
 
 const useStore = create((set) => ({
