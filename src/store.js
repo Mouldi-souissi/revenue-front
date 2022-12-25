@@ -77,7 +77,12 @@ const useStore = create((set) => ({
       .post(`${API_URL}/user/login`, { email, password })
       .then((res) => {
         localStorage.setItem("token", res.data);
-        set({ username: decode(res.data)?.name });
+        const decodedToken = decode(res.data);
+        set({
+          username: decodedToken.name,
+          userType: decodedToken.type,
+          activeTab: decodedToken.type === "admin" ? "dashboard" : "sales",
+        });
         window.location.replace("/");
       })
       .catch((err) => console.log(err));
@@ -329,6 +334,17 @@ const useStore = create((set) => ({
         set({ sales: res.data });
       })
       .catch((err) => console.log(err));
+  },
+  deleteAllMoves: () => {
+    axios
+      .delete(`${API_URL}/move`, {
+        headers: { token: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        set({
+          moves: [],
+        });
+      });
   },
 }));
 

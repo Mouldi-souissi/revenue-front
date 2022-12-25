@@ -15,7 +15,7 @@ const Users = () => {
     }
   }, []);
   return (
-    <div>
+    <div className="container">
       <div className="d-flex align-items-center mb-5">
         <h3 className="m-0 me-3">Utilisateurs</h3>
         <i
@@ -24,40 +24,41 @@ const Users = () => {
           data-bs-target="#addUser"
         ></i>
       </div>
-
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Nom</th>
-            <th scope="col">Email</th>
-            <th scope="col">Type</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.type}</td>
-              <td>
-                <i
-                  className="fa-solid fa-gear btn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editUser"
-                  onClick={() => setUser(user)}
-                ></i>
-                <i
-                  className="fa-solid fa-trash btn text-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteUser"
-                  onClick={() => setDeleteData(user)}
-                ></i>
-              </td>
+      <div class="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Nom</th>
+              <th scope="col">Email</th>
+              <th scope="col">Type</th>
+              <th scope="col">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.type}</td>
+                <td>
+                  <i
+                    className="fa-solid fa-gear btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editUser"
+                    onClick={() => setUser(user)}
+                  ></i>
+                  <i
+                    className="fa-solid fa-trash btn text-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteUser"
+                    onClick={() => setDeleteData(user)}
+                  ></i>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <AddUser />
       <EditUser user={user} />
       <DeleteUser user={deleteData} />

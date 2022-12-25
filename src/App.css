@@ -15,23 +15,13 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  background: #f5f6fa;
-}
-
-.App {
-  min-height: 100vh;
-  min-width: 100vw;
+  overflow-x: hidden !important;
 }
 
 .mainPage {
-  height: 100%;
-  width: 100%;
-  display: flex;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
+  min-height: 100vh;
+  min-width: 100vw;
+  background: #f5f6fa;
 }
 
 .topBar {
@@ -63,28 +53,56 @@ body {
   left: 0;
   width: 250px;
   height: 100%;
-  padding: 20px 0;
+  padding: 0;
+  margin: 0;
   transition: all 0.5s ease;
+  overflow: auto;
 }
 
 .sidebar.hidden {
-  transform: translate(-250px);
+  transform: translate(-100%);
+}
+
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    /* height: auto; */
+    position: relative;
+    /* justify-content: flex-end; */
+  }
+  .sidebar li {
+    float: center;
+  }
+  .content {
+    margin-left: 0 !important;
+  }
+}
+
+.sidebar .profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar .profile img {
-  display: block;
   width: 60px;
   height: 60px;
   /* border-radius: 50%; */
-  margin: 0 auto;
+  margin-top: 20px;
 }
 
 ul {
   padding: 0;
+  margin: 0;
+  height: fit-content;
 }
 
 .navlink {
   cursor: pointer;
+}
+.sidebar ul li {
+  display: block;
 }
 .sidebar ul li .navlink:hover,
 .sidebar ul li .navlink.active {
@@ -120,10 +138,7 @@ ul {
 }
 
 .content {
-  width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: flex-start;
   transition: all 0.5s ease;
   margin-left: 250px;
 }
@@ -200,7 +215,7 @@ ul {
   border-collapse: separate;
   border-spacing: 0 0.5em;
   /* min-width: 450px; */
-  max-width: 95%;
+  overflow-x: scroll !important;
 }
 
 tbody tr {

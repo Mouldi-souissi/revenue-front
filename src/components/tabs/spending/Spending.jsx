@@ -15,7 +15,7 @@ const SpendingAndWins = () => {
     }
   }, []);
   return (
-    <div>
+    <div className="container">
       <div className="d-flex align-items-center">
         <h3 className="m-0 me-3">Dépenses</h3>
         <i
@@ -24,42 +24,43 @@ const SpendingAndWins = () => {
           data-bs-target="#addSpending"
         ></i>
       </div>
-
-      <table className="table my-5">
-        <thead>
-          <tr>
-            <th scope="col">Description</th>
-            <th scope="col">Montant</th>
-            <th scope="col">Utilisateur</th>
-            <th scope="col">Date</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {spending.map((spendingDoc) => (
-            <tr key={spendingDoc._id}>
-              <td>{spendingDoc.description}</td>
-              <td>{spendingDoc.amount}</td>
-              <td>{spendingDoc.user}</td>
-              <td>{new Date(spendingDoc.date).toLocaleString("fr-FR")}</td>
-              <td>
-                {/* <i
+      <div class="table-responsive">
+        <table className="table my-5">
+          <thead>
+            <tr>
+              <th scope="col">Description</th>
+              <th scope="col">Montant</th>
+              <th scope="col">Utilisateur</th>
+              <th scope="col">Date</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {spending.map((spendingDoc) => (
+              <tr key={spendingDoc._id}>
+                <td>{spendingDoc.description}</td>
+                <td>{spendingDoc.amount}</td>
+                <td>{spendingDoc.user}</td>
+                <td>{new Date(spendingDoc.date).toLocaleString("fr-FR")}</td>
+                <td>
+                  {/* <i
                   className="fa-solid fa-gear btn"
                   data-bs-toggle="modal"
                   data-bs-target="#editOut"
                   onClick={() => setSpendingDoc(spendingDoc)}
                 ></i> */}
-                <i
-                  className="fa-solid fa-trash btn text-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteSpending"
-                  onClick={() => setSpendingDoc(spendingDoc)}
-                ></i>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  <i
+                    className="fa-solid fa-trash btn text-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteSpending"
+                    onClick={() => setSpendingDoc(spendingDoc)}
+                  ></i>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <AddSpending />
       <DeleteSpending spendingDoc={spendingDoc} />
       <EditOut spendingDoc={spendingDoc} />

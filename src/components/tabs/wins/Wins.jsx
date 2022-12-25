@@ -20,7 +20,7 @@ const Wins = () => {
     }
   }, []);
   return (
-    <div>
+    <div className="container">
       <div className="d-flex align-items-center">
         <h3 className="m-0 me-3">Gain</h3>
         <i
@@ -29,42 +29,43 @@ const Wins = () => {
           data-bs-target="#addWin"
         ></i>
       </div>
-
-      <table className="table my-5">
-        <thead>
-          <tr>
-            <th scope="col">Compte</th>
-            <th scope="col">Client/Tél</th>
-            <th scope="col">Montant</th>
-            <th scope="col">Utilisateur</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {wins.map((win) => (
-            <tr key={win._id}>
-              <td>{win.account}</td>
-              <td>{win.description}</td>
-              <td>{win.amount}</td>
-              <td>{win.user}</td>
-              <td>
-                {/* <i
+      <div class="table-responsive">
+        <table className="table my-5">
+          <thead>
+            <tr>
+              <th scope="col">Compte</th>
+              <th scope="col">Client/Tél</th>
+              <th scope="col">Montant</th>
+              <th scope="col">Utilisateur</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {wins.map((win) => (
+              <tr key={win._id}>
+                <td>{win.account}</td>
+                <td>{win.description}</td>
+                <td>{win.amount}</td>
+                <td>{win.user}</td>
+                <td>
+                  {/* <i
                   className="fa-solid fa-gear btn"
                   data-bs-toggle="modal"
                   data-bs-target="#editWin"
                   onClick={() => setWinDoc(win)}
                 ></i> */}
-                <i
-                  className="fa-solid fa-trash btn text-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteWin"
-                  onClick={() => setWinDoc(win)}
-                ></i>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  <i
+                    className="fa-solid fa-trash btn text-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteWin"
+                    onClick={() => setWinDoc(win)}
+                  ></i>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <AddWin />
       <DeleteWin winDoc={winDoc} />
       <EditWin winDoc={winDoc} />

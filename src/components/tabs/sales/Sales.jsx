@@ -21,7 +21,7 @@ const Sales = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <div className="d-flex align-items-center">
         <h3 className="m-0 me-3">Ventes</h3>
         <i
@@ -30,40 +30,41 @@ const Sales = () => {
           data-bs-target="#addSale"
         ></i>
       </div>
-
-      <table className="table my-5">
-        <thead>
-          <tr>
-            <th scope="col">Compte</th>
-            <th scope="col">Montant</th>
-            <th scope="col">Utilisateur</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sales.map((sale) => (
-            <tr key={sale._id}>
-              <td>{sale.account}</td>
-              <td>{sale.amount}</td>
-              <td>{sale.user}</td>
-              <td>
-                {/* <i
+      <div class="table-responsive">
+        <table className="table my-5">
+          <thead>
+            <tr>
+              <th scope="col">Compte</th>
+              <th scope="col">Montant</th>
+              <th scope="col">Utilisateur</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sales.map((sale) => (
+              <tr key={sale._id}>
+                <td>{sale.account}</td>
+                <td>{sale.amount}</td>
+                <td>{sale.user}</td>
+                <td>
+                  {/* <i
                   className="fa-solid fa-gear btn"
                   data-bs-toggle="modal"
                   data-bs-target="#editSale"
                   onClick={() => setSale(sale)}
                 ></i> */}
-                <i
-                  className="fa-solid fa-trash btn text-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteSale"
-                  onClick={() => setSale(sale)}
-                ></i>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  <i
+                    className="fa-solid fa-trash btn text-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteSale"
+                    onClick={() => setSale(sale)}
+                  ></i>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <AddSale />
       <DeleteSale sale={sale} />
       <EditSale sale={sale} />
