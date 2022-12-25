@@ -24,7 +24,7 @@ const SpendingAndWins = () => {
           data-bs-target="#addSpending"
         ></i>
       </div>
-      <div class="table-responsive">
+      <div className="table-responsive">
         <table className="table my-5">
           <thead>
             <tr>

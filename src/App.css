@@ -16,13 +16,12 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  min-height: 100vh;
-  width: 100vw;
+  /* min-height: 100vh; */
 }
 
 .mainPage {
   min-height: 100vh;
-  min-width: 100vw;
+  /* min-width: 100vw; */
   background: #f5f6fa;
 }
 
@@ -45,6 +44,10 @@ body {
 .btn-primary {
   background: linear-gradient(var(--blueDark), var(--blueDark)) !important;
   border-color: var(--blueLight) !important ;
+}
+.btn-secondary {
+  background: var(--green) !important;
+  border-color: var(--green) !important ;
 }
 
 /* sidebar */
@@ -223,6 +226,10 @@ ul {
 
 .table thead {
   background: var(--green) !important;
+}
+
+.table i {
+  padding-left: 0;
 }
 
 tbody tr {

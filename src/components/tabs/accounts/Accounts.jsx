@@ -25,7 +25,7 @@ const Sites = () => {
           data-bs-target="#addSite"
         ></i>
       </div>
-      <div class="table-responsive">
+      <div className="table-responsive">
         <table className="table">
           <thead>
             <tr>

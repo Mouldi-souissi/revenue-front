@@ -16,18 +16,12 @@ const AddUser = () => {
     refClose.current.click();
   };
   return (
-    <div
-      className="modal fade"
-      id="addUser"
-      tabIndex="-1"
-      aria-labelledby="addUserLabel"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog modal-dialog-centered ">
+    <div className="modal fade" id="addUser" tabIndex="-1" aria-hidden="true">
+      <div className="modal-dialog">
         <form onSubmit={handleSubmit}>
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="addUserLabel">
+              <h1 className="modal-title fs-5">
                 Ajouter un nouveau utilisateur
               </h1>
               <button

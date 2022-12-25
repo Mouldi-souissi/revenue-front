@@ -83,7 +83,7 @@ const Dashboard = () => {
           data-bs-target="#deleteAllMoves"
         ></i>
       </div>
-      <div class="table-responsive">
+      <div className="table-responsive">
         <table className="table">
           <thead>
             <tr>

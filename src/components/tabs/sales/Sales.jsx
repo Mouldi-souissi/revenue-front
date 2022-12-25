@@ -30,7 +30,7 @@ const Sales = () => {
           data-bs-target="#addSale"
         ></i>
       </div>
-      <div class="table-responsive">
+      <div className="table-responsive">
         <table className="table my-5">
           <thead>
             <tr>
