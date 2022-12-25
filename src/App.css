@@ -15,7 +15,8 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  overflow-x: hidden !important;
+  min-height: 100vh;
+  width: 100vw;
 }
 
 .mainPage {
@@ -141,6 +142,7 @@ ul {
   height: 100%;
   transition: all 0.5s ease;
   margin-left: 250px;
+  overflow-x: hidden !important;
 }
 
 .content.full {
@@ -215,7 +217,6 @@ ul {
   border-collapse: separate;
   border-spacing: 0 0.5em;
   /* min-width: 450px; */
-  overflow-x: scroll !important;
 }
 
 tbody tr {

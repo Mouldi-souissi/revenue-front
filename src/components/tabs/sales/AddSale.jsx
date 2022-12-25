@@ -28,7 +28,7 @@ const AddSale = () => {
 
   return (
     <div className="modal fade" id="addSale" tabIndex="-1" aria-hidden="true">
-      <div className="modal-dialog">
+      <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content" onSubmit={handleSubmit}>
           <div className="modal-header">
             <h1 className="modal-title fs-5">Ajouter une vente</h1>

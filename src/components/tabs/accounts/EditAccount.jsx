@@ -22,7 +22,7 @@ const EditAccount = ({ account }) => {
 
   return (
     <div className="modal fade" id="editAccount">
-      <div className="modal-dialog">
+      <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content" onSubmit={handleSubmit}>
           <div className="modal-header">
             <h1 className="modal-title fs-5">

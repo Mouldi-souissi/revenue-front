@@ -23,7 +23,7 @@ const AddUser = () => {
       aria-labelledby="addUserLabel"
       aria-hidden="true"
     >
-      <div className="modal-dialog ">
+      <div className="modal-dialog modal-dialog-centered ">
         <form onSubmit={handleSubmit}>
           <div className="modal-content">
             <div className="modal-header">
