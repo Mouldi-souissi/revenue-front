@@ -296,7 +296,7 @@ const useStore = create((set, get) => ({
           set((state) => ({
             moves: [...state.moves, res.data],
           }));
-          get().getAccounts;
+          get().getAccounts();
         }
       })
       .catch((err) => console.log(err))
