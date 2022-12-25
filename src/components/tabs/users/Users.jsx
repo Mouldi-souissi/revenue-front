@@ -7,6 +7,7 @@ import DeleteUser from "./DeleteUser";
 const Users = () => {
   const getUsers = useStore((state) => state.getUsers);
   const users = useStore((state) => state.users);
+  const isLoading = useStore((state) => state.isLoading);
   const [deleteData, setDeleteData] = useState("");
   const [user, setUser] = useState("");
   useEffect(() => {
@@ -23,6 +24,11 @@ const Users = () => {
           data-bs-toggle="modal"
           data-bs-target="#addUser"
         ></i>
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ms-5">
+            <div class="loader"></div>
+          </div>
+        )}
       </div>
       <div className="table-responsive">
         <table className="table">

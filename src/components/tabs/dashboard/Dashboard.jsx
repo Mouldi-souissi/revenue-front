@@ -8,6 +8,7 @@ const Dashboard = () => {
   const getMoves = useStore((state) => state.getMoves);
   const moves = useStore((state) => state.moves);
   const userType = useStore((state) => state.userType);
+  const isLoading = useStore((state) => state.isLoading);
   const [period, setPeriod] = useState("daily");
 
   useEffect(() => {
@@ -82,7 +83,13 @@ const Dashboard = () => {
           data-bs-toggle="modal"
           data-bs-target="#deleteAllMoves"
         ></i>
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ms-5">
+            <div class="loader"></div>
+          </div>
+        )}
       </div>
+
       <div className="table-responsive">
         <table className="table">
           <thead>

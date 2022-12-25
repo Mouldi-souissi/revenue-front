@@ -10,6 +10,7 @@ const Wins = () => {
   const wins = useStore((state) => state.wins);
   const accounts = useStore((state) => state.accounts);
   const getAccounts = useStore((state) => state.getAccounts);
+  const isLoading = useStore((state) => state.isLoading);
 
   useEffect(() => {
     if (!wins.length) {
@@ -28,6 +29,11 @@ const Wins = () => {
           data-bs-toggle="modal"
           data-bs-target="#addWin"
         ></i>
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ms-5">
+            <div class="loader"></div>
+          </div>
+        )}
       </div>
       <div className="table-responsive">
         <table className="table my-5">

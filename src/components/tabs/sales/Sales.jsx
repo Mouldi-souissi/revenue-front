@@ -10,6 +10,7 @@ const Sales = () => {
   const getSales = useStore((state) => state.getSales);
   const accounts = useStore((state) => state.accounts);
   const getAccounts = useStore((state) => state.getAccounts);
+  const isLoading = useStore((state) => state.isLoading);
 
   useEffect(() => {
     if (!sales.length) {
@@ -29,6 +30,11 @@ const Sales = () => {
           data-bs-toggle="modal"
           data-bs-target="#addSale"
         ></i>
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ms-5">
+            <div class="loader"></div>
+          </div>
+        )}
       </div>
       <div className="table-responsive">
         <table className="table my-5">

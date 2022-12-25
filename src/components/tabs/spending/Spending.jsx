@@ -8,6 +8,7 @@ const SpendingAndWins = () => {
   const [spendingDoc, setSpendingDoc] = useState("");
   const getSpending = useStore((state) => state.getSpending);
   const spending = useStore((state) => state.spending);
+  const isLoading = useStore((state) => state.isLoading);
 
   useEffect(() => {
     if (!spending.length) {
@@ -23,6 +24,11 @@ const SpendingAndWins = () => {
           data-bs-toggle="modal"
           data-bs-target="#addSpending"
         ></i>
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ms-5">
+            <div class="loader"></div>
+          </div>
+        )}
       </div>
       <div className="table-responsive">
         <table className="table my-5">

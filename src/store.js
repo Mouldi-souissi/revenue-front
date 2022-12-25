@@ -11,6 +11,7 @@ const useStore = create((set) => ({
   users: [],
   username: "User",
   userType: "",
+  isLoading: false,
   adminRoutes: [
     { link: "dashboard", icon: "fas fa-desktop", text: "Tableau de bord" },
     { link: "users", icon: "fas fa-user-friends", text: "Utilisateurs" },
@@ -62,6 +63,7 @@ const useStore = create((set) => ({
 
   //*********  user
   getUsers: () => {
+    set({ isLoading: true });
     axios
       .get(`${API_URL}/user`, {
         headers: { token: localStorage.getItem("token") },
@@ -69,7 +71,10 @@ const useStore = create((set) => ({
       .then((res) => {
         set({ users: res.data });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
 
   login: (email, password) => {
@@ -104,6 +109,7 @@ const useStore = create((set) => ({
   },
 
   addUser: (userData) => {
+    set({ isLoading: true });
     axios
       .post(`${API_URL}/user/register`, userData, {
         headers: { token: localStorage.getItem("token") },
@@ -111,10 +117,14 @@ const useStore = create((set) => ({
       .then((res) => {
         set((state) => ({ users: [...state.users, res.data] }));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
 
   deleteUser: (id) => {
+    set({ isLoading: true });
     axios
       .delete(`${API_URL}/user/${id}`, {
         headers: { token: localStorage.getItem("token") },
@@ -124,10 +134,14 @@ const useStore = create((set) => ({
           users: state.users.filter((user) => user._id !== res.data._id),
         }));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
 
   editUser: (user) => {
+    set({ isLoading: true });
     axios
       .put(
         `${API_URL}/user/${user._id}`,
@@ -144,12 +158,16 @@ const useStore = create((set) => ({
           ],
         }));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
   // accounts
   accounts: [],
 
   getAccounts: () => {
+    set({ isLoading: true });
     axios
       .get(`${API_URL}/account`, {
         headers: { token: localStorage.getItem("token") },
@@ -157,9 +175,13 @@ const useStore = create((set) => ({
       .then((res) => {
         set({ accounts: res.data });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
   addAccount: (account) => {
+    set({ isLoading: true });
     axios
       .post(`${API_URL}/account`, account, {
         headers: { token: localStorage.getItem("token") },
@@ -167,9 +189,13 @@ const useStore = create((set) => ({
       .then((res) => {
         set((state) => ({ accounts: [...state.accounts, res.data] }));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
   deleteAccount: (id) => {
+    set({ isLoading: true });
     axios
       .delete(`${API_URL}/account/${id}`, {
         headers: { token: localStorage.getItem("token") },
@@ -179,9 +205,13 @@ const useStore = create((set) => ({
           accounts: state.accounts.filter((site) => site._id !== res.data._id),
         }));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
   editAccount: (account) => {
+    set({ isLoading: true });
     axios
       .put(`${API_URL}/account/${account._id}`, account, {
         headers: { token: localStorage.getItem("token") },
@@ -194,7 +224,10 @@ const useStore = create((set) => ({
           ],
         }));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
 
   // moves
@@ -203,6 +236,7 @@ const useStore = create((set) => ({
   moves: [],
 
   getSpending: () => {
+    set({ isLoading: true });
     axios
       .get(`${API_URL}/move/spending`, {
         headers: { token: localStorage.getItem("token") },
@@ -212,10 +246,14 @@ const useStore = create((set) => ({
           spending: res.data,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
 
   getWins: () => {
+    set({ isLoading: true });
     axios
       .get(`${API_URL}/move/wins`, {
         headers: { token: localStorage.getItem("token") },
@@ -226,10 +264,14 @@ const useStore = create((set) => ({
           wins: res.data,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
 
   addMove: (move) => {
+    set({ isLoading: true });
     axios
       .post(`${API_URL}/move`, move, {
         headers: { token: localStorage.getItem("token") },
@@ -251,7 +293,10 @@ const useStore = create((set) => ({
           }));
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
 
   editMove: (move) => {
@@ -289,6 +334,7 @@ const useStore = create((set) => ({
   },
 
   deleteMove: (id) => {
+    set({ isLoading: true });
     axios
       .delete(`${API_URL}/move/${id}`, {
         headers: { token: localStorage.getItem("token") },
@@ -310,11 +356,15 @@ const useStore = create((set) => ({
           }));
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
 
   sales: [],
   getMoves: (period = "daily") => {
+    set({ isLoading: true });
     axios
       .get(`${API_URL}/move/${period}`, {
         headers: { token: localStorage.getItem("token") },
@@ -322,10 +372,14 @@ const useStore = create((set) => ({
       .then((res) => {
         set({ moves: res.data });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
 
   getSales: () => {
+    set({ isLoading: true });
     axios
       .get(`${API_URL}/move/sales`, {
         headers: { token: localStorage.getItem("token") },
@@ -333,9 +387,13 @@ const useStore = create((set) => ({
       .then((res) => {
         set({ sales: res.data });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
   },
   deleteAllMoves: () => {
+    set({ isLoading: true });
     axios
       .delete(`${API_URL}/move`, {
         headers: { token: localStorage.getItem("token") },
@@ -344,6 +402,9 @@ const useStore = create((set) => ({
         set({
           moves: [],
         });
+      })
+      .finally(() => {
+        set({ isLoading: false });
       });
   },
 }));

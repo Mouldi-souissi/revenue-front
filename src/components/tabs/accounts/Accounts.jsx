@@ -8,6 +8,7 @@ const Sites = () => {
   const [account, setAccount] = useState("");
   const accounts = useStore((state) => state.accounts);
   const getAccounts = useStore((state) => state.getAccounts);
+  const isLoading = useStore((state) => state.isLoading);
 
   useEffect(() => {
     if (!accounts.length) {
@@ -24,6 +25,11 @@ const Sites = () => {
           data-bs-toggle="modal"
           data-bs-target="#addSite"
         ></i>
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ms-5">
+            <div class="loader"></div>
+          </div>
+        )}
       </div>
       <div className="table-responsive">
         <table className="table">
