@@ -32,7 +32,7 @@ const Sales = () => {
         ></i>
         {isLoading && (
           <div className="d-flex align-items-center justify-content-center ms-5">
-            <div class="loader"></div>
+            <div className="loader"></div>
           </div>
         )}
       </div>

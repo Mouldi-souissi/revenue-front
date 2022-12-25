@@ -5,7 +5,7 @@ import decode from "jwt-decode";
 // const API_URL = "http://localhost:5000/api";
 const API_URL = "https://revenue-api.vercel.app/api";
 
-const useStore = create((set) => ({
+const useStore = create((set, get) => ({
   isSidebarHidden: false,
   activeTab: "dashboard",
   users: [],
@@ -291,6 +291,12 @@ const useStore = create((set) => ({
           set((state) => ({
             sales: [...state.sales, res.data],
           }));
+        }
+        if (res.data.subType === "versement") {
+          set((state) => ({
+            moves: [...state.moves, res.data],
+          }));
+          get().getAccounts;
         }
       })
       .catch((err) => console.log(err))

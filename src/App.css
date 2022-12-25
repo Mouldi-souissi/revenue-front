@@ -288,3 +288,8 @@ thead {
     transform: rotate(360deg);
   }
 }
+
+.addDeposit {
+  font-size: 18px;
+  font-weight: bold;
+}

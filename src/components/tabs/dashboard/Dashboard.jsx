@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
+import AddAmount from "./AddAmount";
 import DeleteMoves from "./DeleteMoves";
 
 const Dashboard = () => {
@@ -10,6 +11,7 @@ const Dashboard = () => {
   const userType = useStore((state) => state.userType);
   const isLoading = useStore((state) => state.isLoading);
   const [period, setPeriod] = useState("daily");
+  const [account, setAccount] = useState("");
 
   useEffect(() => {
     if (userType === "admin") {
@@ -34,7 +36,15 @@ const Dashboard = () => {
       <div className="dashboard_cards">
         {accounts.map((account) => (
           <div className="dashboard_card" key={account._id}>
-            <div className="card_title">{account.name}</div>
+            <div className="d-flex justify-content-between align-items-start w-100">
+              <div className="card_title">{account.name}</div>
+              <i
+                className="fa-solid fa-plus btn addDeposit"
+                data-bs-toggle="modal"
+                data-bs-target="#addAmount"
+                onClick={() => setAccount(account)}
+              />
+            </div>
             <div className="d-flex justify-content-between w-100 align-items-start">
               <i className="fa-solid fa-landmark mt-2"></i>
               <div>
@@ -85,7 +95,7 @@ const Dashboard = () => {
         ></i>
         {isLoading && (
           <div className="d-flex align-items-center justify-content-center ms-5">
-            <div class="loader"></div>
+            <div className="loader"></div>
           </div>
         )}
       </div>
@@ -129,6 +139,7 @@ const Dashboard = () => {
       </div>
 
       <DeleteMoves />
+      <AddAmount account={account} />
     </div>
   );
 };
