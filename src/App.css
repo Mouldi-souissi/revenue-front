@@ -3,6 +3,7 @@
 :root {
   --blueDark: rgb(0, 153, 255);
   --blueLight: rgb(0, 132, 255);
+  --green: rgb(1, 236, 119);
 }
 
 * {
@@ -107,15 +108,16 @@ ul {
 }
 .sidebar ul li .navlink:hover,
 .sidebar ul li .navlink.active {
-  color: var(--blueLight);
+  color: white;
 
-  background: white;
+  background: var(--green);
   border-right: 2px solid var(--blueLight);
 }
 
 .sidebar ul li .navlink:hover .icon,
 .sidebar ul li .navlink.active .icon {
-  color: var(--blueLight);
+  color: white;
+  filter: drop-shadow(1px 1px 1px rgba(128, 128, 128, 0.479));
 }
 
 .sidebar ul li .navlink:hover:before,
@@ -217,6 +219,10 @@ ul {
   border-collapse: separate;
   border-spacing: 0 0.5em;
   /* min-width: 450px; */
+}
+
+.table thead {
+  background: var(--green) !important;
 }
 
 tbody tr {

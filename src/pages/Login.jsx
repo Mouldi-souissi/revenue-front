@@ -30,44 +30,27 @@ const Login = () => {
           />
         </div>
         <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <label for="exampleInputEmail1" className="form-label">
-              Email
-            </label>
+          <div className="form-floating  mb-3">
             <input
               type="email"
               className="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
+              placeholder="Email"
               name="email"
               onChange={handleInput}
             />
-            <div id="emailHelp" className="form-text">
-              We'll never share your email with anyone else.
-            </div>
+            <label>Email</label>
           </div>
-          <div className="mb-3">
-            <label for="exampleInputPassword1" className="form-label">
-              Password
-            </label>
+          <div className="form-floating mb-3">
             <input
               type="password"
               className="form-control"
-              id="exampleInputPassword1"
+              placeholder="Password"
               name="password"
               onChange={handleInput}
             />
+            <label>Password</label>
           </div>
-          <div className="mb-3 form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="exampleCheck1"
-            />
-            <label className="form-check-label" for="exampleCheck1">
-              Check me out
-            </label>
-          </div>
+
           <div className="d-flex justify-content-end">
             <button type="submit" className="btn btn-primary">
               Login
