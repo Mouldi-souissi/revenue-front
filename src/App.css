@@ -233,3 +233,7 @@ thead {
   background: linear-gradient(var(--blueDark), var(--blueDark));
   color: white;
 }
+
+.date {
+  min-width: 100px;
+}

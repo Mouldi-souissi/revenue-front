@@ -34,7 +34,7 @@ const Wins = () => {
           <thead>
             <tr>
               <th scope="col">Compte</th>
-              <th scope="col">Client/Tél</th>
+              {/* <th scope="col">Client/Tél</th> */}
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Actions</th>
@@ -44,7 +44,7 @@ const Wins = () => {
             {wins.map((win) => (
               <tr key={win._id}>
                 <td>{win.account}</td>
-                <td>{win.description}</td>
+                {/* <td>{win.description}</td> */}
                 <td>{win.amount}</td>
                 <td>{win.user}</td>
                 <td>

@@ -31,7 +31,6 @@ const SpendingAndWins = () => {
               <th scope="col">Description</th>
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
-              <th scope="col">Date</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -41,7 +40,6 @@ const SpendingAndWins = () => {
                 <td>{spendingDoc.description}</td>
                 <td>{spendingDoc.amount}</td>
                 <td>{spendingDoc.user}</td>
-                <td>{new Date(spendingDoc.date).toLocaleString("fr-FR")}</td>
                 <td>
                   {/* <i
                   className="fa-solid fa-gear btn"

@@ -80,7 +80,6 @@ const Dashboard = () => {
               <th scope="col">Compte</th>
               <th scope="col">Type</th>
               <th scope="col">Categorie</th>
-              <th scope="col">Description</th>
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Date</th>
@@ -92,10 +91,9 @@ const Dashboard = () => {
                 <td>{move.account}</td>
                 <td>{move.type}</td>
                 <td>{move.subType}</td>
-                <td>{move.description}</td>
                 <td>{move.amount}</td>
                 <td>{move.user}</td>
-                <td>
+                <td className="date">
                   {new Date(move.date).toLocaleString("fr", {
                     dateStyle: "medium",
                     timeStyle: "short",
