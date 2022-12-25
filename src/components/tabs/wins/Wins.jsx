@@ -45,7 +45,13 @@ const Wins = () => {
               <tr key={win._id}>
                 <td>{win.account}</td>
                 {/* <td>{win.description}</td> */}
-                <td>{win.amount}</td>
+                <td>
+                  {Number(win.amount).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
+                </td>
                 <td>{win.user}</td>
                 <td>
                   {/* <i

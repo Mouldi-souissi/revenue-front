@@ -229,6 +229,8 @@ tbody tr {
   background: white;
   vertical-align: middle;
   filter: drop-shadow(1px 1px 1px rgba(128, 128, 128, 0.795));
+  border: 1px solid var(--green) !important;
+
   /* border-bottom: 2px solid var(--blueDark); */
 }
 td {

@@ -31,7 +31,7 @@ const Sites = () => {
             <tr>
               <th scope="col">Logo</th>
               <th scope="col">Nom</th>
-              <th scope="col">Taux de change</th>
+              <th scope="col">Taux</th>
               <th scope="col">Solde</th>
               <th scope="col">Actions</th>
             </tr>
@@ -44,7 +44,13 @@ const Sites = () => {
                 </td>
                 <td>{account.name}</td>
                 <td>{account.rate}</td>
-                <td>{account.deposit}</td>
+                <td>
+                  {Number(account.deposit).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
+                </td>
                 <td>
                   <i
                     className="fa-solid fa-gear btn"

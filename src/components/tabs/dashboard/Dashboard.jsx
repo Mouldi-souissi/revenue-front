@@ -37,7 +37,13 @@ const Dashboard = () => {
             <div className="d-flex justify-content-between w-100 align-items-start">
               <i className="fa-solid fa-landmark mt-2"></i>
               <div>
-                <div className="card_value">{account.deposit}</div>
+                <div className="card_value">
+                  {Number(account.deposit).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
+                </div>
                 <div
                   className={`small ${
                     account.lastMove.type === "sortie" ? "red" : "green"
@@ -45,7 +51,11 @@ const Dashboard = () => {
                 >
                   {account.lastMove.type === "entrée" && "+"}
                   {account.lastMove.type === "sortie" && "-"}
-                  {account.lastMove.amount}
+                  {Number(account.lastMove.amount).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
                 </div>
               </div>
             </div>
@@ -91,7 +101,13 @@ const Dashboard = () => {
                 <td>{move.account}</td>
                 <td>{move.type}</td>
                 <td>{move.subType}</td>
-                <td>{move.amount}</td>
+                <td>
+                  {Number(move.amount).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
+                </td>
                 <td>{move.user}</td>
                 <td className="date">
                   {new Date(move.date).toLocaleString("fr", {

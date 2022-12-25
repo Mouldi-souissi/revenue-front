@@ -44,7 +44,13 @@ const Sales = () => {
             {sales.map((sale) => (
               <tr key={sale._id}>
                 <td>{sale.account}</td>
-                <td>{sale.amount}</td>
+                <td>
+                  {Number(sale.amount).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
+                </td>
                 <td>{sale.user}</td>
                 <td>
                   {/* <i
