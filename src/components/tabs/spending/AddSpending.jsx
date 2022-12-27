@@ -20,7 +20,7 @@ const AddSpending = () => {
     setData({
       ...data,
       subType: "dépense",
-      account: "Caisse",
+      account: "Fond",
     });
   }, []);
 

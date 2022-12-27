@@ -36,28 +36,20 @@ const EditAccount = ({ account }) => {
             ></button>
           </div>
           <div className="modal-body">
-            <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Nom"
-                name="name"
-                onChange={handleInput}
-                value={data.name}
-              />
-              <label>Nom</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Taux de change"
-                name="rate"
-                onChange={handleInput}
-                value={data.rate}
-              />
-              <label>Taux de change</label>
-            </div>
+            {data.name !== "Fond" && (
+              <div className="form-floating mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Nom"
+                  name="name"
+                  onChange={handleInput}
+                  value={data.name}
+                />
+                <label>Nom</label>
+              </div>
+            )}
+
             <div className="form-floating mb-3">
               <input
                 type="text"

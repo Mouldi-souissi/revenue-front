@@ -4,18 +4,18 @@ import AddAmount from "./AddAmount";
 import DeleteMoves from "./DeleteMoves";
 
 const Dashboard = () => {
-  const getAccounts = useStore((state) => state.getAccounts);
-  const accounts = useStore((state) => state.accounts);
   const getMoves = useStore((state) => state.getMoves);
   const moves = useStore((state) => state.moves);
   const userType = useStore((state) => state.userType);
   const isLoading = useStore((state) => state.isLoading);
   const [period, setPeriod] = useState("daily");
-  const [account, setAccount] = useState("");
+
+  const getFondState = useStore((state) => state.getFondState);
+  const fondState = useStore((state) => state.fondState);
 
   useEffect(() => {
     if (userType === "admin") {
-      getAccounts();
+      getFondState();
     }
   }, [userType]);
 
@@ -34,46 +34,47 @@ const Dashboard = () => {
   return (
     <div className="container">
       <div className="dashboard_cards">
-        {accounts.map((account) => (
-          <div className="dashboard_card" key={account._id}>
-            <div className="d-flex justify-content-between align-items-start w-100">
-              <div className="card_title">{account.name}</div>
-              <i
-                className="fa-solid fa-plus btn addDeposit"
-                data-bs-toggle="modal"
-                data-bs-target="#addAmount"
-                onClick={() => setAccount(account)}
-              />
-            </div>
-            <div className="d-flex justify-content-between w-100 align-items-start">
-              <i className="fa-solid fa-landmark mt-2"></i>
-              <div>
-                <div className="card_value">
-                  {Number(account.deposit).toLocaleString("fr", {
-                    style: "currency",
-                    currency: "TND",
-                    minimumFractionDigits: 0,
-                  })}
-                </div>
-                <div
-                  className={`small ${
-                    account.lastMove.type === "sortie" ? "red" : "green"
-                  }`}
-                >
-                  {account.lastMove.type === "entrée" && "+"}
-                  {account.lastMove.type === "sortie" && "-"}
-                  {Number(account.lastMove.amount).toLocaleString("fr", {
-                    style: "currency",
-                    currency: "TND",
-                    minimumFractionDigits: 0,
-                  })}
-                </div>
+        <div className="dashboard_card">
+          <div className="d-flex justify-content-between align-items-start w-100">
+            <div className="card_title">Fond</div>
+            <i
+              className="fa-solid fa-plus btn addDeposit"
+              data-bs-toggle="modal"
+              data-bs-target="#addAmount"
+            />
+          </div>
+          <div className="d-flex justify-content-between w-100 align-items-start">
+            <i className="fa-solid fa-landmark mt-2"></i>
+            <div>
+              <div className="card_value">
+                {fondState.toLocaleString("fr", {
+                  style: "currency",
+                  currency: "TND",
+                  minimumFractionDigits: 0,
+                })}
               </div>
+              {/* <div
+            className={`small ${
+              account.lastMove.type === "sortie" ? "red" : "green"
+            }`}
+          >
+            {account.lastMove.type === "entrée" && "+"}
+            {account.lastMove.type === "sortie" && "-"}
+            {Number(account.lastMove.amount).toLocaleString("fr", {
+              style: "currency",
+              currency: "TND",
+              minimumFractionDigits: 0,
+            })}
+          </div> */}
             </div>
           </div>
-        ))}
+        </div>
       </div>
-
+      {isLoading && (
+        <div className="d-flex align-items-center justify-content-center my-5">
+          <div className="loader"></div>
+        </div>
+      )}
       <div className="d-flex align-items-center justify-content-center my-5">
         <h5 className="me-5 mb-0">Les movements</h5>
 
@@ -93,11 +94,6 @@ const Dashboard = () => {
           data-bs-toggle="modal"
           data-bs-target="#deleteAllMoves"
         ></i>
-        {isLoading && (
-          <div className="d-flex align-items-center justify-content-center ms-5">
-            <div className="loader"></div>
-          </div>
-        )}
       </div>
 
       <div className="table-responsive">
@@ -139,7 +135,7 @@ const Dashboard = () => {
       </div>
 
       <DeleteMoves />
-      <AddAmount account={account} />
+      <AddAmount />
     </div>
   );
 };

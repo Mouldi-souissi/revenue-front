@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
-const AddAmount = ({ account }) => {
-  const [data, setData] = useState("");
+const AddAmount = () => {
+  const [data, setData] = useState({
+    type: "entrée",
+    subType: "versement",
+    account: "Fond",
+  });
   const addMove = useStore((state) => state.addMove);
   const refClose = useRef();
 
@@ -16,23 +20,12 @@ const AddAmount = ({ account }) => {
     refClose.current.click();
   };
 
-  useEffect(() => {
-    setData({
-      ...data,
-      type: "entrée",
-      subType: "versement",
-      account: account.name,
-    });
-  }, [account]);
-
   return (
     <div className="modal fade" id="addAmount" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content" onSubmit={handleSubmit}>
           <div className="modal-header">
-            <h1 className="modal-title fs-5">
-              Alimenter le compte {account.name}
-            </h1>
+            <h1 className="modal-title fs-5">Alimenter le Fond</h1>
             <button
               type="button"
               className="btn-close"

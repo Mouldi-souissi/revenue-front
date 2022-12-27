@@ -2,29 +2,70 @@ import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
 const AddSale = () => {
-  const [data, setData] = useState("");
-  const addMove = useStore((state) => state.addMove);
+  const [data, setData] = useState({
+    accounts: [],
+  });
+
+  const addSale = useStore((state) => state.addSale);
   const accounts = useStore((state) => state.accounts);
   const refClose = useRef();
 
-  const handleInput = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+  const handleInput = (e, account) => {
+    setData({
+      ...data,
+      accounts: [
+        ...data.accounts.filter((acc) => acc.name !== account.name),
+        {
+          name: account.name,
+          depositStart: account.deposit,
+          depositEnd: e.target.value,
+          rate: account.rate,
+        },
+      ],
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addMove(data);
+    // addMove(data);
+    addSale(data);
     refClose.current.click();
   };
 
   useEffect(() => {
     setData({
       ...data,
-      type: "entrée",
-      subType: "vente",
-      account: accounts[0]?.name,
+      account: accounts[0],
     });
-  }, []);
+  }, [accounts]);
+
+  const genrateForm = (accounts) => {
+    return accounts.map((acc) => (
+      <div key={acc._id}>
+        <div className="form-floating mb-3">
+          <input
+            type="text"
+            className="form-control disabled"
+            placeholder={`Balance ${acc.name} debut`}
+            defaultValue={acc.deposit}
+            readOnly
+          />
+
+          <label>{`Balance ${acc.name} debut`}</label>
+        </div>
+        <div className="form-floating mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder={`Balance ${acc.name} fin`}
+            name="depositEnd"
+            onChange={(e) => handleInput(e, acc)}
+          />
+          <label>{`Balance ${acc.name} fin`}</label>
+        </div>
+      </div>
+    ));
+  };
 
   return (
     <div className="modal fade" id="addSale" tabIndex="-1" aria-hidden="true">
@@ -40,32 +81,7 @@ const AddSale = () => {
             ></button>
           </div>
           <div className="modal-body">
-            <div className="form-floating mb-3">
-              <select
-                className="form-select"
-                name="account"
-                onChange={handleInput}
-              >
-                {accounts
-                  .filter((account) => account.name !== "Caisse")
-                  .map((account) => (
-                    <option key={account._id} value={account.name}>
-                      {account.name}
-                    </option>
-                  ))}
-              </select>
-              <label>Type</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Montant"
-                name="amount"
-                onChange={handleInput}
-              />
-              <label>Montant</label>
-            </div>
+            {genrateForm(accounts.filter((acc) => acc.name !== "Fond"))}
           </div>
           <div className="modal-footer">
             <button

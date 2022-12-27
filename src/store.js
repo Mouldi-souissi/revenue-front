@@ -2,8 +2,8 @@ import create from "zustand";
 import axios from "axios";
 import decode from "jwt-decode";
 
-// const API_URL = "http://localhost:5000/api";
-const API_URL = "https://revenue-api.vercel.app/api";
+const API_URL = "http://localhost:5000/api";
+// const API_URL = "https://revenue-api.vercel.app/api";
 
 const useStore = create((set, get) => ({
   isSidebarHidden: false,
@@ -165,6 +165,7 @@ const useStore = create((set, get) => ({
   },
   // accounts
   accounts: [],
+  fondState: 1,
 
   getAccounts: () => {
     set({ isLoading: true });
@@ -173,7 +174,27 @@ const useStore = create((set, get) => ({
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        set({ accounts: res.data });
+        set({
+          accounts: res.data,
+        });
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        set({ isLoading: false });
+      });
+  },
+  getFondState: () => {
+    console.log("yo");
+    set({ isLoading: true });
+    axios
+      .get(`${API_URL}/account/fond`, {
+        headers: { token: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        console.log(res.data);
+        set({
+          fondState: res.data,
+        });
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -305,6 +326,38 @@ const useStore = create((set, get) => ({
       });
   },
 
+  addSale: async (data) => {
+    const rate = 1.2;
+
+    const totalWins = await axios
+      .get(`${API_URL}/move/totalWins`, {
+        headers: { token: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        return res.data;
+      });
+
+    const totalAccounts = data.accounts.reduce(
+      (acc, curr) =>
+        (acc += Number(curr.depositStart) - Number(curr.depositEnd)),
+      0
+    );
+
+    console.log("totalWins", totalWins);
+    console.log("rate", rate);
+    console.log("totalAccounts", totalAccounts);
+
+    const amount = (totalAccounts + totalWins) * rate - totalWins;
+
+    console.log("amount", amount);
+    get().addMove({
+      amount,
+      type: "entrée",
+      subType: "vente",
+      account: "Fond",
+    });
+  },
+
   editMove: (move) => {
     axios
       .put(`${API_URL}/move/${move._id}`, move, {
@@ -398,6 +451,7 @@ const useStore = create((set, get) => ({
         set({ isLoading: false });
       });
   },
+
   deleteAllMoves: () => {
     set({ isLoading: true });
     axios
