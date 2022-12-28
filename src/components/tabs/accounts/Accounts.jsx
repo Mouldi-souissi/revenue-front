@@ -21,16 +21,16 @@ const Sites = () => {
       <div className="d-flex align-items-center mb-5">
         <h3 className="m-0 me-3">Comptes</h3>
         <i
-          className="fa-solid fa-plus btn btn-primary p-2"
+          className="fa-solid fa-plus btn btn-outline-primary p-2"
           data-bs-toggle="modal"
           data-bs-target="#addSite"
         ></i>
-        {isLoading && (
-          <div className="d-flex align-items-center justify-content-center ms-5">
-            <div className="loader"></div>
-          </div>
-        )}
       </div>
+      {isLoading && (
+        <div className="d-flex align-items-center justify-content-center ">
+          <div className="loader"></div>
+        </div>
+      )}
       <div className="table-responsive">
         <table className="table">
           <thead>

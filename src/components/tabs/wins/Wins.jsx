@@ -11,6 +11,7 @@ const Wins = () => {
   const accounts = useStore((state) => state.accounts);
   const getAccounts = useStore((state) => state.getAccounts);
   const isLoading = useStore((state) => state.isLoading);
+  const total = wins.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
   useEffect(() => {
     if (!wins.length) {
@@ -22,19 +23,30 @@ const Wins = () => {
   }, []);
   return (
     <div className="container">
-      <div className="d-flex align-items-center">
-        <h3 className="m-0 me-3">Gain</h3>
+      <div className="d-flex align-items-start">
+        <div className="me-3">
+          <h3 className="m-0 me-3">Gain</h3>
+          <h6>
+            Total :{" "}
+            {total.toLocaleString("fr", {
+              style: "currency",
+              currency: "TND",
+              minimumFractionDigits: 0,
+            })}
+          </h6>
+        </div>
         <i
-          className="fa-solid fa-plus btn btn-primary p-2"
+          className="fa-solid fa-plus btn btn-outline-primary p-2"
           data-bs-toggle="modal"
           data-bs-target="#addWin"
         ></i>
-        {isLoading && (
-          <div className="d-flex align-items-center justify-content-center ms-5">
-            <div className="loader"></div>
-          </div>
-        )}
       </div>
+
+      {isLoading && (
+        <div className="d-flex align-items-center justify-content-center ">
+          <div className="loader"></div>
+        </div>
+      )}
       <div className="table-responsive">
         <table className="table my-5">
           <thead>

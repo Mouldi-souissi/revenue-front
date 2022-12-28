@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
+import DeleteSale from "../sales/DeleteSale";
 import AddAmount from "./AddAmount";
 import DeleteMoves from "./DeleteMoves";
 
@@ -9,9 +10,45 @@ const Dashboard = () => {
   const userType = useStore((state) => state.userType);
   const isLoading = useStore((state) => state.isLoading);
   const [period, setPeriod] = useState("daily");
+  const [move, setMove] = useState("");
 
   const getFondState = useStore((state) => state.getFondState);
   const fondState = useStore((state) => state.fondState);
+
+  const calulateStats = (type) => {
+    let total = 0;
+    if (type === "recette") {
+      for (let move of moves) {
+        if (move.type === "entrée") {
+          total += Number(move.amount);
+        }
+        if (move.type === "sortie" && move.subType !== "gain") {
+          total -= Number(move.amount);
+        }
+      }
+    }
+    if (type === "gain") {
+      total = moves
+        .filter((move) => move.subType === "gain")
+        .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+    }
+    if (type === "spending") {
+      total = moves
+        .filter((move) => move.subType === "dépense")
+        .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+    }
+    if (type === "vente") {
+      total = moves
+        .filter((move) => move.subType === "vente")
+        .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+    }
+    return total.toFixed(0);
+  };
+
+  const recette = calulateStats("recette");
+  const gain = calulateStats("gain");
+  const spending = calulateStats("spending");
+  const vente = calulateStats("vente");
 
   useEffect(() => {
     if (userType === "admin") {
@@ -70,34 +107,67 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <div className="circles my-5">
+        <div className="circle">
+          <div className="inner-circle">
+            <div className="circle-title">Recette</div>
+            <div className="circle-value">{recette}</div>
+            <div>TND</div>
+          </div>
+        </div>
+        <div className="circle">
+          <div className="inner-circle">
+            <div className="circle-title">Ventes</div>
+            <div className="circle-value">{vente}</div>
+            <div>TND</div>
+          </div>
+        </div>
+        <div className="circle">
+          <div className="inner-circle">
+            <div className="circle-title">Gain</div>
+            <div className="circle-value">{gain}</div>
+            <div>TND</div>
+          </div>
+        </div>
+        <div className="circle">
+          <div className="inner-circle">
+            <div className="circle-title">Dépenses</div>
+            <div className="circle-value">{spending}</div>
+            <div>TND</div>
+          </div>
+        </div>
+      </div>
       {isLoading && (
         <div className="d-flex align-items-center justify-content-center my-5">
           <div className="loader"></div>
         </div>
       )}
+
       <div className="d-flex align-items-center justify-content-center my-5">
         <h5 className="me-5 mb-0">Les movements</h5>
+        <div className="d-flex">
+          <select
+            className="form-select col-lg-6"
+            style={{ maxWidth: "250px" }}
+            value={period}
+            onChange={handlePeriod}
+          >
+            <option value="daily">Ce jour</option>
+            <option value="weekly">Cette semaine</option>
+            <option value="monthly">Ce mois</option>
+          </select>
 
-        <select
-          className="form-select col-lg-6"
-          style={{ maxWidth: "250px" }}
-          value={period}
-          onChange={handlePeriod}
-        >
-          <option value="daily">Ce jour</option>
-          <option value="weekly">Cette semaine</option>
-          <option value="monthly">Ce mois</option>
-        </select>
-
-        <i
-          className="fa-solid fa-trash btn text-danger"
-          data-bs-toggle="modal"
-          data-bs-target="#deleteAllMoves"
-        ></i>
+          <i
+            className="fa-solid fa-trash btn text-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteAllMoves"
+          ></i>
+        </div>
       </div>
 
       <div className="table-responsive">
         <table className="table">
+          {/* <caption className="w-100">List of users</caption> */}
           <thead>
             <tr>
               <th scope="col">Compte</th>
@@ -106,6 +176,7 @@ const Dashboard = () => {
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Date</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -128,12 +199,20 @@ const Dashboard = () => {
                     timeStyle: "short",
                   })}
                 </td>
+                <td>
+                  <i
+                    className="fa-solid fa-trash btn text-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteSale"
+                    onClick={() => setMove(move)}
+                  ></i>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
+      <DeleteSale sale={move} />
       <DeleteMoves />
       <AddAmount />
     </div>

@@ -40,20 +40,21 @@ const Login = () => {
             />
             <label>Email</label>
           </div>
+
           <div className="form-floating mb-3">
             <input
               type="password"
               className="form-control"
-              placeholder="Password"
+              placeholder="Mot de passe"
               name="password"
               onChange={handleInput}
             />
-            <label>Password</label>
+            <label>Mot de passe</label>
           </div>
 
           <div className="d-flex justify-content-end">
             <button type="submit" className="btn btn-primary">
-              Login
+              Connecter
             </button>
           </div>
         </form>

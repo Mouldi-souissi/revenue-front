@@ -3,7 +3,7 @@
 :root {
   --blueDark: rgb(0, 153, 255);
   --blueLight: rgb(0, 132, 255);
-  --green: rgb(1, 236, 119);
+  --green: rgb(27, 245, 110);
 }
 
 * {
@@ -51,7 +51,18 @@ body {
 .btn-secondary:active,
 .btn-primary:active {
   border: inset 2px solid white !important;
-  filter: drop-shadow(2px 2px 1px rgba(128, 128, 128, 0.795));
+  filter: drop-shadow(2px 2px 1px rgba(128, 128, 128, 0.795)) !important;
+}
+.btn-outline-primary:hover {
+  background: linear-gradient(var(--blueDark), var(--blueDark)) !important;
+}
+
+.btn-outline-primary {
+  border-color: var(--blueLight) !important ;
+}
+
+.btn-outline-primary:active {
+  filter: drop-shadow(2px 2px 1px rgba(128, 128, 128, 0.795)) !important;
 }
 
 /* sidebar */
@@ -132,7 +143,7 @@ ul {
 }
 
 i {
-  filter: drop-shadow(1px 1px 1px rgba(128, 128, 128, 0.479)) !important;
+  filter: drop-shadow(1px 1px 0px rgba(128, 128, 128, 0.479)) !important;
 }
 
 .sidebar ul li .navlink:hover:before,
@@ -189,16 +200,16 @@ i {
   flex-wrap: wrap;
 }
 .dashboard_card {
-  padding: 40px;
+  padding: 30px;
   border-radius: 30px;
-  height: 180px;
-  width: 350px;
+  height: 160px;
+  width: 320px;
   background: linear-gradient(var(--blueDark), var(--blueDark));
   box-shadow: 2px 2px 4px #bebebe;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .dashboard_card i {
@@ -206,7 +217,7 @@ i {
 }
 
 .card_title {
-  font-size: 20px;
+  font-size: 1.8rem;
   font-weight: 900;
   color: white;
   margin-bottom: 5px;
@@ -215,7 +226,7 @@ i {
 .card_value {
   color: white;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 1.5rem;
 }
 
 .small {
@@ -234,7 +245,12 @@ i {
 }
 
 .table thead {
-  background: rgb(47, 255, 116) !important;
+  background: var(--green) !important;
+  filter: drop-shadow(2px 1px 2px grey);
+}
+
+thead th {
+  text-shadow: 1px 1px 0px rgba(128, 128, 128, 0.438) !important;
 }
 
 .table i {
@@ -294,4 +310,49 @@ thead {
 .addDeposit {
   font-size: 18px;
   font-weight: bold;
+}
+
+/* cicles */
+.circles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  color: black;
+  text-align: center;
+  font-weight: bold;
+}
+
+.circle {
+  background: linear-gradient(var(--blueDark), var(--blueDark));
+  height: 220px;
+  width: 220px;
+  min-width: 220px;
+  min-height: 220px;
+  border-radius: 50%;
+  box-shadow: 5px 3px 4px #bebebe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  height: 170px;
+  width: 170px;
+  border-radius: 50%;
+  box-shadow: inset 0px 0px 0px 5px var(--green);
+}
+
+.circle-title {
+  font-size: 1.3rem;
+}
+.circle-value {
+  color: var(--blueDark);
+  font-size: 1.6rem;
 }

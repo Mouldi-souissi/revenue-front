@@ -414,6 +414,10 @@ const useStore = create((set, get) => ({
             sales: state.sales.filter((doc) => doc._id !== res.data._id),
           }));
         }
+
+        set((state) => ({
+          moves: state.moves.filter((doc) => doc._id !== res.data._id),
+        }));
       })
       .catch((err) => console.log(err))
       .finally(() => {
