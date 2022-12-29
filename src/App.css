@@ -3,7 +3,7 @@
 :root {
   --blueDark: rgb(0, 153, 255);
   --blueLight: rgb(0, 132, 255);
-  --green: rgb(27, 245, 110);
+  --green: rgb(1, 236, 119);
 }
 
 * {
@@ -247,10 +247,6 @@ i {
 .table thead {
   background: var(--green) !important;
   filter: drop-shadow(2px 1px 2px grey);
-}
-
-thead th {
-  text-shadow: 1px 1px 0px rgba(128, 128, 128, 0.438) !important;
 }
 
 .table i {

@@ -33,7 +33,7 @@ const AddWin = () => {
       ...data,
       type: "sortie",
       subType: "gain",
-      account: accounts[0].name,
+      account: accounts[0]?.name,
     });
   }, []);
 
@@ -60,8 +60,8 @@ const AddWin = () => {
                 {accounts
                   .filter((account) => account.name !== "Fond")
                   .map((account) => (
-                    <option key={account._id} value={account.name}>
-                      {account.name}
+                    <option key={account?._id} value={account?.name}>
+                      {account?.name}
                     </option>
                   ))}
               </select>

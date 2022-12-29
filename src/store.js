@@ -2,8 +2,8 @@ import create from "zustand";
 import axios from "axios";
 import decode from "jwt-decode";
 
-// const API_URL = "http://localhost:5000/api";
-const API_URL = "https://revenue-api.vercel.app/api";
+const API_URL = "http://localhost:5000/api";
+// const API_URL = "https://revenue-api.vercel.app/api";
 
 const useStore = create((set, get) => ({
   isSidebarHidden: false,
@@ -37,6 +37,11 @@ const useStore = create((set, get) => ({
     },
   ],
   userRoutes: [
+    {
+      link: "accounts",
+      icon: "fa-solid fa-tablet-screen-button",
+      text: "Comptes",
+    },
     {
       link: "sales",
       icon: "fa-solid fa-up-long green",
@@ -184,14 +189,12 @@ const useStore = create((set, get) => ({
       });
   },
   getFondState: () => {
-    console.log("yo");
     set({ isLoading: true });
     axios
       .get(`${API_URL}/account/fond`, {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res.data);
         set({
           fondState: res.data,
         });
@@ -280,7 +283,6 @@ const useStore = create((set, get) => ({
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log("wins", res.data);
         set({
           wins: res.data,
         });
@@ -343,13 +345,8 @@ const useStore = create((set, get) => ({
       0
     );
 
-    console.log("totalWins", totalWins);
-    console.log("rate", rate);
-    console.log("totalAccounts", totalAccounts);
-
     const amount = (totalAccounts + totalWins) * rate - totalWins;
 
-    console.log("amount", amount);
     get().addMove({
       amount,
       type: "entrée",

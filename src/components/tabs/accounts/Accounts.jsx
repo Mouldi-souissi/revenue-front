@@ -37,8 +37,8 @@ const Sites = () => {
             <tr>
               <th scope="col">Logo</th>
               <th scope="col">Nom</th>
-              {/* <th scope="col">Taux</th> */}
               <th scope="col">Solde début</th>
+              <th scope="col">Modifié le</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -51,13 +51,20 @@ const Sites = () => {
                     <img className="img-fluid logo" src={account.img} />
                   </td>
                   <td>{account.name}</td>
-                  {/* <td>{account.rate}</td> */}
                   <td>
                     {Number(account.deposit).toLocaleString("fr", {
                       style: "currency",
                       currency: "TND",
                       minimumFractionDigits: 0,
                     })}
+                  </td>
+                  <td>
+                    {account.lastUpdated
+                      ? new Date(account.lastUpdated).toLocaleString("fr", {
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                        })
+                      : "-"}
                   </td>
                   <td>
                     <i
