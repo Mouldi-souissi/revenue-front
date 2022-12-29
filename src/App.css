@@ -242,6 +242,7 @@ i {
 .table {
   border-collapse: separate;
   border-spacing: 0 0.5em;
+  min-width: 500px;
 }
 
 .table thead {
