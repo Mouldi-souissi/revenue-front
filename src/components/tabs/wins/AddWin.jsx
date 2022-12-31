@@ -2,13 +2,35 @@ import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
 const AddWin = () => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState({
+    amount: "",
+    type: "sortie",
+    subType: "gain",
+  });
+  const [error, setError] = useState("");
   const addMove = useStore((state) => state.addMove);
   const accounts = useStore((state) => state.accounts);
   const refClose = useRef();
 
   const handleInput = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    let isValid = true;
+    if (e.target.name === "amount") {
+      isValid = validateInput(e);
+    }
+
+    if (isValid) {
+      setData({ ...data, [e.target.name]: e.target.value });
+    }
+  };
+
+  const validateInput = (event) => {
+    if (!/^[0-9]+$/.test(event.target.value)) {
+      setError("Seuls les numéros sont autorisés");
+      setData({ ...data, [event.target.name]: "" });
+      return false;
+    }
+    setError("");
+    return true;
   };
 
   const handleSubmit = (e) => {
@@ -17,22 +39,9 @@ const AddWin = () => {
     refClose.current.click();
   };
 
-  // const handleAccount = (e) => {
-  //   const accountId = e.target.value;
-  //   setData({
-  //     ...data,
-  //     account: {
-  //       name: accounts.find((acc) => acc._id === accountId).name,
-  //       id: accountId,
-  //     },
-  //   });
-  // };
-
   useEffect(() => {
     setData({
       ...data,
-      type: "sortie",
-      subType: "gain",
       account: accounts[0]?.name,
     });
   }, []);
@@ -56,6 +65,7 @@ const AddWin = () => {
                 className="form-select"
                 name="account"
                 onChange={handleInput}
+                required
               >
                 {accounts
                   .filter((account) => account.name !== "Fond")
@@ -78,16 +88,22 @@ const AddWin = () => {
               />
               <label>client/Tél</label>
             </div> */}
-            <div className="form-floating mb-3">
+            <div className="form-floating ">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
+                value={data.amount}
+                required
+                autoComplete="off"
               />
               <label>Montant</label>
             </div>
+            {!!error.length && (
+              <small className="ms-2 text-danger">{error}</small>
+            )}
           </div>
           <div className="modal-footer">
             <button

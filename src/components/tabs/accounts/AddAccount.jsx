@@ -45,6 +45,8 @@ const AddAccount = () => {
                 placeholder="Nom"
                 name="name"
                 onChange={handleInput}
+                required
+                autoComplete="off"
               />
               <label>Nom</label>
             </div>
@@ -65,6 +67,8 @@ const AddAccount = () => {
                 placeholder="Solde"
                 name="deposit"
                 onChange={handleInput}
+                required
+                autoComplete="off"
               />
               <label>Solde</label>
             </div>

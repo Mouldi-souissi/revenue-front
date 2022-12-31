@@ -39,6 +39,8 @@ const AddUser = () => {
                   placeholder="Nom"
                   name="name"
                   onChange={handleInput}
+                  required
+                  autoComplete="off"
                 />
                 <label>Nom</label>
               </div>
@@ -49,6 +51,7 @@ const AddUser = () => {
                   placeholder="Email"
                   name="email"
                   onChange={handleInput}
+                  required
                 />
                 <label>Email</label>
               </div>
@@ -59,6 +62,8 @@ const AddUser = () => {
                   placeholder="Mot de passe"
                   name="password"
                   onChange={handleInput}
+                  required
+                  autoComplete="off"
                 />
                 <label>Mot de passe</label>
               </div>

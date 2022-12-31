@@ -70,6 +70,7 @@ const EditAccount = ({ account }) => {
                 name="rate"
                 onChange={handleInput}
                 value={data.rate}
+                autoComplete="off"
               />
               <label>Taux de change</label>
             </div>
@@ -81,6 +82,8 @@ const EditAccount = ({ account }) => {
                 name="deposit"
                 onChange={handleInput}
                 value={data.deposit}
+                required
+                autoComplete="off"
               />
               <label>Solde</label>
             </div>

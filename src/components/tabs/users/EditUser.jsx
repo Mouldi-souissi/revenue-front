@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
 const EditUser = ({ user }) => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState({ name: "", type: "" });
   const editUser = useStore((state) => state.editUser);
   const refClose = useRef();
 
@@ -49,6 +49,8 @@ const EditUser = ({ user }) => {
                 name="name"
                 onChange={handleInput}
                 value={data.name}
+                required
+                autoComplete="off"
               />
               <label>Nom</label>
             </div>

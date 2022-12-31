@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
 const AddSale = () => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState({ depositEnd: "" });
+  const [error, setError] = useState("");
   const addMove = useStore((state) => state.addMove);
 
   const getTotalWins = useStore((state) => state.getTotalWins);
@@ -13,7 +14,24 @@ const AddSale = () => {
   const refClose = useRef();
 
   const handleInput = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    let isValid = true;
+    if (e.target.name === "depositEnd") {
+      isValid = validateInput(e);
+    }
+
+    if (isValid) {
+      setData({ ...data, [e.target.name]: e.target.value });
+    }
+  };
+
+  const validateInput = (event) => {
+    if (!/^[0-9]+$/.test(event.target.value)) {
+      setError("Seuls les numéros sont autorisés");
+      setData({ ...data, [event.target.name]: "" });
+      return false;
+    }
+    setError("");
+    return true;
   };
 
   const handleSubmit = async (e) => {
@@ -85,16 +103,22 @@ const AddSale = () => {
               </select>
               <label>Type</label>
             </div>
-            <div className="form-floating mb-3">
+            <div className="form-floating">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Montant"
                 name="depositEnd"
                 onChange={handleInput}
+                value={data.depositEnd}
+                required
+                autoComplete="off"
               />
               <label>Balance {data.account} fin</label>
             </div>
+            {!!error.length && (
+              <small className="ms-2 text-danger">{error}</small>
+            )}
           </div>
           <div className="modal-footer">
             <button
