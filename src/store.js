@@ -38,11 +38,6 @@ const useStore = create((set, get) => ({
   ],
   userRoutes: [
     {
-      link: "accounts",
-      icon: "fa-solid fa-tablet-screen-button",
-      text: "Comptes",
-    },
-    {
       link: "sales",
       icon: "fa-solid fa-up-long green",
       text: "Ventes",
@@ -328,31 +323,16 @@ const useStore = create((set, get) => ({
       });
   },
 
-  addSale: async (data) => {
-    const rate = 1.2;
-
-    const totalWins = await axios
-      .get(`${API_URL}/move/totalWins`, {
+  totalWins: 0,
+  getTotalWins: async (account) => {
+    return axios
+      .get(`${API_URL}/move/totalWins/${account}`, {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
         return res.data;
-      });
-
-    const totalAccounts = data.accounts.reduce(
-      (acc, curr) =>
-        (acc += Number(curr.depositStart) - Number(curr.depositEnd)),
-      0
-    );
-
-    const amount = (totalAccounts + totalWins) * rate - totalWins;
-
-    get().addMove({
-      amount,
-      type: "entrée",
-      subType: "vente",
-      account: "Fond",
-    });
+      })
+      .catch((err) => console.log(err));
   },
 
   editMove: (move) => {
@@ -415,6 +395,7 @@ const useStore = create((set, get) => ({
         set((state) => ({
           moves: state.moves.filter((doc) => doc._id !== res.data._id),
         }));
+        get().getAccounts();
       })
       .catch((err) => console.log(err))
       .finally(() => {

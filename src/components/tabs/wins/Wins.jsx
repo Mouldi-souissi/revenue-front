@@ -14,12 +14,8 @@ const Wins = () => {
   const total = wins.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
   useEffect(() => {
-    if (!wins.length) {
-      getWins();
-    }
-    if (!accounts.length) {
-      getAccounts();
-    }
+    getWins();
+    getAccounts();
   }, []);
   return (
     <div className="container">

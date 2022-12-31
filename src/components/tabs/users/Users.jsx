@@ -11,9 +11,7 @@ const Users = () => {
   const [deleteData, setDeleteData] = useState("");
   const [user, setUser] = useState("");
   useEffect(() => {
-    if (!users.length) {
-      getUsers();
-    }
+    getUsers();
   }, []);
   return (
     <div className="container">

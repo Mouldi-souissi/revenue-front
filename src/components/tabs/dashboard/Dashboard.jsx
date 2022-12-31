@@ -12,8 +12,8 @@ const Dashboard = () => {
   const [period, setPeriod] = useState("daily");
   const [move, setMove] = useState("");
 
-  const getFondState = useStore((state) => state.getFondState);
-  const fondState = useStore((state) => state.fondState);
+  const getAccounts = useStore((state) => state.getAccounts);
+  const accounts = useStore((state) => state.accounts);
 
   const calulateStats = (type) => {
     let total = 0;
@@ -22,7 +22,7 @@ const Dashboard = () => {
         if (move.type === "entrée") {
           total += Number(move.amount);
         }
-        if (move.type === "sortie" && move.subType !== "gain") {
+        if (move.type === "sortie") {
           total -= Number(move.amount);
         }
       }
@@ -52,12 +52,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (userType === "admin") {
-      getFondState();
-    }
-  }, [userType]);
-
-  useEffect(() => {
-    if (userType === "admin") {
+      getAccounts();
       getMoves();
     }
   }, [userType]);
@@ -71,41 +66,44 @@ const Dashboard = () => {
   return (
     <div className="container">
       <div className="dashboard_cards">
-        <div className="dashboard_card">
-          <div className="d-flex justify-content-between align-items-start w-100">
-            <div className="card_title">Fond</div>
-            <i
-              className="fa-solid fa-plus btn addDeposit"
-              data-bs-toggle="modal"
-              data-bs-target="#addAmount"
-            />
-          </div>
-          <div className="d-flex justify-content-between w-100 align-items-start">
-            <i className="fa-solid fa-landmark mt-2"></i>
-            <div>
-              <div className="card_value">
-                {fondState.toLocaleString("fr", {
-                  style: "currency",
-                  currency: "TND",
-                  minimumFractionDigits: 0,
-                })}
+        {accounts.map((account) => (
+          <div className="dashboard_card" key={account._id}>
+            <div className="d-flex justify-content-between align-items-start w-100">
+              <div className="card_title">{account.name}</div>
+              <i
+                className="fa-solid fa-plus btn addDeposit"
+                data-bs-toggle="modal"
+                data-bs-target="#addAmount"
+                onClick={() => setAccount(account)}
+              />
+            </div>
+            <div className="d-flex justify-content-between w-100 align-items-start">
+              <i className="fa-solid fa-landmark mt-2"></i>
+              <div>
+                <div className="card_value">
+                  {Number(account.deposit).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
+                </div>
+                <div
+                  className={`small ${
+                    account.lastMove.type === "sortie" ? "red" : "green"
+                  }`}
+                >
+                  {account.lastMove.type === "entrée" && "+"}
+                  {account.lastMove.type === "sortie" && "-"}
+                  {Number(account.lastMove.amount).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
+                </div>
               </div>
-              {/* <div
-            className={`small ${
-              account.lastMove.type === "sortie" ? "red" : "green"
-            }`}
-          >
-            {account.lastMove.type === "entrée" && "+"}
-            {account.lastMove.type === "sortie" && "-"}
-            {Number(account.lastMove.amount).toLocaleString("fr", {
-              style: "currency",
-              currency: "TND",
-              minimumFractionDigits: 0,
-            })}
-          </div> */}
             </div>
           </div>
-        </div>
+        ))}
       </div>
       <div className="circles my-5">
         <div className="circle">
@@ -157,11 +155,11 @@ const Dashboard = () => {
             <option value="monthly">Ce mois</option>
           </select>
 
-          <i
+          {/* <i
             className="fa-solid fa-trash btn text-danger"
             data-bs-toggle="modal"
             data-bs-target="#deleteAllMoves"
-          ></i>
+          ></i> */}
         </div>
       </div>
 

@@ -11,9 +11,7 @@ const Sites = () => {
   const isLoading = useStore((state) => state.isLoading);
 
   useEffect(() => {
-    if (!accounts.length) {
-      getAccounts();
-    }
+    getAccounts();
   }, []);
 
   return (
@@ -37,20 +35,22 @@ const Sites = () => {
             <tr>
               <th scope="col">Logo</th>
               <th scope="col">Nom</th>
-              <th scope="col">Solde début</th>
+              <th scope="col">Taux</th>
+              <th scope="col">Solde</th>
               <th scope="col">Modifié le</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
             {accounts
-              .sort((a, b) => a._id - b._id)
+              // .sort((a, b) => b.name - a.name)
               .map((account) => (
                 <tr key={account._id}>
                   <td>
                     <img className="img-fluid logo" src={account.img} />
                   </td>
                   <td>{account.name}</td>
+                  <td>{account.rate}</td>
                   <td>
                     {Number(account.deposit).toLocaleString("fr", {
                       style: "currency",

@@ -2,70 +2,57 @@ import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
 const AddSale = () => {
-  const [data, setData] = useState({
-    accounts: [],
-  });
+  const [data, setData] = useState("");
+  const addMove = useStore((state) => state.addMove);
 
-  const addSale = useStore((state) => state.addSale);
+  const getTotalWins = useStore((state) => state.getTotalWins);
+  const getSpending = useStore((state) => state.getSpending);
+  const spending = useStore((state) => state.spending);
+
   const accounts = useStore((state) => state.accounts);
   const refClose = useRef();
 
-  const handleInput = (e, account) => {
-    setData({
-      ...data,
-      accounts: [
-        ...data.accounts.filter((acc) => acc.name !== account.name),
-        {
-          name: account.name,
-          depositStart: account.deposit,
-          depositEnd: e.target.value,
-          rate: account.rate,
-        },
-      ],
-    });
+  const handleInput = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // addMove(data);
-    addSale(data);
+    const account = accounts.find((acc) => acc.name === data.account);
+    const totalWins = await getTotalWins(account.name).catch((err) =>
+      console.log(err)
+    );
+    await getSpending();
+    const totalSpending = spending.reduce(
+      (acc, curr) => (acc += Number(curr.amount)),
+      0
+    );
+    console.log("calc", {
+      debut: account.deposit,
+      fin: data.depositEnd,
+      rate: account.rate,
+    });
+    const amount =
+      (Number(account.deposit) - Number(data.depositEnd)) *
+      Number(account.rate);
+    const netSale = amount - totalWins - totalSpending;
+    console.log("net", netSale);
+    addMove({
+      amount,
+      type: "entrée",
+      subType: "vente",
+      account: account.name,
+      description: netSale,
+    });
     refClose.current.click();
   };
 
   useEffect(() => {
     setData({
       ...data,
-      account: accounts[0],
+      account: accounts[0]?.name,
     });
   }, [accounts]);
-
-  const genrateForm = (accounts) => {
-    return accounts.map((acc) => (
-      <div key={acc._id}>
-        <div className="form-floating mb-3">
-          <input
-            type="text"
-            className="form-control disabled"
-            placeholder={`Balance ${acc.name} debut`}
-            defaultValue={acc.deposit}
-            readOnly
-          />
-
-          <label>{`Balance ${acc.name} debut`}</label>
-        </div>
-        <div className="form-floating mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder={`Balance ${acc.name} fin`}
-            name="depositEnd"
-            onChange={(e) => handleInput(e, acc)}
-          />
-          <label>{`Balance ${acc.name} fin`}</label>
-        </div>
-      </div>
-    ));
-  };
 
   return (
     <div className="modal fade" id="addSale" tabIndex="-1" aria-hidden="true">
@@ -81,7 +68,32 @@ const AddSale = () => {
             ></button>
           </div>
           <div className="modal-body">
-            {genrateForm(accounts.filter((acc) => acc.name !== "Fond"))}
+            <div className="form-floating mb-3">
+              <select
+                className="form-select"
+                name="account"
+                onChange={handleInput}
+              >
+                {accounts
+                  .filter((account) => account.name !== "Caisse")
+                  .map((account) => (
+                    <option key={account._id} value={account.name}>
+                      {account.name}
+                    </option>
+                  ))}
+              </select>
+              <label>Type</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Montant"
+                name="depositEnd"
+                onChange={handleInput}
+              />
+              <label>Balance {data.account} fin</label>
+            </div>
           </div>
           <div className="modal-footer">
             <button

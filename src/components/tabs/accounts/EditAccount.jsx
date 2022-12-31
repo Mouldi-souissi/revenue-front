@@ -12,6 +12,7 @@ const EditAccount = ({ account }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("data", data);
     editAccount(data);
     refClose.current.click();
   };
@@ -60,6 +61,17 @@ const EditAccount = ({ account }) => {
                 value={data.img}
               />
               <label>Lien de logo</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Taux de change"
+                name="rate"
+                onChange={handleInput}
+                value={data.rate}
+              />
+              <label>Taux de change</label>
             </div>
             <div className="form-floating mb-3">
               <input

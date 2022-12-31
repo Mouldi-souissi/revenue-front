@@ -14,12 +14,8 @@ const Sales = () => {
   const total = sales.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
   useEffect(() => {
-    if (!sales.length) {
-      getSales();
-    }
-    if (!accounts.length) {
-      getAccounts();
-    }
+    getSales();
+    getAccounts();
   }, []);
 
   return (
@@ -54,6 +50,7 @@ const Sales = () => {
             <tr>
               <th scope="col">Compte</th>
               <th scope="col">Montant</th>
+              <th scope="col">vente net</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Actions</th>
             </tr>
@@ -64,6 +61,13 @@ const Sales = () => {
                 <td>{sale.account}</td>
                 <td>
                   {Number(sale.amount).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
+                </td>
+                <td>
+                  {Number(sale.description).toLocaleString("fr", {
                     style: "currency",
                     currency: "TND",
                     minimumFractionDigits: 0,

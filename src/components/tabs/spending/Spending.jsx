@@ -12,9 +12,7 @@ const SpendingAndWins = () => {
   const total = spending.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
   useEffect(() => {
-    if (!spending.length) {
-      getSpending();
-    }
+    getSpending();
   }, []);
   return (
     <div className="container">
