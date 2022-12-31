@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
+import DeleteMove from "../../DeleteMove";
 import AddSpending from "./AddSpending";
-import DeleteSpending from "./DeleteSpending";
 import EditOut from "./EditOut";
 
 const SpendingAndWins = () => {
@@ -72,7 +72,7 @@ const SpendingAndWins = () => {
                   <i
                     className="fa-solid fa-trash btn text-danger"
                     data-bs-toggle="modal"
-                    data-bs-target="#deleteSpending"
+                    data-bs-target="#deleteMove"
                     onClick={() => setSpendingDoc(spendingDoc)}
                   ></i>
                 </td>
@@ -82,7 +82,7 @@ const SpendingAndWins = () => {
         </table>
       </div>
       <AddSpending />
-      <DeleteSpending spendingDoc={spendingDoc} />
+      <DeleteMove move={spendingDoc} />
       <EditOut spendingDoc={spendingDoc} />
     </div>
   );

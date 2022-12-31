@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
+import DeleteMove from "../../DeleteMove";
 import AddWin from "./AddWin";
-import DeleteWin from "./DeleteWin";
 import EditWin from "./EditWin";
 
 const Wins = () => {
   const [winDoc, setWinDoc] = useState("");
   const getWins = useStore((state) => state.getWins);
   const wins = useStore((state) => state.wins);
-  const accounts = useStore((state) => state.accounts);
   const getAccounts = useStore((state) => state.getAccounts);
   const isLoading = useStore((state) => state.isLoading);
   const total = wins.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
@@ -17,6 +16,7 @@ const Wins = () => {
     getWins();
     getAccounts();
   }, []);
+
   return (
     <div className="container">
       <div className="d-flex align-items-start">
@@ -77,7 +77,7 @@ const Wins = () => {
                   <i
                     className="fa-solid fa-trash btn text-danger"
                     data-bs-toggle="modal"
-                    data-bs-target="#deleteWin"
+                    data-bs-target="#deleteMove"
                     onClick={() => setWinDoc(win)}
                   ></i>
                 </td>
@@ -87,7 +87,7 @@ const Wins = () => {
         </table>
       </div>
       <AddWin />
-      <DeleteWin winDoc={winDoc} />
+      <DeleteMove move={winDoc} />
       <EditWin winDoc={winDoc} />
     </div>
   );

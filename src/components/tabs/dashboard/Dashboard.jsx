@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
-import DeleteSale from "../sales/DeleteSale";
+import DeleteMove from "../../DeleteMove";
 import AddAmount from "./AddAmount";
 import DeleteMoves from "./DeleteMoves";
 
@@ -201,7 +201,7 @@ const Dashboard = () => {
                   <i
                     className="fa-solid fa-trash btn text-danger"
                     data-bs-toggle="modal"
-                    data-bs-target="#deleteSale"
+                    data-bs-target="#deleteMove"
                     onClick={() => setMove(move)}
                   ></i>
                 </td>
@@ -210,7 +210,8 @@ const Dashboard = () => {
           </tbody>
         </table>
       </div>
-      <DeleteSale sale={move} />
+
+      <DeleteMove move={move} />
       <DeleteMoves />
       <AddAmount />
     </div>

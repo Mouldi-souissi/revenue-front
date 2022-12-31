@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
 import AddSale from "./AddSale";
-import DeleteSale from "./DeleteSale";
 import EditSale from "./EditSale";
+import DeleteMove from "../../DeleteMove";
 
 const Sales = () => {
   const [sale, setSale] = useState("");
@@ -36,7 +36,7 @@ const Sales = () => {
       <div className="d-flex align-items-start">
         <div className="me-3">
           <h3 className="m-0">Ventes</h3>
-          <h6>
+          <h6 className="m-0">
             Total :{" "}
             {total.toLocaleString("fr", {
               style: "currency",
@@ -44,7 +44,7 @@ const Sales = () => {
               minimumFractionDigits: 0,
             })}
           </h6>
-          <h6>
+          <h6 className="m-0">
             Total net :{" "}
             {totalNetSales.toLocaleString("fr", {
               style: "currency",
@@ -105,7 +105,7 @@ const Sales = () => {
                   <i
                     className="fa-solid fa-trash btn text-danger"
                     data-bs-toggle="modal"
-                    data-bs-target="#deleteSale"
+                    data-bs-target="#deleteMove"
                     onClick={() => setSale(sale)}
                   ></i>
                 </td>
@@ -115,7 +115,7 @@ const Sales = () => {
         </table>
       </div>
       <AddSale />
-      <DeleteSale sale={sale} />
+      <DeleteMove move={sale} />
       <EditSale sale={sale} />
     </div>
   );

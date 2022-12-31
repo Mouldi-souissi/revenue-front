@@ -1,26 +1,25 @@
 import React, { useRef } from "react";
-import useStore from "../../../store";
+import useStore from "../store";
 
-const DeleteSpending = ({ spendingDoc }) => {
+const DeleteMove = ({ move }) => {
   const deleteMove = useStore((state) => state.deleteMove);
   const refClose = useRef();
 
   const handleDelete = () => {
-    deleteMove(spendingDoc._id);
+    deleteMove(move._id);
     refClose.current.click();
   };
   return (
     <div
       className="modal fade"
-      id="deleteSpending"
+      id="deleteMove"
       tabIndex="-1"
-      aria-labelledby="deleteSpendingLabel"
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h1 className="modal-title fs-5" id="deleteSpendingLabel"></h1>
+            <h1 className="modal-title fs-5"></h1>
             <button
               type="button"
               className="btn-close"
@@ -52,4 +51,4 @@ const DeleteSpending = ({ spendingDoc }) => {
   );
 };
 
-export default DeleteSpending;
+export default DeleteMove;
