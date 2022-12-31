@@ -36,6 +36,7 @@ const AddSale = () => {
       (Number(account.deposit) - Number(data.depositEnd)) *
       Number(account.rate);
     const netSale = amount - totalWins - totalSpending;
+
     console.log("net", netSale);
     addMove({
       amount,
@@ -75,7 +76,7 @@ const AddSale = () => {
                 onChange={handleInput}
               >
                 {accounts
-                  .filter((account) => account.name !== "Caisse")
+                  .filter((account) => account.name !== "Fond")
                   .map((account) => (
                     <option key={account._id} value={account.name}>
                       {account.name}
