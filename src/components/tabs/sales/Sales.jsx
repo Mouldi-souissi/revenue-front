@@ -8,14 +8,27 @@ const Sales = () => {
   const [sale, setSale] = useState("");
   const sales = useStore((state) => state.sales);
   const getSales = useStore((state) => state.getSales);
-  const accounts = useStore((state) => state.accounts);
   const getAccounts = useStore((state) => state.getAccounts);
   const isLoading = useStore((state) => state.isLoading);
+
+  const spending = useStore((state) => state.spending);
+  const getSpending = useStore((state) => state.getSpending);
+  const wins = useStore((state) => state.wins);
+  const getWins = useStore((state) => state.getWins);
+
+  const totalSpending = spending.reduce(
+    (acc, curr) => (acc += Number(curr.amount)),
+    0
+  );
+  const totalWins = wins.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
   const total = sales.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+  const totalNetSales = total - totalWins - totalSpending;
 
   useEffect(() => {
     getSales();
     getAccounts();
+    getSpending();
+    getWins();
   }, []);
 
   return (
@@ -26,6 +39,14 @@ const Sales = () => {
           <h6>
             Total :{" "}
             {total.toLocaleString("fr", {
+              style: "currency",
+              currency: "TND",
+              minimumFractionDigits: 0,
+            })}
+          </h6>
+          <h6>
+            Total net :{" "}
+            {totalNetSales.toLocaleString("fr", {
               style: "currency",
               currency: "TND",
               minimumFractionDigits: 0,
