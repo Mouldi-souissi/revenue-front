@@ -29,7 +29,7 @@ const AddAmount = ({ account }) => {
       <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content" onSubmit={handleSubmit}>
           <div className="modal-header">
-            <h1 className="modal-title fs-5">Alimenter le Fond</h1>
+            <h1 className="modal-title fs-5">Alimenter {account?.name}</h1>
             <button
               type="button"
               className="btn-close"
