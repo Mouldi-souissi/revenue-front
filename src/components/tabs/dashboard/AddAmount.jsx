@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
-const AddAmount = () => {
+const AddAmount = ({ account }) => {
   const [data, setData] = useState({
     type: "entrée",
     subType: "versement",
-    account: "Fond",
+    account: "",
   });
   const addMove = useStore((state) => state.addMove);
   const refClose = useRef();
@@ -19,6 +19,10 @@ const AddAmount = () => {
     addMove(data);
     refClose.current.click();
   };
+
+  useEffect(() => {
+    setData({ ...data, account: account?.name });
+  }, [account]);
 
   return (
     <div className="modal fade" id="addAmount" tabIndex="-1" aria-hidden="true">

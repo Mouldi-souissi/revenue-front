@@ -11,6 +11,7 @@ const Dashboard = () => {
   const isLoading = useStore((state) => state.isLoading);
   const [period, setPeriod] = useState("daily");
   const [move, setMove] = useState("");
+  const [accountDoc, setAccountDoc] = useState("");
 
   const getAccounts = useStore((state) => state.getAccounts);
   const accounts = useStore((state) => state.accounts);
@@ -74,7 +75,7 @@ const Dashboard = () => {
                 className="fa-solid fa-plus btn addDeposit"
                 data-bs-toggle="modal"
                 data-bs-target="#addAmount"
-                onClick={() => setAccount(account)}
+                onClick={() => setAccountDoc(account)}
               />
             </div>
             <div className="d-flex justify-content-between w-100 align-items-start">
@@ -213,7 +214,7 @@ const Dashboard = () => {
 
       <DeleteMove move={move} />
       <DeleteMoves />
-      <AddAmount />
+      <AddAmount account={accountDoc} />
     </div>
   );
 };
