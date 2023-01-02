@@ -20,7 +20,7 @@ const Dashboard = () => {
     let total = 0;
     if (type === "recette") {
       for (let move of moves) {
-        if (move.type === "entrée") {
+        if (move.type === "entrée" && move.subType !== "versement") {
           total += Number(move.amount);
         }
         if (move.type === "sortie") {
