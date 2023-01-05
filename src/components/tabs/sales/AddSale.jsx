@@ -4,6 +4,7 @@ import useStore from "../../../store";
 const AddSale = () => {
   const [data, setData] = useState({ depositEnd: "" });
   const [error, setError] = useState("");
+  const [errorAmount, setErrorAmount] = useState("");
   const addMove = useStore((state) => state.addMove);
 
   const getTotalWins = useStore((state) => state.getTotalWins);
@@ -36,6 +37,7 @@ const AddSale = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const account = accounts.find((acc) => acc.name === data.account);
     const totalWins = await getTotalWins(account.name).catch((err) =>
       console.log(err)
@@ -56,14 +58,22 @@ const AddSale = () => {
     const netSale = amount - totalWins - totalSpending;
 
     console.log("net", netSale);
-    addMove({
-      amount,
-      type: "entrée",
-      subType: "vente",
-      account: account.name,
-      description: netSale,
-    });
-    refClose.current.click();
+
+    if (amount < 0) {
+      setErrorAmount(
+        "La vente ne peut pas etre negative! veillez entrer les gains d'abord"
+      );
+    } else {
+      setErrorAmount("");
+      addMove({
+        amount,
+        type: "entrée",
+        subType: "vente",
+        account: account.name,
+        description: netSale,
+      });
+      refClose.current.click();
+    }
   };
 
   useEffect(() => {
@@ -87,6 +97,9 @@ const AddSale = () => {
             ></button>
           </div>
           <div className="modal-body">
+            {errorAmount && (
+              <small className="text-danger my-3">{errorAmount}</small>
+            )}
             <div className="form-floating mb-3">
               <select
                 className="form-select"
