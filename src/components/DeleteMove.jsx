@@ -31,7 +31,7 @@ const DeleteMove = ({ move }) => {
           <div className="modal-footer">
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-primary"
               data-bs-dismiss="modal"
               ref={refClose}
             >
@@ -39,7 +39,7 @@ const DeleteMove = ({ move }) => {
             </button>
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-secondary"
               onClick={handleDelete}
             >
               Supprimer

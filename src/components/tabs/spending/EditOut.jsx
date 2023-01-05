@@ -65,13 +65,13 @@ const EditOut = ({ spendingDoc }) => {
           <div className="modal-footer">
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-primary"
               data-bs-dismiss="modal"
               ref={refClose}
             >
               Fermer
             </button>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-secondary">
               Sauvgarder
             </button>
           </div>

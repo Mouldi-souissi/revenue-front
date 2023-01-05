@@ -39,7 +39,7 @@ body {
   color: var(--blueLight);
 }
 
-.btn-primary {
+.btn-secondary {
   background: linear-gradient(var(--blueDark), var(--blueDark)) !important;
   border-color: var(--blueLight) !important ;
 }
@@ -49,16 +49,17 @@ body {
 }
 
 .btn-secondary:active,
-.btn-primary:active {
+.btn-secondary:active {
   border: inset 2px solid white !important;
   filter: drop-shadow(2px 2px 1px rgba(128, 128, 128, 0.795)) !important;
 }
 .btn-outline-primary:hover {
-  background: linear-gradient(var(--blueDark), var(--blueDark)) !important;
+  background: var(--green) !important;
 }
 
 .btn-outline-primary {
-  border-color: var(--blueLight) !important ;
+  border-color: var(--green) !important ;
+  color: var(--green);
 }
 
 .btn-outline-primary:active {
