@@ -39,7 +39,7 @@ body {
   color: var(--blueLight);
 }
 
-.btn-secondary {
+.btn-primary {
   background: linear-gradient(var(--blueDark), var(--blueDark)) !important;
   border-color: var(--blueLight) !important ;
 }
@@ -48,7 +48,7 @@ body {
   border-color: var(--green) !important ;
 }
 
-.btn-secondary:active,
+.btn-primary:active,
 .btn-secondary:active {
   border: inset 2px solid white !important;
   filter: drop-shadow(2px 2px 1px rgba(128, 128, 128, 0.795)) !important;
