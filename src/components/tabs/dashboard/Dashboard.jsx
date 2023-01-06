@@ -136,11 +136,13 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {isLoading && (
-        <div className="d-flex align-items-center justify-content-center my-5">
-          <div className="loader"></div>
-        </div>
-      )}
+      <div className="loader_wrapper">
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ">
+            <div className="loader"></div>
+          </div>
+        )}
+      </div>
 
       <div className="d-flex align-items-center justify-content-center my-5">
         <h5 className="me-5 mb-0">Les movements</h5>
@@ -166,7 +168,6 @@ const Dashboard = () => {
 
       <div className="table-responsive">
         <table className="table">
-          {/* <caption className="w-100">List of users</caption> */}
           <thead>
             <tr>
               <th scope="col">Compte</th>

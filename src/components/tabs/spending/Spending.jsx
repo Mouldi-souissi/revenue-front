@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
 import DeleteMove from "../../DeleteMove";
 import AddSpending from "./AddSpending";
-import EditOut from "./EditOut";
 
 const SpendingAndWins = () => {
   const [spendingDoc, setSpendingDoc] = useState("");
@@ -35,13 +34,15 @@ const SpendingAndWins = () => {
         ></i>
       </div>
 
-      {isLoading && (
-        <div className="d-flex align-items-center justify-content-center ">
-          <div className="loader"></div>
-        </div>
-      )}
+      <div className="loader_wrapper">
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ">
+            <div className="loader"></div>
+          </div>
+        )}
+      </div>
       <div className="table-responsive">
-        <table className="table my-5">
+        <table className="table">
           <thead>
             <tr>
               <th scope="col">Description</th>
@@ -51,39 +52,34 @@ const SpendingAndWins = () => {
             </tr>
           </thead>
           <tbody>
-            {spending.map((spendingDoc) => (
-              <tr key={spendingDoc._id}>
-                <td>{spendingDoc.description}</td>
-                <td>
-                  {Number(spendingDoc.amount).toLocaleString("fr", {
-                    style: "currency",
-                    currency: "TND",
-                    minimumFractionDigits: 0,
-                  })}
-                </td>
-                <td>{spendingDoc.user}</td>
-                <td>
-                  {/* <i
-                  className="fa-solid fa-gear btn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editOut"
-                  onClick={() => setSpendingDoc(spendingDoc)}
-                ></i> */}
-                  <i
-                    className="fa-solid fa-trash btn text-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteMove"
-                    onClick={() => setSpendingDoc(spendingDoc)}
-                  ></i>
-                </td>
-              </tr>
-            ))}
+            {spending
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .map((spendingDoc) => (
+                <tr key={spendingDoc._id}>
+                  <td>{spendingDoc.description}</td>
+                  <td>
+                    {Number(spendingDoc.amount).toLocaleString("fr", {
+                      style: "currency",
+                      currency: "TND",
+                      minimumFractionDigits: 0,
+                    })}
+                  </td>
+                  <td>{spendingDoc.user}</td>
+                  <td>
+                    <i
+                      className="fa-solid fa-trash btn text-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteMove"
+                      onClick={() => setSpendingDoc(spendingDoc)}
+                    ></i>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
       <AddSpending />
       <DeleteMove move={spendingDoc} />
-      <EditOut spendingDoc={spendingDoc} />
     </div>
   );
 };

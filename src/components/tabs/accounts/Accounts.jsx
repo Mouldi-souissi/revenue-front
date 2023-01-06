@@ -16,7 +16,7 @@ const Sites = () => {
 
   return (
     <div className="container">
-      <div className="d-flex align-items-center mb-5">
+      <div className="d-flex align-items-center">
         <h3 className="m-0 me-3">Comptes</h3>
         <i
           className="fa-solid fa-plus btn btn-outline-primary p-2"
@@ -24,11 +24,13 @@ const Sites = () => {
           data-bs-target="#addSite"
         ></i>
       </div>
-      {isLoading && (
-        <div className="d-flex align-items-center justify-content-center ">
-          <div className="loader"></div>
-        </div>
-      )}
+      <div className="loader_wrapper">
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ">
+            <div className="loader"></div>
+          </div>
+        )}
+      </div>
       <div className="table-responsive">
         <table className="table">
           <thead>
@@ -43,7 +45,7 @@ const Sites = () => {
           </thead>
           <tbody>
             {accounts
-              // .sort((a, b) => b.name - a.name)
+              .sort((a, b) => a._id - b._id)
               .map((account) => (
                 <tr key={account._id}>
                   <td>

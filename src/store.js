@@ -157,6 +157,7 @@ const useStore = create((set, get) => ({
             res.data,
           ],
         }));
+        get().getUsers();
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -176,22 +177,6 @@ const useStore = create((set, get) => ({
       .then((res) => {
         set({
           accounts: res.data,
-        });
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        set({ isLoading: false });
-      });
-  },
-  getFondState: () => {
-    set({ isLoading: true });
-    axios
-      .get(`${API_URL}/account/fond`, {
-        headers: { token: localStorage.getItem("token") },
-      })
-      .then((res) => {
-        set({
-          fondState: res.data,
         });
       })
       .catch((err) => console.log(err))
@@ -235,13 +220,14 @@ const useStore = create((set, get) => ({
       .put(`${API_URL}/account/${account._id}`, account, {
         headers: { token: localStorage.getItem("token") },
       })
-      .then((res) => {
-        set((state) => ({
-          accounts: [
-            ...state.accounts.filter((doc) => doc._id !== res.data._id),
-            res.data,
-          ],
-        }));
+      .then(() => {
+        // set((state) => ({
+        //   accounts: [
+        //     ...state.accounts.filter((doc) => doc._id !== res.data._id),
+        //     res.data,
+        //   ],
+        // }));
+        get().getAccounts();
       })
       .catch((err) => console.log(err))
       .finally(() => {

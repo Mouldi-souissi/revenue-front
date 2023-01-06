@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
 import DeleteMove from "../../DeleteMove";
 import AddWin from "./AddWin";
-import EditWin from "./EditWin";
 
 const Wins = () => {
   const [winDoc, setWinDoc] = useState("");
@@ -37,58 +36,53 @@ const Wins = () => {
           data-bs-target="#addWin"
         ></i>
       </div>
+      <div className="loader_wrapper">
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ">
+            <div className="loader"></div>
+          </div>
+        )}
+      </div>
 
-      {isLoading && (
-        <div className="d-flex align-items-center justify-content-center ">
-          <div className="loader"></div>
-        </div>
-      )}
       <div className="table-responsive">
-        <table className="table my-5">
+        <table className="table">
           <thead>
             <tr>
               <th scope="col">Compte</th>
-              {/* <th scope="col">Client/Tél</th> */}
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {wins.map((win) => (
-              <tr key={win._id}>
-                <td>{win.account}</td>
-                {/* <td>{win.description}</td> */}
-                <td>
-                  {Number(win.amount).toLocaleString("fr", {
-                    style: "currency",
-                    currency: "TND",
-                    minimumFractionDigits: 0,
-                  })}
-                </td>
-                <td>{win.user}</td>
-                <td>
-                  {/* <i
-                  className="fa-solid fa-gear btn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editWin"
-                  onClick={() => setWinDoc(win)}
-                ></i> */}
-                  <i
-                    className="fa-solid fa-trash btn text-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteMove"
-                    onClick={() => setWinDoc(win)}
-                  ></i>
-                </td>
-              </tr>
-            ))}
+            {wins
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .map((win) => (
+                <tr key={win._id}>
+                  <td>{win.account}</td>
+                  <td>
+                    {Number(win.amount).toLocaleString("fr", {
+                      style: "currency",
+                      currency: "TND",
+                      minimumFractionDigits: 0,
+                    })}
+                  </td>
+                  <td>{win.user}</td>
+                  <td>
+                    <i
+                      className="fa-solid fa-trash btn text-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteMove"
+                      onClick={() => setWinDoc(win)}
+                    ></i>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
       <AddWin />
       <DeleteMove move={winDoc} />
-      <EditWin winDoc={winDoc} />
     </div>
   );
 };

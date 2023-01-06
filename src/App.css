@@ -276,6 +276,11 @@ thead {
   min-width: 100px;
 }
 
+.loader_wrapper {
+  height: 50px;
+  margin-bottom: 20px;
+}
+
 .loader {
   border: 8px solid #cfcfcf;
   border-radius: 50%;

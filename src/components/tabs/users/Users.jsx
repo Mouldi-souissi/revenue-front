@@ -15,7 +15,7 @@ const Users = () => {
   }, []);
   return (
     <div className="container">
-      <div className="d-flex align-items-center mb-5">
+      <div className="d-flex align-items-center">
         <h3 className="m-0 me-3">Utilisateurs</h3>
         <i
           className="fa-solid fa-plus btn btn-outline-primary p-2"
@@ -23,11 +23,13 @@ const Users = () => {
           data-bs-target="#addUser"
         ></i>
       </div>
-      {isLoading && (
-        <div className="d-flex align-items-center justify-content-center ">
-          <div className="loader"></div>
-        </div>
-      )}
+      <div className="loader_wrapper">
+        {isLoading && (
+          <div className="d-flex align-items-center justify-content-center ">
+            <div className="loader"></div>
+          </div>
+        )}
+      </div>
       <div className="table-responsive">
         <table className="table">
           <thead>
@@ -39,27 +41,29 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.type}</td>
-                <td>
-                  <i
-                    className="fa-solid fa-gear btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editUser"
-                    onClick={() => setUser(user)}
-                  ></i>
-                  <i
-                    className="fa-solid fa-trash btn text-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteUser"
-                    onClick={() => setDeleteData(user)}
-                  ></i>
-                </td>
-              </tr>
-            ))}
+            {users
+              .sort((a, b) => a._id - b._id)
+              .map((user) => (
+                <tr key={user._id}>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.type}</td>
+                  <td>
+                    <i
+                      className="fa-solid fa-gear btn"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editUser"
+                      onClick={() => setUser(user)}
+                    ></i>
+                    <i
+                      className="fa-solid fa-trash btn text-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteUser"
+                      onClick={() => setDeleteData(user)}
+                    ></i>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
