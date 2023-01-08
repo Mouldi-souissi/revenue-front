@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../../../store";
 import DeleteMove from "../../DeleteMove";
+import Pagination from "../../Pagination";
 import AddAmount from "./AddAmount";
 import DeleteMoves from "./DeleteMoves";
 
@@ -50,6 +51,25 @@ const Dashboard = () => {
   const gain = calulateStats("gain");
   const spending = calulateStats("spending");
   const vente = calulateStats("vente");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+
+  let currentMoves = moves.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = (pageNumbers) => {
+    if (currentPage + 1 <= pageNumbers[pageNumbers.length - 1]) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const previousPage = (pageNumbers) => {
+    if (currentPage - 1 >= pageNumbers[0]) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   useEffect(() => {
     if (userType === "admin") {
@@ -136,13 +156,12 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="loader_wrapper">
-        {isLoading && (
-          <div className="d-flex align-items-center justify-content-center ">
-            <div className="loader"></div>
-          </div>
-        )}
-      </div>
+
+      {isLoading && (
+        <div className="d-flex align-items-center justify-content-center ">
+          <div className="loader"></div>
+        </div>
+      )}
 
       <div className="d-flex align-items-center justify-content-center my-5">
         <h5 className="me-5 mb-0">Les movements</h5>
@@ -180,7 +199,7 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {moves.map((move) => (
+            {currentMoves.map((move) => (
               <tr key={move._id}>
                 <td>{move.account}</td>
                 <td>{move.type}</td>
@@ -211,6 +230,17 @@ const Dashboard = () => {
             ))}
           </tbody>
         </table>
+        <div className="d-flex align-items-center justify-content-center mb-5">
+          <Pagination
+            className="pt-5"
+            postsPerPage={postsPerPage}
+            totalMoves={moves.length}
+            paginate={paginate}
+            nextPage={nextPage}
+            previousPage={previousPage}
+            currentPage={currentPage}
+          />
+        </div>
       </div>
 
       <DeleteMove move={move} />
