@@ -75,11 +75,10 @@ const AddSale = () => {
       refClose.current.click();
     }
   };
-
   useEffect(() => {
     setData({
       ...data,
-      account: accounts[0]?.name,
+      account: accounts.filter((account) => account.name !== "Fond")[0]?.name,
     });
   }, [accounts]);
 
@@ -105,6 +104,7 @@ const AddSale = () => {
                 className="form-select"
                 name="account"
                 onChange={handleInput}
+                value={data.account}
               >
                 {accounts
                   .filter((account) => account.name !== "Fond")

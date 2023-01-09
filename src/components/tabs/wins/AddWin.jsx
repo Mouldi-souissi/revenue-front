@@ -42,9 +42,9 @@ const AddWin = () => {
   useEffect(() => {
     setData({
       ...data,
-      account: accounts[0]?.name,
+      account: accounts.filter((account) => account.name !== "Fond")[0]?.name,
     });
-  }, []);
+  }, [accounts]);
 
   return (
     <div className="modal fade" id="addWin" tabIndex="-1" aria-hidden="true">
