@@ -280,29 +280,29 @@ const useStore = create((set, get) => ({
       .post(`${API_URL}/move`, move, {
         headers: { token: localStorage.getItem("token") },
       })
-      .then((res) => {
-        if (res.data.subType === "gain") {
-          set((state) => ({
-            wins: [...state.wins, res.data],
-          }));
-        }
-        if (res.data.subType === "dépense") {
-          set((state) => ({
-            spending: [...state.spending, res.data],
-          }));
-        }
-        if (res.data.subType === "vente") {
-          set((state) => ({
-            sales: [...state.sales, res.data],
-          }));
-        }
-        if (res.data.subType === "versement") {
-          set((state) => ({
-            moves: [...state.moves, res.data],
-          }));
-          get().getAccounts();
-        }
-      })
+      // .then((res) => {
+      //   if (res.data.subType === "gain") {
+      //     set((state) => ({
+      //       wins: [...state.wins, res.data],
+      //     }));
+      //   }
+      //   if (res.data.subType === "dépense") {
+      //     set((state) => ({
+      //       spending: [...state.spending, res.data],
+      //     }));
+      //   }
+      //   if (res.data.subType === "vente") {
+      //     set((state) => ({
+      //       sales: [...state.sales, res.data],
+      //     }));
+      //   }
+      //   if (res.data.subType === "versement") {
+      //     set((state) => ({
+      //       moves: [...state.moves, res.data],
+      //     }));
+      //     get().getAccounts();
+      //   }
+      // })
       .catch((err) => console.log(err))
       .finally(() => {
         set({ isLoading: false });
@@ -361,28 +361,28 @@ const useStore = create((set, get) => ({
       .delete(`${API_URL}/move/${id}`, {
         headers: { token: localStorage.getItem("token") },
       })
-      .then((res) => {
-        if (res.data.subType === "gain") {
-          set((state) => ({
-            wins: state.wins.filter((doc) => doc._id !== res.data._id),
-          }));
-        }
-        if (res.data.subType === "dépense") {
-          set((state) => ({
-            spending: state.spending.filter((doc) => doc._id !== res.data._id),
-          }));
-        }
-        if (res.data.subType === "vente") {
-          set((state) => ({
-            sales: state.sales.filter((doc) => doc._id !== res.data._id),
-          }));
-        }
+      // .then((res) => {
+      //   if (res.data.subType === "gain") {
+      //     set((state) => ({
+      //       wins: state.wins.filter((doc) => doc._id !== res.data._id),
+      //     }));
+      //   }
+      //   if (res.data.subType === "dépense") {
+      //     set((state) => ({
+      //       spending: state.spending.filter((doc) => doc._id !== res.data._id),
+      //     }));
+      //   }
+      //   if (res.data.subType === "vente") {
+      //     set((state) => ({
+      //       sales: state.sales.filter((doc) => doc._id !== res.data._id),
+      //     }));
+      //   }
 
-        set((state) => ({
-          moves: state.moves.filter((doc) => doc._id !== res.data._id),
-        }));
-        get().getAccounts();
-      })
+      //   set((state) => ({
+      //     moves: state.moves.filter((doc) => doc._id !== res.data._id),
+      //   }));
+      //   get().getAccounts();
+      // })
       .catch((err) => console.log(err))
       .finally(() => {
         set({ isLoading: false });
@@ -434,6 +434,53 @@ const useStore = create((set, get) => ({
       .finally(() => {
         set({ isLoading: false });
       });
+  },
+
+  addMoveSocket: (move) => {
+    set((state) => ({ moves: [...state.moves, move] }));
+    if (move.subType === "gain") {
+      set((state) => ({ wins: [...state.wins, move] }));
+    }
+    if (move.subType === "dépense") {
+      set((state) => ({ spending: [...state.spending, move] }));
+    }
+    if (move.subType === "vente") {
+      set((state) => ({ sales: [...state.sales, move] }));
+    }
+  },
+  deleteMoveSocket: (move) => {
+    set((state) => ({
+      moves: [...state.moves.filter((m) => m._id !== move._id)],
+    }));
+
+    const getMoveType = (_id) => {
+      if (get().wins.find((doc) => doc._id === _id)) {
+        return "gain";
+      }
+      if (get().spending.find((doc) => doc._id === _id)) {
+        return "dépense";
+      }
+      if (get().sales.find((doc) => doc._id === _id)) {
+        return "vente";
+      }
+    };
+
+    const moveType = getMoveType(move._id);
+    if (moveType === "gain") {
+      set((state) => ({
+        wins: [...state.wins.filter((m) => m._id !== move._id)],
+      }));
+    }
+    if (moveType === "dépense") {
+      set((state) => ({
+        spending: [...state.spending.filter((m) => m._id !== move._id)],
+      }));
+    }
+    if (moveType === "vente") {
+      set((state) => ({
+        sales: [...state.sales.filter((m) => m._id !== move._id)],
+      }));
+    }
   },
 }));
 

@@ -41,6 +41,7 @@ const MainPage = () => {
   useEffect(() => {
     checkAuth();
   }, []);
+
   return (
     <div className="mainPage">
       <Sidebar />
