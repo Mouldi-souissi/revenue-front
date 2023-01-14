@@ -157,7 +157,6 @@ const useStore = create((set, get) => ({
             res.data,
           ],
         }));
-        get().getUsers();
       })
       .catch((err) => console.log(err))
       .finally(() => {
