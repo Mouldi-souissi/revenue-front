@@ -42,7 +42,11 @@ const Users = () => {
           </thead>
           <tbody>
             {users
-              .sort((a, b) => a._id - b._id)
+              .sort((a, b) => {
+                if (a._id < b._id) return 1;
+                if (a._id > b._id) return -1;
+                return 0;
+              })
               .map((user) => (
                 <tr key={user._id}>
                   <td>{user.name}</td>

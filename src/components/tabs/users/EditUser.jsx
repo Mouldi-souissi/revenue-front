@@ -17,7 +17,9 @@ const EditUser = ({ user }) => {
   };
 
   useEffect(() => {
-    setData(user);
+    if (user) {
+      setData(user);
+    }
   }, [user]);
   return (
     <div

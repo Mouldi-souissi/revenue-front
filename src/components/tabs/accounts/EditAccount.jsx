@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
 
 const EditAccount = ({ account }) => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState({
+    name: "",
+    rate: "",
+    img: "",
+    deposit: "",
+  });
   const editAccount = useStore((state) => state.editAccount);
   const refClose = useRef();
 
@@ -12,13 +17,14 @@ const EditAccount = ({ account }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("data", data);
     editAccount(data);
     refClose.current.click();
   };
 
   useEffect(() => {
-    setData(account);
+    if (account) {
+      setData(account);
+    }
   }, [account]);
 
   return (

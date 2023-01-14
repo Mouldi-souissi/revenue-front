@@ -220,14 +220,13 @@ const useStore = create((set, get) => ({
       .put(`${API_URL}/account/${account._id}`, account, {
         headers: { token: localStorage.getItem("token") },
       })
-      .then(() => {
-        // set((state) => ({
-        //   accounts: [
-        //     ...state.accounts.filter((doc) => doc._id !== res.data._id),
-        //     res.data,
-        //   ],
-        // }));
-        get().getAccounts();
+      .then((res) => {
+        set((state) => ({
+          accounts: [
+            ...state.accounts.filter((doc) => doc._id !== res.data._id),
+            res.data,
+          ],
+        }));
       })
       .catch((err) => console.log(err))
       .finally(() => {

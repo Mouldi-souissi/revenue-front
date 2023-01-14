@@ -45,7 +45,11 @@ const Sites = () => {
           </thead>
           <tbody>
             {accounts
-              .sort((a, b) => a._id - b._id)
+              .sort((a, b) => {
+                if (a._id < b._id) return 1;
+                if (a._id > b._id) return -1;
+                return 0;
+              })
               .map((account) => (
                 <tr key={account._id}>
                   <td>
