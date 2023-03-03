@@ -3,7 +3,7 @@
 :root {
   --blueDark: rgb(0, 153, 255);
   --blueLight: rgb(0, 132, 255);
-  --green: rgb(1, 236, 119);
+  --green: rgb(39, 38, 38);
 }
 
 * {
@@ -140,11 +140,11 @@ ul {
 .sidebar ul li .navlink:hover .icon,
 .sidebar ul li .navlink.active .icon {
   color: white;
-  filter: drop-shadow(2px 1px 1px rgba(128, 128, 128, 0.479));
+  filter: drop-shadow(2px 1px 1px rgba(27, 27, 27, 0.479));
 }
 
 i {
-  filter: drop-shadow(1px 1px 0px rgba(128, 128, 128, 0.479)) !important;
+  filter: drop-shadow(2px 1px 1px rgba(27, 27, 27, 0.479)) !important;
 }
 
 .sidebar ul li .navlink:hover:before,
