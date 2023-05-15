@@ -4,7 +4,6 @@
   --blueDark: rgb(0, 153, 255);
   --blueLight: rgb(0, 132, 255);
   --green: rgb(1, 236, 119);
-  /* --green: rgb(61 213 139); */
 }
 
 * {
@@ -134,18 +133,16 @@ ul {
 
   background: var(--green);
   border-right: 2px solid var(--blueLight);
-  filter: drop-shadow(2px 1px 1px rgba(128, 128, 128, 0.479));
   border-radius: 0 10px 10px 0;
 }
 
 .sidebar ul li .navlink:hover .icon,
 .sidebar ul li .navlink.active .icon {
   color: white;
-  filter: drop-shadow(2px 1px 1px rgba(128, 128, 128, 0.479));
 }
 
 i {
-  filter: drop-shadow(1px 1px 0px rgba(128, 128, 128, 0.479)) !important;
+  filter: drop-shadow(1px 1px 0px rgba(128, 128, 128, 0.496)) !important;
 }
 
 .sidebar ul li .navlink:hover:before,
