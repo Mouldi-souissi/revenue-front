@@ -17,40 +17,83 @@ const Dashboard = () => {
   const getAccounts = useStore((state) => state.getAccounts);
   const accounts = useStore((state) => state.accounts);
 
-  const calulateStats = (type) => {
+  const getUsers = useStore((state) => state.getUsers);
+  const users = useStore((state) => state.users);
+  const [userFilter, setUserFilter] = useState("all");
+
+  const calulateStats = (type, userFilter) => {
     let total = 0;
-    if (type === "recette") {
-      for (let move of moves) {
-        if (move.type === "entrée" && move.subType !== "versement") {
-          total += Number(move.amount);
-        }
-        if (move.type === "sortie") {
-          total -= Number(move.amount);
+    if (userFilter !== "all") {
+      if (type === "recette") {
+        for (let move of moves) {
+          if (
+            move.type === "entrée" &&
+            move.subType !== "versement" &&
+            move["user"] === userFilter
+          ) {
+            total += Number(move.amount);
+          }
+          if (move.type === "sortie" && move["user"] === userFilter) {
+            total -= Number(move.amount);
+          }
         }
       }
+      if (type === "gain") {
+        total = moves
+          .filter(
+            (move) => move.subType === "gain" && move["user"] === userFilter
+          )
+          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+      }
+      if (type === "spending") {
+        total = moves
+          .filter(
+            (move) => move.subType === "dépense" && move["user"] === userFilter
+          )
+          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+      }
+      if (type === "vente") {
+        total = moves
+          .filter(
+            (move) => move.subType === "vente" && move["user"] === userFilter
+          )
+          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+      }
+    } else {
+      if (type === "recette") {
+        for (let move of moves) {
+          if (move.type === "entrée" && move.subType !== "versement") {
+            total += Number(move.amount);
+          }
+          if (move.type === "sortie") {
+            total -= Number(move.amount);
+          }
+        }
+      }
+      if (type === "gain") {
+        total = moves
+          .filter((move) => move.subType === "gain")
+          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+      }
+      if (type === "spending") {
+        total = moves
+          .filter((move) => move.subType === "dépense")
+          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+      }
+      if (type === "vente") {
+        total = moves
+          .filter((move) => move.subType === "vente")
+          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+      }
     }
-    if (type === "gain") {
-      total = moves
-        .filter((move) => move.subType === "gain")
-        .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
-    }
-    if (type === "spending") {
-      total = moves
-        .filter((move) => move.subType === "dépense")
-        .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
-    }
-    if (type === "vente") {
-      total = moves
-        .filter((move) => move.subType === "vente")
-        .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
-    }
+
     return total.toFixed(0);
   };
 
-  const recette = calulateStats("recette");
-  const gain = calulateStats("gain");
-  const spending = calulateStats("spending");
-  const vente = calulateStats("vente");
+  const recette = calulateStats("recette", userFilter);
+  const gain = calulateStats("gain", userFilter);
+  const spending = calulateStats("spending", userFilter);
+  const vente = calulateStats("vente", userFilter);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
@@ -75,6 +118,7 @@ const Dashboard = () => {
     if (userType === "admin") {
       getAccounts();
       getMoves();
+      getUsers();
     }
   }, [userType]);
 
@@ -99,7 +143,9 @@ const Dashboard = () => {
               />
             </div>
             <div className="d-flex justify-content-between w-100 align-items-start">
-              <i className="fa-solid fa-landmark mt-2"></i>
+              <div>
+                <i className="fa-solid fa-landmark mt-2"></i>
+              </div>
               <div>
                 <div className="card_value">
                   {Number(account.deposit).toLocaleString("fr", {
@@ -108,18 +154,21 @@ const Dashboard = () => {
                     minimumFractionDigits: 0,
                   })}
                 </div>
-                <div
-                  className={`small ${
-                    account.lastMove.type === "sortie" ? "red" : "green"
-                  }`}
-                >
-                  {account.lastMove.type === "entrée" && "+"}
-                  {account.lastMove.type === "sortie" && "-"}
-                  {Number(account.lastMove.amount).toLocaleString("fr", {
-                    style: "currency",
-                    currency: "TND",
-                    minimumFractionDigits: 0,
-                  })}
+                <div className="d-flex align-items-center gap-3">
+                  <div className="text-white small">Dernière opération : </div>
+                  <div
+                    className={`small ${
+                      account.lastMove.type === "sortie" ? "red" : "green"
+                    }`}
+                  >
+                    {account.lastMove.type === "entrée" && "+"}
+                    {account.lastMove.type === "sortie" && "-"}
+                    {Number(account.lastMove.amount).toLocaleString("fr", {
+                      style: "currency",
+                      currency: "TND",
+                      minimumFractionDigits: 0,
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
@@ -163,20 +212,39 @@ const Dashboard = () => {
         </div>
       )}
 
-      <div className="d-flex align-items-center justify-content-center my-5">
-        <h5 className="me-5 mb-0">Les movements</h5>
-        <div className="d-flex">
-          <select
-            className="form-select col-lg-6"
-            style={{ maxWidth: "250px" }}
-            value={period}
-            onChange={handlePeriod}
-          >
-            <option value="daily">Ce jour</option>
-            <option value="weekly">Cette semaine</option>
-            <option value="monthly">Ce mois</option>
-          </select>
-
+      <div className="d-flex align-items-center justify-content-center flex-wrap my-5">
+        <h5 className="me-5 ">Les movements</h5>
+        <div className="d-flex gap-3">
+          <div className="input-group">
+            <span className="input-group-text">Période</span>
+            <select
+              className="form-select"
+              style={{ maxWidth: "250px" }}
+              value={period}
+              onChange={handlePeriod}
+            >
+              <option value="daily">Aujourd'hui</option>
+              <option value="yesterday">Hier</option>
+              <option value="weekly">Cette semaine</option>
+              <option value="monthly">Ce mois</option>
+            </select>
+          </div>
+          <div className="input-group">
+            <span className="input-group-text">Utilisateur</span>
+            <select
+              className="form-select col-lg-6"
+              style={{ maxWidth: "250px" }}
+              value={userFilter}
+              onChange={(e) => setUserFilter(e.target.value)}
+            >
+              <option value="all">Tous</option>
+              {users.map((user) => (
+                <option value={user.name} key={user._id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </div>
           {/* <i
             className="fa-solid fa-trash btn text-danger"
             data-bs-toggle="modal"

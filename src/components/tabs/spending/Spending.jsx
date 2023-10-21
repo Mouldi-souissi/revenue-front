@@ -8,11 +8,26 @@ const SpendingAndWins = () => {
   const getSpending = useStore((state) => state.getSpending);
   const spending = useStore((state) => state.spending);
   const isLoading = useStore((state) => state.isLoading);
+  const username = useStore((state) => state.username);
+  const userType = useStore((state) => state.userType);
   const total = spending.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
   useEffect(() => {
     getSpending();
   }, []);
+
+  const checkUser = (user) => {
+    if (userType === "admin") {
+      return true;
+    } else {
+      if (username === user) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   return (
     <div className="container">
       <div className="d-flex align-items-start">
@@ -48,6 +63,7 @@ const SpendingAndWins = () => {
               <th scope="col">Description</th>
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
+              <th scope="col">Date</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -66,12 +82,20 @@ const SpendingAndWins = () => {
                   </td>
                   <td>{spendingDoc.user}</td>
                   <td>
-                    <i
-                      className="fa-solid fa-trash btn text-danger"
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteMove"
-                      onClick={() => setSpendingDoc(spendingDoc)}
-                    ></i>
+                    {new Date(spendingDoc.date).toLocaleString("fr", {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}
+                  </td>
+                  <td>
+                    {checkUser(spendingDoc.user) && (
+                      <i
+                        className="fa-solid fa-trash btn text-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteMove"
+                        onClick={() => setSpendingDoc(spendingDoc)}
+                      ></i>
+                    )}
                   </td>
                 </tr>
               ))}

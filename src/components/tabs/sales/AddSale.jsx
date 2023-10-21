@@ -9,7 +9,7 @@ const AddSale = () => {
 
   const getTotalWins = useStore((state) => state.getTotalWins);
   const getSpending = useStore((state) => state.getSpending);
-  const spending = useStore((state) => state.spending);
+  const getAccounts = useStore((state) => state.getAccounts);
 
   const accounts = useStore((state) => state.accounts);
   const refClose = useRef();
@@ -37,42 +37,45 @@ const AddSale = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const accounts_res = await getAccounts();
+      const account = accounts_res.find((acc) => acc.name === data.account);
+      const totalWins = await getTotalWins(account.name);
+      const spendings_res = await getSpending();
 
-    const account = accounts.find((acc) => acc.name === data.account);
-    const totalWins = await getTotalWins(account.name).catch((err) =>
-      console.log(err)
-    );
-    await getSpending();
-    const totalSpending = spending.reduce(
-      (acc, curr) => (acc += Number(curr.amount)),
-      0
-    );
-    console.log("calc", {
-      debut: account.deposit,
-      fin: data.depositEnd,
-      rate: account.rate,
-    });
-    const amount =
-      (Number(account.deposit) - Number(data.depositEnd)) *
-      Number(account.rate);
-    const netSale = amount - totalWins - totalSpending;
-
-    console.log("net", netSale);
-
-    if (amount < 0) {
-      setErrorAmount(
-        "La vente ne peut pas etre negative! veillez entrer les gains d'abord"
+      const totalSpending = spendings_res.reduce(
+        (acc, curr) => (acc += Number(curr.amount)),
+        0
       );
-    } else {
-      setErrorAmount("");
-      addMove({
-        amount,
-        type: "entrée",
-        subType: "vente",
-        account: account.name,
-        description: netSale,
+      console.log("calc", {
+        debut: account.deposit,
+        fin: data.depositEnd,
+        rate: account.rate,
       });
-      refClose.current.click();
+      const amount =
+        (Number(account.deposit) - Number(data.depositEnd)) *
+        Number(account.rate);
+      const netSale = amount - totalWins - totalSpending;
+
+      console.log("net", netSale);
+
+      if (amount < 0) {
+        setErrorAmount(
+          "La vente ne peut pas etre negative! veillez entrer les gains d'abord"
+        );
+      } else {
+        setErrorAmount("");
+        await addMove({
+          amount,
+          type: "entrée",
+          subType: "vente",
+          account: account.name,
+          description: netSale,
+        });
+        refClose.current.click();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {

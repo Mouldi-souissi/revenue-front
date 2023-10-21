@@ -167,21 +167,20 @@ const useStore = create((set, get) => ({
   accounts: [],
   fondState: 1,
 
-  getAccounts: () => {
-    set({ isLoading: true });
-    axios
-      .get(`${API_URL}/account`, {
+  getAccounts: async () => {
+    try {
+      const res = await axios.get(`${API_URL}/account`, {
         headers: { token: localStorage.getItem("token") },
-      })
-      .then((res) => {
-        set({
-          accounts: res.data,
-        });
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        set({ isLoading: false });
       });
+      set({
+        accounts: res.data,
+      });
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
+    }
   },
   addAccount: (account) => {
     set({ isLoading: true });
@@ -238,21 +237,20 @@ const useStore = create((set, get) => ({
   wins: [],
   moves: [],
 
-  getSpending: () => {
-    set({ isLoading: true });
-    axios
-      .get(`${API_URL}/move/spending`, {
+  getSpending: async () => {
+    try {
+      const res = await axios.get(`${API_URL}/move/spending`, {
         headers: { token: localStorage.getItem("token") },
-      })
-      .then((res) => {
-        set({
-          spending: res.data,
-        });
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        set({ isLoading: false });
       });
+      set({
+        spending: res.data,
+      });
+      return res.data;
+    } catch (error) {
+      console.log(err);
+    } finally {
+      set({ isLoading: false });
+    }
   },
 
   getWins: () => {
@@ -272,7 +270,7 @@ const useStore = create((set, get) => ({
       });
   },
 
-  addMove: (move) => {
+  addMove: async (move) => {
     set({ isLoading: true });
     axios
       .post(`${API_URL}/move`, move, {

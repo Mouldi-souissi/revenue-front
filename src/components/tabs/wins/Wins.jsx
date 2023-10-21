@@ -16,6 +16,21 @@ const Wins = () => {
     getAccounts();
   }, []);
 
+  const username = useStore((state) => state.username);
+  const userType = useStore((state) => state.userType);
+
+  const checkUser = (user) => {
+    if (userType === "admin") {
+      return true;
+    } else {
+      if (username === user) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   return (
     <div className="container">
       <div className="d-flex align-items-start">
@@ -51,6 +66,7 @@ const Wins = () => {
               <th scope="col">Compte</th>
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
+              <th scope="col">Date</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -69,12 +85,20 @@ const Wins = () => {
                   </td>
                   <td>{win.user}</td>
                   <td>
-                    <i
-                      className="fa-solid fa-trash btn text-danger"
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteMove"
-                      onClick={() => setWinDoc(win)}
-                    ></i>
+                    {new Date(win.date).toLocaleString("fr", {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}
+                  </td>
+                  <td>
+                    {checkUser(win.user) && (
+                      <i
+                        className="fa-solid fa-trash btn text-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteMove"
+                        onClick={() => setWinDoc(win)}
+                      ></i>
+                    )}
                   </td>
                 </tr>
               ))}
