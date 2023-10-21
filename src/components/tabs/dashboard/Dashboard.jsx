@@ -99,8 +99,14 @@ const Dashboard = () => {
   const [postsPerPage] = useState(10);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  let filteredMoves = [];
 
-  let currentMoves = moves.slice(indexOfFirstPost, indexOfLastPost);
+  if (userFilter === "all") {
+    filteredMoves = moves;
+  } else {
+    filteredMoves = moves.filter((m) => m.user === userFilter);
+  }
+  let currentMoves = filteredMoves.slice(indexOfFirstPost, indexOfLastPost);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = (pageNumbers) => {
@@ -302,7 +308,7 @@ const Dashboard = () => {
           <Pagination
             className="pt-5"
             postsPerPage={postsPerPage}
-            totalMoves={moves.length}
+            totalMoves={filteredMoves.length}
             paginate={paginate}
             nextPage={nextPage}
             previousPage={previousPage}
