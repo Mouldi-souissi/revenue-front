@@ -18,7 +18,10 @@ const Dashboard = () => {
   const accounts = useStore((state) => state.accounts);
 
   const getUsers = useStore((state) => state.getUsers);
-  const users = useStore((state) => state.users);
+  const shop = useStore((state) => state.shop);
+  const users = useStore((state) => state.users).filter(
+    (user) => user.shop === shop
+  );
   const [userFilter, setUserFilter] = useState("all");
 
   const calulateStats = (type, userFilter) => {

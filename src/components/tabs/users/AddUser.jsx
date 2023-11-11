@@ -1,10 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import useStore from "../../../store";
 
 const AddUser = () => {
-  const [data, setData] = useState({ type: "utilisateur" });
+  const [data, setData] = useState({ type: "utilisateur", shop: "aouina" });
   const addUser = useStore((state) => state.addUser);
+  const getAllshops = useStore((state) => state.getAllshops);
+  const shops = useStore((state) => state.shops);
   const refClose = useRef();
+
+  useEffect(() => {
+    getAllshops();
+  }, []);
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -79,6 +85,21 @@ const AddUser = () => {
                   <option value="admin">Admin</option>
                 </select>
                 <label>Type</label>
+              </div>
+              <div className="form-floating mb-3">
+                <select
+                  className="form-select"
+                  name="shop"
+                  onChange={handleInput}
+                  value={data.shop}
+                >
+                  {shops.map((shop) => (
+                    <option key={shop._id} value={shop.name}>
+                      {shop.name}
+                    </option>
+                  ))}
+                </select>
+                <label>shop</label>
               </div>
             </div>
             <div className="modal-footer">

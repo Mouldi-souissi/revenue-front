@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import userIcon from "../assets/user.svg";
 import useStore from "../store";
 
 const Login = () => {
-  const [data, setData] = useState({ email: "", password: "" });
+  const [data, setData] = useState({ email: "", password: "", shop: "aouina" });
   const login = useStore((state) => state.login);
+  const getAllshops = useStore((state) => state.getAllshops);
+  const shops = useStore((state) => state.shops);
   const history = useHistory();
+
+  useEffect(() => {
+    if (!shops.length) {
+      getAllshops();
+    }
+  }, []);
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -14,7 +22,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login(data.email, data.password);
+    login(data.email, data.password, data.shop);
     history.push("/");
   };
 
@@ -50,6 +58,22 @@ const Login = () => {
               onChange={handleInput}
             />
             <label>Mot de passe</label>
+          </div>
+
+          <div className="form-floating mb-3">
+            <select
+              className="form-select"
+              name="shop"
+              onChange={handleInput}
+              value={data.shop}
+            >
+              {shops.map((shop) => (
+                <option key={shop._id} value={shop.name}>
+                  {shop.name}
+                </option>
+              ))}
+            </select>
+            <label>shop</label>
           </div>
 
           <div className="d-flex justify-content-end">

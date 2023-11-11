@@ -2,8 +2,8 @@ import create from "zustand";
 import axios from "axios";
 import decode from "jwt-decode";
 
-// const API_URL = "http://localhost:5000/api";
-const API_URL = "https://revenue-api.vercel.app/api";
+const API_URL = "http://localhost:5000/api";
+// const API_URL = "https://revenue-api.vercel.app/api";
 
 const useStore = create((set, get) => ({
   isSidebarHidden: false,
@@ -12,6 +12,8 @@ const useStore = create((set, get) => ({
   username: "User",
   userType: "",
   isLoading: false,
+  shop: "aouina",
+  shops: [],
   adminRoutes: [
     { link: "dashboard", icon: "fas fa-desktop", text: "Tableau de bord" },
     { link: "users", icon: "fas fa-user-friends", text: "Utilisateurs" },
@@ -77,9 +79,9 @@ const useStore = create((set, get) => ({
       });
   },
 
-  login: (email, password) => {
+  login: (email, password, shop = "aouina") => {
     axios
-      .post(`${API_URL}/user/login`, { email, password })
+      .post(`${API_URL}/user/login`, { email, password, shop })
       .then((res) => {
         localStorage.setItem("token", res.data);
         const decodedToken = decode(res.data);
@@ -87,6 +89,7 @@ const useStore = create((set, get) => ({
           username: decodedToken.name,
           userType: decodedToken.type,
           activeTab: decodedToken.type === "admin" ? "dashboard" : "sales",
+          shop: decodedToken.shop,
         });
         window.location.replace("/");
       })
@@ -101,10 +104,16 @@ const useStore = create((set, get) => ({
     const token =
       localStorage.getItem("token") && localStorage.getItem("token");
     const decodedToken = token && decode(token);
+
+    if (!decodedToken.shop) {
+      localStorage.removeItem("token");
+      window.location.replace("/login");
+    }
     set({
       username: decodedToken?.name,
       userType: decodedToken?.type,
       activeTab: decodedToken?.type === "admin" ? "dashboard" : "sales",
+      shop: decodedToken.shop,
     });
   },
 
@@ -430,6 +439,15 @@ const useStore = create((set, get) => ({
       .finally(() => {
         set({ isLoading: false });
       });
+  },
+  getAllshops: async () => {
+    try {
+      const res = await axios.get(`${API_URL}/shop`);
+
+      set({ shops: res.data });
+    } catch (error) {
+      console.log(error);
+    }
   },
 }));
 
