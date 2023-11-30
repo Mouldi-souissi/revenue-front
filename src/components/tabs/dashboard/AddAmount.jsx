@@ -6,18 +6,35 @@ const AddAmount = ({ account }) => {
     type: "entrée",
     subType: "versement",
     account: "",
+    amount: "",
   });
   const addMove = useStore((state) => state.addMove);
   const refClose = useRef();
+  const [isLoading, setLoading] = useState(false);
 
   const handleInput = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    const value = e.target.value;
+    if (Number(e.target.value) > 0) {
+      setData({ ...data, amount: Number(value) });
+    } else {
+      setData({ ...data, amount: "" });
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addMove(data);
-    refClose.current.click();
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+
+      if (data.amount) {
+        await addMove(data);
+        refClose.current.click();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -45,6 +62,7 @@ const AddAmount = ({ account }) => {
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
+                value={data.amount}
               />
               <label>Montant</label>
             </div>
@@ -58,7 +76,11 @@ const AddAmount = ({ account }) => {
             >
               Fermer
             </button>
-            <button type="submit" className="btn btn-secondary">
+            <button
+              type="submit"
+              className="btn btn-secondary"
+              disabled={!data.amount || isLoading}
+            >
               Sauvegarder
             </button>
           </div>

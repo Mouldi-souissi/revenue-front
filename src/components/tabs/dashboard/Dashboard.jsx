@@ -4,6 +4,7 @@ import DeleteMove from "../../DeleteMove";
 import Pagination from "../../Pagination";
 import AddAmount from "./AddAmount";
 import DeleteMoves from "./DeleteMoves";
+import WithDraw from "./WithDraw";
 
 const Dashboard = () => {
   const getMoves = useStore((state) => state.getMoves);
@@ -144,12 +145,21 @@ const Dashboard = () => {
           <div className="dashboard_card" key={account._id}>
             <div className="d-flex justify-content-between align-items-start w-100">
               <div className="card_title">{account.name}</div>
-              <i
-                className="fa-solid fa-plus btn addDeposit"
-                data-bs-toggle="modal"
-                data-bs-target="#addAmount"
-                onClick={() => setAccountDoc(account)}
-              />
+              <div>
+                {account.name === "Fond" && (
+                  <i
+                    className="fa-solid fa-minus btn addDeposit"
+                    data-bs-toggle="modal"
+                    data-bs-target="#withdraw"
+                  />
+                )}
+                <i
+                  className="fa-solid fa-plus btn addDeposit"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addAmount"
+                  onClick={() => setAccountDoc(account)}
+                />
+              </div>
             </div>
             <div className="d-flex justify-content-between w-100 align-items-start">
               <div>
@@ -323,6 +333,7 @@ const Dashboard = () => {
       <DeleteMove move={move} />
       <DeleteMoves />
       <AddAmount account={accountDoc} />
+      <WithDraw />
     </div>
   );
 };
