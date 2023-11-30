@@ -15,7 +15,7 @@ function Pagination({
   }
 
   return (
-    <ul className="d-flex justify-content-start align-items-center">
+    <ul className="d-flex justify-content-start align-items-center flex-wrap gap-2">
       <button
         className="btn btn-white font-weight-bold me-2"
         onClick={() => previousPage(pageNumbers)}
