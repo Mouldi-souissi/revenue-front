@@ -37,7 +37,11 @@ const Dashboard = () => {
           ) {
             total += Number(move.amount);
           }
-          if (move.type === "sortie" && move["user"] === userFilter) {
+          if (
+            move.type === "sortie" &&
+            move["user"] === userFilter &&
+            move.subType !== "retrait"
+          ) {
             total -= Number(move.amount);
           }
         }
@@ -69,7 +73,7 @@ const Dashboard = () => {
           if (move.type === "entrée" && move.subType !== "versement") {
             total += Number(move.amount);
           }
-          if (move.type === "sortie") {
+          if (move.type === "sortie" && move.subType !== "retrait") {
             total -= Number(move.amount);
           }
         }
