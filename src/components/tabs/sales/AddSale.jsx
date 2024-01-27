@@ -13,6 +13,7 @@ const AddSale = () => {
 
   const accounts = useStore((state) => state.accounts);
   const refClose = useRef();
+  const [isLoading, setLoading] = useState(false);
 
   const handleInput = (e) => {
     let isValid = true;
@@ -38,6 +39,7 @@ const AddSale = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const accounts_res = await getAccounts();
       const account = accounts_res.find((acc) => acc.name === data.account);
       const totalWins = await getTotalWins(account.name);
@@ -76,6 +78,8 @@ const AddSale = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -145,7 +149,11 @@ const AddSale = () => {
             >
               Fermer
             </button>
-            <button type="submit" className="btn btn-secondary">
+            <button
+              type="submit"
+              className="btn btn-secondary"
+              disabled={isLoading}
+            >
               Ajouter
             </button>
           </div>
