@@ -1,13 +1,23 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import useStore from "../store";
 
 const DeleteMove = ({ move }) => {
   const deleteMove = useStore((state) => state.deleteMove);
   const refClose = useRef();
+  const [isLoading, setLoading] = useState(false);
 
-  const handleDelete = () => {
-    deleteMove(move._id);
-    refClose.current.click();
+  const handleDelete = async () => {
+    try {
+      if (move._id) {
+        setLoading(true);
+        await deleteMove(move._id);
+        refClose.current.click();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div
@@ -41,6 +51,7 @@ const DeleteMove = ({ move }) => {
               type="button"
               className="btn btn-secondary"
               onClick={handleDelete}
+              disabled={isLoading}
             >
               Supprimer
             </button>
