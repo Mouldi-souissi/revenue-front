@@ -11,6 +11,7 @@ const AddWin = () => {
   const addMove = useStore((state) => state.addMove);
   const accounts = useStore((state) => state.accounts);
   const refClose = useRef();
+  const [isLoading, setLoading] = useState(false);
 
   const handleInput = (e) => {
     let isValid = true;
@@ -33,10 +34,17 @@ const AddWin = () => {
     return true;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addMove(data);
-    refClose.current.click();
+  const handleSubmit = async (e) => {
+    try {
+      setLoading(true);
+      e.preventDefault();
+      await addMove(data);
+      refClose.current.click();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -114,7 +122,11 @@ const AddWin = () => {
             >
               Fermer
             </button>
-            <button type="submit" className="btn btn-secondary">
+            <button
+              type="submit"
+              className="btn btn-secondary"
+              disabled={isLoading}
+            >
               Ajouter
             </button>
           </div>
