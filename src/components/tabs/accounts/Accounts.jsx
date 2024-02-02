@@ -18,11 +18,11 @@ const Sites = () => {
     <div className="container">
       <div className="d-flex align-items-center">
         <h3 className="m-0 me-3">Comptes</h3>
-        <i
+        {/* <i
           className="fa-solid fa-plus btn btn-outline-primary p-2"
           data-bs-toggle="modal"
           data-bs-target="#addSite"
-        ></i>
+        ></i> */}
       </div>
       <div className="loader_wrapper">
         {isLoading && (
@@ -40,7 +40,7 @@ const Sites = () => {
               <th scope="col">Taux</th>
               <th scope="col">Solde</th>
               <th scope="col">Modifié le</th>
-              <th scope="col">Actions</th>
+              {/* <th scope="col">Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -72,7 +72,7 @@ const Sites = () => {
                         })
                       : "-"}
                   </td>
-                  <td>
+                  {/* <td>
                     <i
                       className="fa-solid fa-gear btn"
                       data-bs-toggle="modal"
@@ -87,7 +87,7 @@ const Sites = () => {
                         onClick={() => setAccount(account)}
                       ></i>
                     )}
-                  </td>
+                  </td> */}
                 </tr>
               ))}
           </tbody>
