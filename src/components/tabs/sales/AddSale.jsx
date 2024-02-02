@@ -64,6 +64,7 @@ const AddSale = () => {
         setErrorAmount(
           "La vente ne peut pas etre negative! veillez entrer les gains d'abord"
         );
+        return;
       } else {
         setErrorAmount("");
         await addMove({
