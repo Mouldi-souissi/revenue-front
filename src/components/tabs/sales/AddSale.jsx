@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
+import { stripNumber } from "../../../helpers/stripNumber";
 
 const AddSale = () => {
   const [data, setData] = useState({ depositEnd: "" });
@@ -55,7 +56,7 @@ const AddSale = () => {
         rate: account.rate,
       });
       const amount =
-        (Number(account.deposit) - Number(data.depositEnd)) *
+        (stripNumber(Number(account.deposit)) - Number(data.depositEnd)) *
         Number(account.rate);
       const netSale = amount - totalWins - totalSpending;
 
@@ -68,11 +69,11 @@ const AddSale = () => {
       } else {
         setErrorAmount("");
         await addMove({
-          amount,
+          amount: stripNumber(amount),
           type: "entrée",
           subType: "vente",
           account: account.name,
-          description: netSale,
+          description: stripNumber(netSale),
         });
         refClose.current.click();
       }
