@@ -1,3 +1,3 @@
 export const stripNumber = (number) => {
-  return parseFloat(number.toPrecision(0));
+  return parseFloat(number.toPrecision(1));
 };
