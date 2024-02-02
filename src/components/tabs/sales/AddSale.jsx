@@ -60,7 +60,7 @@ const AddSale = () => {
         Number(account.rate);
       const netSale = amount - totalWins - totalSpending;
 
-      if (amount < 0) {
+      if (amount <= 0) {
         setErrorAmount(
           "La vente ne peut pas etre negative! veillez entrer les gains d'abord"
         );
