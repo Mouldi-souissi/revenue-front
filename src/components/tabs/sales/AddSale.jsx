@@ -56,11 +56,9 @@ const AddSale = () => {
         rate: account.rate,
       });
       const amount =
-        (stripNumber(Number(account.deposit)) - Number(data.depositEnd)) *
+        (Number(account.deposit) - Number(data.depositEnd)) *
         Number(account.rate);
       const netSale = amount - totalWins - totalSpending;
-
-      console.log("net", netSale);
 
       if (amount < 0) {
         setErrorAmount(
@@ -69,11 +67,11 @@ const AddSale = () => {
       } else {
         setErrorAmount("");
         await addMove({
-          amount: stripNumber(amount),
+          amount: Number(amount).toFixed(0),
           type: "entrée",
           subType: "vente",
           account: account.name,
-          description: stripNumber(netSale),
+          description: Number(netSale).toFixed(0),
         });
         refClose.current.click();
       }
