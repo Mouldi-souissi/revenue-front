@@ -39,6 +39,7 @@ const useStore = create((set, get) => ({
     },
   ],
   userRoutes: [
+    { link: "dashboard", icon: "fas fa-desktop", text: "Tableau de bord" },
     {
       link: "sales",
       icon: "fa-solid fa-up-long green",

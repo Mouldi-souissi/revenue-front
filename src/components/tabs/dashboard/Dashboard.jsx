@@ -131,9 +131,9 @@ const Dashboard = () => {
   useEffect(() => {
     if (userType === "admin") {
       getAccounts();
-      getMoves();
-      getUsers();
     }
+    getMoves();
+    getUsers();
   }, [userType]);
 
   const handlePeriod = (e) => {
@@ -145,58 +145,61 @@ const Dashboard = () => {
   return (
     <div className="container">
       <div className="dashboard_cards">
-        {accounts.map((account) => (
-          <div className="dashboard_card" key={account._id}>
-            <div className="d-flex justify-content-between align-items-start w-100">
-              <div className="card_title">{account.name}</div>
-              <div>
-                {account.name === "Fond" && (
+        {userType === "admin" &&
+          accounts.map((account) => (
+            <div className="dashboard_card" key={account._id}>
+              <div className="d-flex justify-content-between align-items-start w-100">
+                <div className="card_title">{account.name}</div>
+                <div>
+                  {account.name === "Fond" && (
+                    <i
+                      className="fa-solid fa-minus btn addDeposit"
+                      data-bs-toggle="modal"
+                      data-bs-target="#withdraw"
+                    />
+                  )}
                   <i
-                    className="fa-solid fa-minus btn addDeposit"
+                    className="fa-solid fa-plus btn addDeposit"
                     data-bs-toggle="modal"
-                    data-bs-target="#withdraw"
+                    data-bs-target="#addAmount"
+                    onClick={() => setAccountDoc(account)}
                   />
-                )}
-                <i
-                  className="fa-solid fa-plus btn addDeposit"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addAmount"
-                  onClick={() => setAccountDoc(account)}
-                />
-              </div>
-            </div>
-            <div className="d-flex justify-content-between w-100 align-items-start">
-              <div>
-                <i className="fa-solid fa-landmark mt-2"></i>
-              </div>
-              <div>
-                <div className="card_value">
-                  {Number(account.deposit).toLocaleString("fr", {
-                    style: "currency",
-                    currency: "TND",
-                    minimumFractionDigits: 0,
-                  })}
                 </div>
-                <div className="d-flex align-items-center gap-3">
-                  <div className="text-white small">Dernière opération : </div>
-                  <div
-                    className={`small ${
-                      account.lastMove.type === "sortie" ? "red" : "green"
-                    }`}
-                  >
-                    {account.lastMove.type === "entrée" && "+"}
-                    {account.lastMove.type === "sortie" && "-"}
-                    {Number(account.lastMove.amount).toLocaleString("fr", {
+              </div>
+              <div className="d-flex justify-content-between w-100 align-items-start">
+                <div>
+                  <i className="fa-solid fa-landmark mt-2"></i>
+                </div>
+                <div>
+                  <div className="card_value">
+                    {Number(account.deposit).toLocaleString("fr", {
                       style: "currency",
                       currency: "TND",
                       minimumFractionDigits: 0,
                     })}
                   </div>
+                  <div className="d-flex align-items-center gap-3">
+                    <div className="text-white small">
+                      Dernière opération :{" "}
+                    </div>
+                    <div
+                      className={`small ${
+                        account.lastMove.type === "sortie" ? "red" : "green"
+                      }`}
+                    >
+                      {account.lastMove.type === "entrée" && "+"}
+                      {account.lastMove.type === "sortie" && "-"}
+                      {Number(account.lastMove.amount).toLocaleString("fr", {
+                        style: "currency",
+                        currency: "TND",
+                        minimumFractionDigits: 0,
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
       <div className="circles my-5">
         <div className="circle">
@@ -286,7 +289,7 @@ const Dashboard = () => {
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Date</th>
-              <th scope="col">Actions</th>
+              {userType === "admin" && <th scope="col">Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -309,14 +312,16 @@ const Dashboard = () => {
                     timeStyle: "short",
                   })}
                 </td>
-                <td>
-                  <i
-                    className="fa-solid fa-trash btn text-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteMove"
-                    onClick={() => setMove(move)}
-                  ></i>
-                </td>
+                {userType === "admin" && (
+                  <td>
+                    <i
+                      className="fa-solid fa-trash btn text-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteMove"
+                      onClick={() => setMove(move)}
+                    ></i>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

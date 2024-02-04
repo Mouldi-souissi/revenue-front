@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store";
-import { stripNumber } from "../../../helpers/stripNumber";
 
 const AddSale = () => {
   const [data, setData] = useState({ depositEnd: "" });
