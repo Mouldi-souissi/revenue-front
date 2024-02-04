@@ -307,6 +307,10 @@ const useStore = create((set, get) => ({
           }));
           get().getAccounts();
         }
+        if (res.data.subType === "retrait") {
+          get().getMoves("daily");
+          get().getAccounts();
+        }
       })
       .catch((err) => console.log(err))
       .finally(() => {
