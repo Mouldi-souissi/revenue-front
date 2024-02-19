@@ -5,6 +5,20 @@ import decode from "jwt-decode";
 // const API_URL = "http://localhost:5000/api";
 const API_URL = "https://revenue-api.vercel.app/api";
 
+axios.interceptors.response.use(
+  (response) => response, // Simply return the response for successful requests
+  (error) => {
+    const msg = error.response ? error.response.data : null;
+
+    if (msg === "invalid token") {
+      sessionStorage.removeItem("token");
+      window.location.replace("/login");
+    }
+
+    return Promise.reject(error); // Reject the promise to indicate an error
+  }
+);
+
 const useStore = create((set, get) => ({
   isSidebarHidden: false,
   activeTab: "dashboard",
@@ -69,7 +83,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .get(`${API_URL}/user`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         set({ users: res.data });
@@ -84,7 +98,7 @@ const useStore = create((set, get) => ({
     axios
       .post(`${API_URL}/user/login`, { email, password, shop })
       .then((res) => {
-        localStorage.setItem("token", res.data);
+        sessionStorage.setItem("token", res.data);
         const decodedToken = decode(res.data);
         set({
           username: decodedToken.name,
@@ -97,17 +111,17 @@ const useStore = create((set, get) => ({
       .catch((err) => console.log(err));
   },
   logout: () => {
-    window.localStorage.removeItem("token");
+    window.sessionStorage.removeItem("token");
     window.location.replace("/login");
   },
 
   checkAuth: () => {
     const token =
-      localStorage.getItem("token") && localStorage.getItem("token");
+      sessionStorage.getItem("token") && sessionStorage.getItem("token");
     const decodedToken = token && decode(token);
 
-    if (!decodedToken.shop) {
-      localStorage.removeItem("token");
+    if (!decodedToken?.shop) {
+      sessionStorage.removeItem("token");
       window.location.replace("/login");
     }
     set({
@@ -122,7 +136,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .post(`${API_URL}/user/register`, userData, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         set((state) => ({ users: [...state.users, res.data] }));
@@ -137,7 +151,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .delete(`${API_URL}/user/${id}`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         set((state) => ({
@@ -157,7 +171,7 @@ const useStore = create((set, get) => ({
         `${API_URL}/user/${user._id}`,
         { name: user.name, type: user.type },
         {
-          headers: { token: localStorage.getItem("token") },
+          headers: { token: sessionStorage.getItem("token") },
         }
       )
       .then((res) => {
@@ -180,7 +194,7 @@ const useStore = create((set, get) => ({
   getAccounts: async () => {
     try {
       const res = await axios.get(`${API_URL}/account`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       });
       set({
         accounts: res.data,
@@ -196,7 +210,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .post(`${API_URL}/account`, account, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         set((state) => ({ accounts: [...state.accounts, res.data] }));
@@ -210,7 +224,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .delete(`${API_URL}/account/${id}`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         set((state) => ({
@@ -226,7 +240,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .put(`${API_URL}/account/${account._id}`, account, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         set((state) => ({
@@ -250,7 +264,7 @@ const useStore = create((set, get) => ({
   getSpending: async () => {
     try {
       const res = await axios.get(`${API_URL}/move/spending`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       });
       set({
         spending: res.data,
@@ -267,7 +281,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .get(`${API_URL}/move/wins`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         set({
@@ -284,7 +298,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .post(`${API_URL}/move`, move, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         if (res.data.subType === "gain") {
@@ -323,7 +337,7 @@ const useStore = create((set, get) => ({
   getTotalWins: async (account) => {
     return axios
       .get(`${API_URL}/move/totalWins/${account}`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         return res.data;
@@ -334,7 +348,7 @@ const useStore = create((set, get) => ({
   editMove: (move) => {
     axios
       .put(`${API_URL}/move/${move._id}`, move, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         if (res.data.subType === "gain") {
@@ -369,7 +383,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .delete(`${API_URL}/move/${id}`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         if (res.data.subType === "gain") {
@@ -404,7 +418,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .get(`${API_URL}/move/${period}`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         set({ moves: res.data });
@@ -419,7 +433,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .get(`${API_URL}/move/sales`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         set({ sales: res.data });
@@ -434,7 +448,7 @@ const useStore = create((set, get) => ({
     set({ isLoading: true });
     axios
       .delete(`${API_URL}/move`, {
-        headers: { token: localStorage.getItem("token") },
+        headers: { token: sessionStorage.getItem("token") },
       })
       .then((res) => {
         set({
