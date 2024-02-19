@@ -14,8 +14,10 @@ const useStore = create((set, get) => ({
   isLoading: false,
   shop: "aouina",
   shops: [],
+  history: [],
   adminRoutes: [
     { link: "dashboard", icon: "fas fa-desktop", text: "Tableau de bord" },
+    { link: "history", icon: "fas fa-search", text: "Historique" },
     { link: "users", icon: "fas fa-user-friends", text: "Utilisateurs" },
     {
       link: "accounts",
@@ -40,6 +42,7 @@ const useStore = create((set, get) => ({
   ],
   userRoutes: [
     { link: "dashboard", icon: "fas fa-desktop", text: "Tableau de bord" },
+    { link: "history", icon: "fas fa-search", text: "Historique" },
     {
       link: "sales",
       icon: "fa-solid fa-up-long green",
@@ -450,6 +453,33 @@ const useStore = create((set, get) => ({
       const res = await axios.get(`${API_URL}/shop`);
 
       set({ shops: res.data });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  getHistory: async () => {
+    try {
+      set({ isLoading: true });
+      const res = await axios.get(`${API_URL}/history`, {
+        headers: { token: localStorage.getItem("token") },
+      });
+      if (res.data) {
+        set({ history: res.data });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+  saveHistory: async (data) => {
+    try {
+      const res = await axios.post(`${API_URL}/history`, data, {
+        headers: { token: localStorage.getItem("token") },
+      });
+      if (res.data) {
+        set({ history: res.data });
+      }
     } catch (error) {
       console.log(error);
     }

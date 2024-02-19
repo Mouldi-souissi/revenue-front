@@ -7,6 +7,7 @@ import useStore from "../store";
 import Spending from "../components/tabs/spending/Spending";
 import Wins from "../components/tabs/wins/Wins";
 import Sales from "../components/tabs/sales/Sales";
+import History from "../components/tabs/History";
 
 const MainPage = () => {
   const toggleSideBar = useStore((state) => state.toggleSideBar);
@@ -33,6 +34,9 @@ const MainPage = () => {
     }
     if (activeTab === "sales") {
       return <Sales />;
+    }
+    if (activeTab === "history") {
+      return <History />;
     }
   };
   const handleLogout = () => {
