@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import userIcon from "../assets/user.svg";
+import userIcon from "/user.svg";
 import useStore from "../store";
 
 const Login = () => {

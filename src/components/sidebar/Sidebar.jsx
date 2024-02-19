@@ -1,5 +1,5 @@
 import React from "react";
-import userIcon from "../../assets/user.svg";
+import userIcon from "/user.svg";
 import useStore from "../../store";
 
 const Sidebar = () => {
