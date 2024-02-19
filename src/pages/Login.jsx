@@ -20,10 +20,14 @@ const Login = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    login(data.email, data.password, data.shop);
-    history.push("/");
+  const handleLogin = async (e) => {
+    try {
+      e.preventDefault();
+      await login(data.email, data.password, data.shop);
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

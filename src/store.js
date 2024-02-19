@@ -8,6 +8,7 @@ const API_URL = "https://revenue-api.vercel.app/api";
 axios.interceptors.response.use(
   (response) => response, // Simply return the response for successful requests
   (error) => {
+    console.log("yo");
     const msg = error.response ? error.response.data : null;
 
     if (msg === "invalid token") {
