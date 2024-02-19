@@ -6,7 +6,11 @@ import DeleteUser from "./DeleteUser";
 
 const Users = () => {
   const getUsers = useStore((state) => state.getUsers);
-  const users = useStore((state) => state.users);
+  const shop = useStore((state) => state.shop);
+  const users = useStore((state) => state.users).filter(
+    (user) => user.shop === shop
+  );
+
   const isLoading = useStore((state) => state.isLoading);
   const [deleteData, setDeleteData] = useState("");
   const [user, setUser] = useState("");
