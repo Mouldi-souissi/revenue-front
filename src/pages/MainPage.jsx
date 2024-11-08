@@ -48,7 +48,7 @@ const MainPage = () => {
       <div className={`content ${isSidebarHidden ? "full" : ""}`}>
         <div className="topBar">
           <div className="d-flex align-items-center">
-            <i className="fa-solid fa-bars btn" onClick={toggleSideBar}></i>
+            <i className="fa-solid fa-bars btn " onClick={toggleSideBar}></i>
             <i
               className="fa-solid fa-arrow-right-from-bracket btn"
               onClick={handleLogout}

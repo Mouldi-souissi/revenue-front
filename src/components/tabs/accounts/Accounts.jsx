@@ -35,7 +35,6 @@ const Sites = () => {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">Logo</th>
               <th scope="col">Nom</th>
               <th scope="col">Taux</th>
               <th scope="col">Solde</th>
@@ -52,9 +51,6 @@ const Sites = () => {
               })
               .map((account) => (
                 <tr key={account._id}>
-                  <td>
-                    <img className="img-fluid logo" src={account.img} />
-                  </td>
                   <td>{account.name}</td>
                   <td>{account.rate}</td>
                   <td>
