@@ -17,7 +17,7 @@ axios.interceptors.response.use(
     }
 
     return Promise.reject(error); // Reject the promise to indicate an error
-  }
+  },
 );
 
 const useStore = create((set, get) => ({
@@ -173,7 +173,7 @@ const useStore = create((set, get) => ({
         { name: user.name, type: user.type },
         {
           headers: { token: sessionStorage.getItem("token") },
-        }
+        },
       )
       .then((res) => {
         set((state) => ({

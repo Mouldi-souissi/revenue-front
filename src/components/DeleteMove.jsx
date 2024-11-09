@@ -27,8 +27,8 @@ const DeleteMove = ({ move }) => {
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
+        <div className="modal-content p-3">
+          <div className="d-flex justify-content-between align-items-center">
             <h1 className="modal-title fs-5"></h1>
             <button
               type="button"
@@ -37,11 +37,11 @@ const DeleteMove = ({ move }) => {
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body">Veillez confirmer la supression</div>
-          <div className="modal-footer">
+          <div className="modal-body my-3">Veillez confirmer la supression</div>
+          <div className="d-flex justify-content-end align-items-center gap-2">
             <button
               type="button"
-              className="btn btn-primary"
+              className="button"
               data-bs-dismiss="modal"
               ref={refClose}
             >
@@ -49,7 +49,7 @@ const DeleteMove = ({ move }) => {
             </button>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="button primary"
               onClick={handleDelete}
               disabled={isLoading}
             >

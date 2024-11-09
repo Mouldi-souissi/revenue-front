@@ -19,8 +19,8 @@ const DeleteUser = ({ user }) => {
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
+        <div className="modal-content p-3 p-2">
+          <div className="d-flex justify-content-end align-items-center">
             <h1 className="modal-title fs-5" id="deleteUserLabel"></h1>
             <button
               type="button"
@@ -29,13 +29,14 @@ const DeleteUser = ({ user }) => {
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body">
-            {`Veillez confirmer la supression de l'utilasateur ${user?.name}`}
+          <div className="modal-body my-3 my-3">
+            <div>Veillez confirmer la supression de l'utilasateur :</div>
+            <div className="text-black text-center">{user?.name}</div>
           </div>
-          <div className="modal-footer">
+          <div className="d-flex justify-content-end align-items-center gap-2">
             <button
               type="button"
-              className="btn btn-primary"
+              className="button"
               data-bs-dismiss="modal"
               ref={refClose}
             >
@@ -43,7 +44,7 @@ const DeleteUser = ({ user }) => {
             </button>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="button primary"
               onClick={handleDelete}
             >
               Supprimer

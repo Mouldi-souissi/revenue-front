@@ -38,9 +38,9 @@ const WithDraw = () => {
   return (
     <div className="modal fade" id="withdraw" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
-        <form className="modal-content" onSubmit={handleSubmit}>
-          <div className="modal-header">
-            <h1 className="modal-title fs-5">Retrait Fond</h1>
+        <form className="modal-content p-3" onSubmit={handleSubmit}>
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="text-black">Retrait Fond</div>
             <button
               type="button"
               className="btn-close"
@@ -48,7 +48,7 @@ const WithDraw = () => {
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body">
+          <div className="modal-body my-3">
             <div className="form-floating mb-3">
               <input
                 type="text"
@@ -61,10 +61,10 @@ const WithDraw = () => {
               <label>Montant</label>
             </div>
           </div>
-          <div className="modal-footer">
+          <div className="d-flex justify-content-end align-items-center gap-2">
             <button
               type="button"
-              className="btn btn-primary"
+              className="button"
               data-bs-dismiss="modal"
               ref={refClose}
             >
@@ -72,7 +72,7 @@ const WithDraw = () => {
             </button>
             <button
               type="submit"
-              className="btn btn-secondary"
+              className="button primary"
               disabled={!data.amount || isLoading}
             >
               Sauvegarder

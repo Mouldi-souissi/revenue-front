@@ -62,11 +62,11 @@ const AddSpending = () => {
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
-        <form className="modal-content" onSubmit={handleSubmit}>
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="addSpendingLabel">
+        <form className="modal-content p-3" onSubmit={handleSubmit}>
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="text-black" id="addSpendingLabel">
               Ajouter une dépense
-            </h1>
+            </div>
             <button
               type="button"
               className="btn-close"
@@ -74,7 +74,7 @@ const AddSpending = () => {
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body">
+          <div className="modal-body my-3">
             <div className="form-floating mb-3">
               <input
                 type="text"
@@ -104,10 +104,10 @@ const AddSpending = () => {
               <small className="ms-2 text-danger">{error}</small>
             )}
           </div>
-          <div className="modal-footer">
+          <div className="d-flex justify-content-end align-items-center gap-2">
             <button
               type="button"
-              className="btn btn-primary"
+              className="button"
               data-bs-dismiss="modal"
               ref={refClose}
             >
@@ -115,7 +115,7 @@ const AddSpending = () => {
             </button>
             <button
               type="submit"
-              className="btn btn-secondary"
+              className="button primary"
               disabled={isLoading}
             >
               Ajouter

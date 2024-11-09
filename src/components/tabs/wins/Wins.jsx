@@ -33,34 +33,38 @@ const Wins = () => {
 
   return (
     <div className="container">
-      <div className="d-flex align-items-start">
-        <div className="me-3">
-          <h3 className="m-0 me-3">Gain</h3>
-          <h6>
-            Total :{" "}
-            {total.toLocaleString("fr", {
-              style: "currency",
-              currency: "TND",
-              minimumFractionDigits: 0,
-            })}
-          </h6>
+      {isLoading && (
+        <div className="d-flex align-items-center justify-content-center ">
+          <div className="loader"></div>
         </div>
-        <i
-          className="fa-solid fa-plus btn btn-outline-primary p-2"
+      )}
+
+      <div className="tableCard d-flex align-items-start justify-content-between gap-2 p-3">
+        <div className="">
+          <div className="title">Gain</div>
+          <div className="mt-3">
+            <div className="d-flex gap-2">
+              <div>Total:</div>
+              <div>
+                {total.toLocaleString("fr", {
+                  style: "currency",
+                  currency: "TND",
+                  minimumFractionDigits: 0,
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
           data-bs-toggle="modal"
           data-bs-target="#addWin"
-        ></i>
+          className="button primary sm"
+        >
+          <i className="fa-solid fa-plus"></i>
+        </button>
       </div>
-      <div className="loader_wrapper">
-        {isLoading && (
-          <div className="d-flex align-items-center justify-content-center ">
-            <div className="loader"></div>
-          </div>
-        )}
-      </div>
-
-      <div className="table-responsive">
-        <table className="table">
+      <div className="table-responsive mt-3">
+        <table>
           <thead>
             <tr>
               <th scope="col">Compte</th>
@@ -105,6 +109,7 @@ const Wins = () => {
           </tbody>
         </table>
       </div>
+
       <AddWin />
       <DeleteMove move={winDoc} />
     </div>

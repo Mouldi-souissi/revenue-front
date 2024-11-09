@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import userIcon from "/user.svg";
 import useStore from "../store";
+import cash from "/cash.jpg";
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "", shop: "aouina" });
@@ -31,61 +32,70 @@ const Login = () => {
   };
 
   return (
-    <div className="login d-flex align-items-center justify-content-center">
-      <div className="card shadow p-4 col-lg-4">
-        <div className="d-flex align-items-center justify-content-center">
-          <img
-            src={userIcon}
-            alt="profile_picture"
-            className="img-fluid mb-5"
-            width="50px"
-          />
+    <div className="container py-5">
+      <div className="signinCard">
+        <div className="row">
+          <div className="col-lg-6 signup_container">
+            <div className="signup_hero text-center">
+              {/*<img alt="logo" src={cash} className="mb-3" width="200px" />*/}
+
+              <div className="signup_hero_text mt-2">Caisse</div>
+            </div>
+            <div className="signup_img">
+              <img src={cash} alt="signup" className="" />
+            </div>
+          </div>
+
+          <form className="col-lg-6 p-5" onSubmit={handleLogin}>
+            <div className="d-flex flex-column justify-content-center align-items-center h-100">
+              <i class="fa-regular fa-user fs-2 mb-3" />
+              <div className="form-floating mb-3 w-100">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Email"
+                  name="email"
+                  onChange={handleInput}
+                  required
+                />
+                <label>Email</label>
+              </div>
+
+              <div className="form-floating mb-3 w-100">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Mot de passe"
+                  name="password"
+                  onChange={handleInput}
+                  required
+                  autoComplete="off"
+                />
+                <label>Mot de passe</label>
+              </div>
+
+              <div className="form-floating mb-3 w-100">
+                <select
+                  className="form-select"
+                  name="shop"
+                  onChange={handleInput}
+                  value={data.shop}
+                >
+                  {shops.map((shop) => (
+                    <option key={shop._id} value={shop.name}>
+                      {shop.name}
+                    </option>
+                  ))}
+                </select>
+                <label>shop</label>
+              </div>
+
+              <button className="button primary w-100" type="submit">
+                SE CONNECTER
+              </button>
+            </div>
+          </form>
         </div>
-        <form onSubmit={handleLogin}>
-          <div className="form-floating  mb-3">
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Email"
-              name="email"
-              onChange={handleInput}
-            />
-            <label>Email</label>
-          </div>
-
-          <div className="form-floating mb-3">
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Mot de passe"
-              name="password"
-              onChange={handleInput}
-            />
-            <label>Mot de passe</label>
-          </div>
-
-          <div className="form-floating mb-3">
-            <select
-              className="form-select"
-              name="shop"
-              onChange={handleInput}
-              value={data.shop}
-            >
-              {shops.map((shop) => (
-                <option key={shop._id} value={shop.name}>
-                  {shop.name}
-                </option>
-              ))}
-            </select>
-            <label>shop</label>
-          </div>
-
-          <div className="d-flex justify-content-end">
-            <button type="submit" className="btn btn-secondary">
-              Connecter
-            </button>
-          </div>
-        </form>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import useStore from "../store";
 import Spending from "../components/tabs/spending/Spending";
 import Wins from "../components/tabs/wins/Wins";
 import Sales from "../components/tabs/sales/Sales";
+import userIcon from "/user.svg";
 
 const MainPage = () => {
   const toggleSideBar = useStore((state) => state.toggleSideBar);
@@ -14,6 +15,7 @@ const MainPage = () => {
   const activeTab = useStore((state) => state.activeTab);
   const logout = useStore((state) => state.logout);
   const checkAuth = useStore((state) => state.checkAuth);
+  const username = useStore((state) => state.username);
 
   const handleTabs = () => {
     if (activeTab === "dashboard") {
@@ -47,15 +49,20 @@ const MainPage = () => {
       <Sidebar />
       <div className={`content ${isSidebarHidden ? "full" : ""}`}>
         <div className="topBar">
+          <div className="d-flex gap-2 align-items-center">
+            <img src={userIcon} alt="user icon" className="user-icon" />
+            <div>{username}</div>
+          </div>
           <div className="d-flex align-items-center">
-            <i className="fa-solid fa-bars btn" onClick={toggleSideBar}></i>
-            <i
-              className="fa-solid fa-arrow-right-from-bracket btn"
-              onClick={handleLogout}
-            ></i>
+            <button className="button sm transparent" onClick={toggleSideBar}>
+              <i className="fa-solid fa-bars"></i>
+            </button>
+            <button className="button sm transparent" onClick={handleLogout}>
+              <i className="fa-solid fa-arrow-right-from-bracket"></i>
+            </button>
           </div>
         </div>
-        <div className="container">{handleTabs()}</div>
+        <div className="container my-3">{handleTabs()}</div>
       </div>
     </div>
   );
