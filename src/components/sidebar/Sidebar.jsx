@@ -154,7 +154,8 @@ const Sidebar = () => {
                 onClick={() => switchTab(route.link)}
               >
                 <span className="icon">
-                  <i className={route.icon}></i>
+                  {/*<i className={route.icon}></i>*/}
+                  {iconsMap[route.link]}
                 </span>
                 <span className="item">{route.text}</span>
               </div>
