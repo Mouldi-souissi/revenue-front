@@ -25,8 +25,8 @@ const AddAccount = () => {
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
-        <form className="modal-content" onSubmit={handleSubmit}>
-          <div className="modal-header">
+        <form className="modal-content p-3" onSubmit={handleSubmit}>
+          <div className="d-flex justify-content-between align-items-center">
             <h1 className="modal-title fs-5" id="addSiteLabel">
               Ajouter un nouveau compte
             </h1>
@@ -37,7 +37,7 @@ const AddAccount = () => {
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body">
+          <div className="modal-body my-3">
             <div className="form-floating mb-3">
               <input
                 type="text"
@@ -73,16 +73,16 @@ const AddAccount = () => {
               <label>Solde</label>
             </div>
           </div>
-          <div className="modal-footer">
+          <div className="d-flex justify-content-end align-items-center gap-2">
             <button
               type="button"
-              className="btn btn-primary"
+              className="button"
               data-bs-dismiss="modal"
               ref={refClose}
             >
               Fermer
             </button>
-            <button type="submit" className="btn btn-secondary">
+            <button type="submit" className="button primary">
               Ajouter
             </button>
           </div>

@@ -11,10 +11,10 @@ const iconsMap = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-users-round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-users-round"
     >
       <path d="M18 21a8 8 0 0 0-16 0" />
       <circle cx="10" cy="8" r="5" />
@@ -29,10 +29,10 @@ const iconsMap = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-monitor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-monitor"
     >
       <rect width="20" height="14" x="2" y="3" rx="2" />
       <line x1="8" x2="16" y1="21" y2="21" />
@@ -47,10 +47,10 @@ const iconsMap = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-circle-arrow-up"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-circle-arrow-up"
     >
       <circle cx="12" cy="12" r="10" />
       <path d="m16 12-4-4-4 4" />
@@ -65,10 +65,10 @@ const iconsMap = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-circle-arrow-down"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-circle-arrow-down"
     >
       <circle cx="12" cy="12" r="10" />
       <path d="M12 8v8" />
@@ -83,10 +83,10 @@ const iconsMap = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-coins"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-coins"
     >
       <circle cx="8" cy="8" r="6" />
       <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
@@ -102,10 +102,10 @@ const iconsMap = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-wallet"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-wallet"
     >
       <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
       <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
@@ -124,10 +124,8 @@ const Sidebar = () => {
 
   return (
     <div className={`sidebar ${isSidebarHidden ? "hidden" : ""}`}>
-      <div className="profile p-3 text-white">
-        <img src={userIcon} alt="profile_picture" className="img-fluid" />
-        <div className="text-center">{username}</div>
-      </div>
+      <div className="text-white fs-3 m-3 appTitle">Caisse</div>
+
       <ul>
         {userType === "admin" &&
           adminRoutes.map((route, i) => (

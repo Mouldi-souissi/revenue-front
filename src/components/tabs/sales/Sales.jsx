@@ -17,7 +17,7 @@ const Sales = () => {
 
   const totalSpending = spending.reduce(
     (acc, curr) => (acc += Number(curr.amount)),
-    0
+    0,
   );
   const totalWins = wins.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
   const total = sales.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
@@ -47,33 +47,6 @@ const Sales = () => {
 
   return (
     <div className="container">
-      <div className="d-flex align-items-start">
-        <div className="me-3">
-          <h3 className="m-0">Ventes</h3>
-          <h6 className="m-0">
-            Total :{" "}
-            {total.toLocaleString("fr", {
-              style: "currency",
-              currency: "TND",
-              minimumFractionDigits: 0,
-            })}
-          </h6>
-          <h6 className="m-0">
-            Total net :{" "}
-            {totalNetSales.toLocaleString("fr", {
-              style: "currency",
-              currency: "TND",
-              minimumFractionDigits: 0,
-            })}
-          </h6>
-        </div>
-        <i
-          className="fa-solid fa-plus btn btn-outline-primary p-2"
-          data-bs-toggle="modal"
-          data-bs-target="#addSale"
-        ></i>
-      </div>
-
       <div className="loader_wrapper">
         {isLoading && (
           <div className="d-flex align-items-center justify-content-center ">
@@ -81,8 +54,44 @@ const Sales = () => {
           </div>
         )}
       </div>
-      <div className="table-responsive">
-        <table className="table">
+
+      <div className="tableCard d-flex align-items-start justify-content-between gap-2 p-3">
+        <div className="">
+          <div className="title">Ventes</div>
+          <div className="mt-3">
+            <div className="d-flex gap-2">
+              <div>Total:</div>
+              <div>
+                {total.toLocaleString("fr", {
+                  style: "currency",
+                  currency: "TND",
+                  minimumFractionDigits: 0,
+                })}
+              </div>
+            </div>
+
+            <div className="d-flex gap-2">
+              <div>Total net:</div>
+              <div>
+                {totalNetSales.toLocaleString("fr", {
+                  style: "currency",
+                  currency: "TND",
+                  minimumFractionDigits: 0,
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#addSale"
+          className="button primary sm"
+        >
+          <i className="fa-solid fa-plus"></i>
+        </button>
+      </div>
+      <div className="table-responsive mt-3">
+        <table>
           <thead>
             <tr>
               <th scope="col">Compte</th>
@@ -127,6 +136,7 @@ const Sales = () => {
           </tbody>
         </table>
       </div>
+
       <AddSale />
       <DeleteMove move={sale} />
     </div>

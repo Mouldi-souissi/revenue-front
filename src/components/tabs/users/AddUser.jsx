@@ -25,11 +25,10 @@ const AddUser = () => {
     <div className="modal fade" id="addUser" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog">
         <form onSubmit={handleSubmit}>
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5">
-                Ajouter un nouveau utilisateur
-              </h1>
+          <div className="modal-content p-3 p-3">
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="text-black">Ajouter un nouveau utilisateur</div>
+
               <button
                 type="button"
                 className="btn-close"
@@ -37,7 +36,7 @@ const AddUser = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body">
+            <div className="modal-body my-3">
               <div className="form-floating mb-3">
                 <input
                   type="text"
@@ -102,16 +101,16 @@ const AddUser = () => {
                 <label>shop</label>
               </div>
             </div>
-            <div className="modal-footer">
+            <div className="d-flex justify-content-end align-items-center gap-2">
               <button
                 type="button"
-                className="btn btn-primary"
+                className="button"
                 data-bs-dismiss="modal"
                 ref={refClose}
               >
                 Fermer
               </button>
-              <button type="submit" className="btn btn-secondary">
+              <button type="submit" className="button primary">
                 Ajouter
               </button>
             </div>

@@ -143,7 +143,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container">
+    <div className="">
       <div className="dashboard_cards">
         {userType === "admin" &&
           accounts.map((account) => (
@@ -153,7 +153,7 @@ const Dashboard = () => {
                 <div className="d-flex gap-2">
                   {account.name === "Fond" && (
                     <button
-                      className="button_icon"
+                      className="button sm primary"
                       data-bs-toggle="modal"
                       data-bs-target="#withdraw"
                     >
@@ -161,7 +161,7 @@ const Dashboard = () => {
                     </button>
                   )}
                   <button
-                    className="button_icon"
+                    className="button sm primary"
                     data-bs-toggle="modal"
                     data-bs-target="#addAmount"
                     onClick={() => setAccountDoc(account)}
@@ -211,10 +211,10 @@ const Dashboard = () => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-shopping-bag"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-shopping-bag"
             color="cyan"
           >
             <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
@@ -238,10 +238,10 @@ const Dashboard = () => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-circle-arrow-up"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-circle-arrow-up"
             color="yellowgreen"
           >
             <circle cx="12" cy="12" r="10" />
@@ -264,10 +264,10 @@ const Dashboard = () => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-coins"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-coins"
             color="yellow"
           >
             <circle cx="8" cy="8" r="6" />
@@ -291,10 +291,10 @@ const Dashboard = () => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-circle-arrow-down"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-circle-arrow-down"
             color="red"
           >
             <circle cx="12" cy="12" r="10" />

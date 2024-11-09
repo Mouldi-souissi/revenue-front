@@ -47,7 +47,7 @@ const AddSale = () => {
 
       const totalSpending = spendings_res.reduce(
         (acc, curr) => (acc += Number(curr.amount)),
-        0
+        0,
       );
       console.log("calc", {
         debut: account.deposit,
@@ -61,7 +61,7 @@ const AddSale = () => {
 
       if (amount <= 0) {
         setErrorAmount(
-          "La vente ne peut pas etre negative! veillez entrer les gains d'abord"
+          "La vente ne peut pas etre negative! veillez entrer les gains d'abord",
         );
         return;
       } else {
@@ -91,9 +91,9 @@ const AddSale = () => {
   return (
     <div className="modal fade" id="addSale" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
-        <form className="modal-content" onSubmit={handleSubmit}>
-          <div className="modal-header">
-            <h1 className="modal-title fs-5">Ajouter une vente</h1>
+        <form className="modal-content p-3" onSubmit={handleSubmit}>
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="text-black">Ajouter une vente</div>
             <button
               type="button"
               className="btn-close"
@@ -101,7 +101,7 @@ const AddSale = () => {
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body">
+          <div className="modal-body my-3">
             {errorAmount && (
               <small className="text-danger my-3">{errorAmount}</small>
             )}
@@ -139,10 +139,10 @@ const AddSale = () => {
               <small className="ms-2 text-danger">{error}</small>
             )}
           </div>
-          <div className="modal-footer">
+          <div className="d-flex justify-content-end align-items-center gap-2">
             <button
               type="button"
-              className="btn btn-primary"
+              className="button"
               data-bs-dismiss="modal"
               ref={refClose}
             >
@@ -150,7 +150,7 @@ const AddSale = () => {
             </button>
             <button
               type="submit"
-              className="btn btn-secondary"
+              className="button primary"
               disabled={isLoading}
             >
               Ajouter

@@ -16,23 +16,24 @@ const Sites = () => {
 
   return (
     <div className="container">
-      <div className="d-flex align-items-center">
-        <h3 className="m-0 me-3">Comptes</h3>
-        {/* <i
-          className="fa-solid fa-plus btn btn-outline-primary p-2"
+      {isLoading && (
+        <div className="d-flex align-items-center justify-content-center ">
+          <div className="loader"></div>
+        </div>
+      )}
+
+      <div className="tableCard d-flex align-items-center justify-content-between gap-2 p-3">
+        <div className="title">Comptes</div>
+        {/*       <button
           data-bs-toggle="modal"
           data-bs-target="#addSite"
-        ></i> */}
+          className="button primary sm"
+        >
+          <i className="fa-solid fa-plus"></i>
+        </button>*/}
       </div>
-      <div className="loader_wrapper">
-        {isLoading && (
-          <div className="d-flex align-items-center justify-content-center ">
-            <div className="loader"></div>
-          </div>
-        )}
-      </div>
-      <div className="table-responsive">
-        <table className="table">
+      <div className="table-responsive mt-3">
+        <table>
           <thead>
             <tr>
               <th scope="col">Nom</th>
