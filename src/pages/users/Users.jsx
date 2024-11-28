@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import useStore from "../../../store";
+import useStore from "../../store";
 import EditUser from "./EditUser";
 import AddUser from "./AddUser";
 import DeleteUser from "./DeleteUser";
+import store_user from "../../stores/store_user";
+import Wrapper from "../../components/Wrapper";
 
 const Users = () => {
   const getUsers = useStore((state) => state.getUsers);
@@ -18,14 +20,14 @@ const Users = () => {
     getUsers();
   }, []);
   return (
-    <div className="container">
-      {isLoading && (
-        <div className="d-flex align-items-center justify-content-center ">
-          <div className="loader"></div>
+    <Wrapper>
+      <div className=" d-flex align-items-center justify-content-between gap-2 p-3">
+        <div className="d-flex gap-5 align-items-center">
+          <div className="title">Utilisateurs</div>
+
+          {isLoading && <div className="loader"></div>}
         </div>
-      )}
-      <div className="tableCard d-flex align-items-center justify-content-between gap-2 p-3">
-        <div className="title">Utilisateurs</div>
+
         <button
           data-bs-toggle="modal"
           data-bs-target="#addUser"
@@ -81,7 +83,7 @@ const Users = () => {
       <AddUser />
       <EditUser user={user} />
       <DeleteUser user={deleteData} />
-    </div>
+    </Wrapper>
   );
 };
 

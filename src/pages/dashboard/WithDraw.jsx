@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import useStore from "../../../store";
+import useStore from "../../store";
 
 const WithDraw = () => {
   const [data, setData] = useState({

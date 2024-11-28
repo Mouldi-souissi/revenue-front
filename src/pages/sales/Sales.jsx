@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import useStore from "../../../store";
+import { useEffect, useState } from "react";
+import useStore from "../../store";
 import AddSale from "./AddSale";
-import DeleteMove from "../../DeleteMove";
+import DeleteMove from "../../components/DeleteMove";
+import Wrapper from "../../components/Wrapper";
 
 const Sales = () => {
   const [sale, setSale] = useState("");
@@ -46,18 +47,13 @@ const Sales = () => {
   };
 
   return (
-    <div className="container">
-      <div className="loader_wrapper">
-        {isLoading && (
-          <div className="d-flex align-items-center justify-content-center ">
-            <div className="loader"></div>
+    <Wrapper>
+      <div className="d-flex align-items-start justify-content-between gap-2 p-3">
+        <div>
+          <div className="d-flex gap-5 align-items-center">
+            <div className="title">Ventes</div>
+            {isLoading && <div className="loader"></div>}
           </div>
-        )}
-      </div>
-
-      <div className="tableCard d-flex align-items-start justify-content-between gap-2 p-3">
-        <div className="">
-          <div className="title">Ventes</div>
           <div className="mt-3">
             <div className="d-flex gap-2">
               <div>Total:</div>
@@ -139,7 +135,7 @@ const Sales = () => {
 
       <AddSale />
       <DeleteMove move={sale} />
-    </div>
+    </Wrapper>
   );
 };
 

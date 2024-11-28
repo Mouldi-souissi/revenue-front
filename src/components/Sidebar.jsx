@@ -1,6 +1,7 @@
 import React from "react";
 import userIcon from "/user.svg";
-import useStore from "../../store";
+import store_user from "../stores/store_user";
+import { Link } from "wouter";
 
 const iconsMap = {
   users: (
@@ -114,75 +115,32 @@ const iconsMap = {
 };
 
 const Sidebar = () => {
-  const isSidebarHidden = useStore((state) => state.isSidebarHidden);
-  const switchTab = useStore((state) => state.switchTab);
-  const activeTab = useStore((state) => state.activeTab);
-  const username = useStore((state) => state.username);
-  const userType = useStore((state) => state.userType);
-  const adminRoutes = useStore((state) => state.adminRoutes);
-  const userRoutes = useStore((state) => state.userRoutes);
+  const isSidebarHidden = store_user((state) => state.isSidebarHidden);
+  const switchTab = store_user((state) => state.switchTab);
+  const activeTab = store_user((state) => state.activeTab);
+  const username = store_user((state) => state.username);
+  const userType = store_user((state) => state.userType);
+  const routes = store_user((state) => state.routes);
+
+  console.log("userType", userType);
 
   return (
     <div className={`sidebar ${isSidebarHidden ? "hidden" : ""}`}>
       <div className="text-white fs-3 m-3 appTitle">Caisse</div>
 
       <ul>
-        {userType === "admin" &&
-          adminRoutes.map((route, i) => (
-            <li key={i}>
-              <div
-                className={`navlink ${
-                  activeTab === route.link ? "active" : ""
-                }`}
-                onClick={() => switchTab(route.link)}
-              >
-                <span className="icon">
-                  {/*<i className={route.icon}></i>*/}
-                  {iconsMap[route.link]}
-                </span>
-                <span className="item">{route.text}</span>
-              </div>
-            </li>
-          ))}
-        {userType === "utilisateur" &&
-          userRoutes.map((route, i) => (
-            <li key={i}>
-              <div
-                className={`navlink ${
-                  activeTab === route.link ? "active" : ""
-                }`}
-                onClick={() => switchTab(route.link)}
-              >
-                <span className="icon">
-                  {/*<i className={route.icon}></i>*/}
-                  {iconsMap[route.link]}
-                </span>
-                <span className="item">{route.text}</span>
-              </div>
-            </li>
-          ))}
-
-        {/* <li>
-          <div
-            className={`navlink ${activeTab === "reports" ? "active" : ""}`}
-            onClick={() => switchTab("calculator")}
-          >
-            <span className="icon">
-              <i className="fas fa-chart-line"></i>
-            </span>
-            <span className="item">Reports</span>
-          </div>
-        </li> */}
-        {/* <li>
-          <div
-            className={`navlink ${activeTab === "settings" ? "active" : ""}`}
-          >
-            <span className="icon">
-              <i className="fas fa-cog"></i>
-            </span>
-            <span className="item">Settings</span>
-          </div>
-        </li> */}
+        {routes.map((route, i) => (
+          <li key={i}>
+            <Link
+              className={`navlink ${activeTab === route.link ? "active" : ""}`}
+              onClick={() => switchTab(route.link)}
+              to={route.link}
+            >
+              <span className="icon">{iconsMap[route.link]}</span>
+              <span className="item">{route.text}</span>
+            </Link>
+          </li>
+        ))}
       </ul>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import useStore from "../../../store";
+import useStore from "../../store";
 
 const DeleteAccount = ({ account }) => {
   const deleteAccount = useStore((state) => state.deleteAccount);

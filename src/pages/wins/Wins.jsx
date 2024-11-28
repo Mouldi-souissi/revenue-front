@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import useStore from "../../../store";
-import DeleteMove from "../../DeleteMove";
-import AddSpending from "./AddSpending";
+import useStore from "../../store";
+import DeleteMove from "../../components/DeleteMove";
+import AddWin from "./AddWin";
+import Wrapper from "../../components/Wrapper";
 
-const SpendingAndWins = () => {
-  const [spendingDoc, setSpendingDoc] = useState("");
-  const getSpending = useStore((state) => state.getSpending);
-  const spending = useStore((state) => state.spending);
+const Wins = () => {
+  const [winDoc, setWinDoc] = useState("");
+  const getWins = useStore((state) => state.getWins);
+  const wins = useStore((state) => state.wins);
+  const getAccounts = useStore((state) => state.getAccounts);
   const isLoading = useStore((state) => state.isLoading);
-  const username = useStore((state) => state.username);
-  const userType = useStore((state) => state.userType);
-  const total = spending.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
+  const total = wins.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
   useEffect(() => {
-    getSpending();
+    getWins();
+    getAccounts();
   }, []);
+
+  const username = useStore((state) => state.username);
+  const userType = useStore((state) => state.userType);
 
   const checkUser = (user) => {
     if (userType === "admin") {
@@ -29,16 +33,13 @@ const SpendingAndWins = () => {
   };
 
   return (
-    <div className="container">
-      {isLoading && (
-        <div className="d-flex align-items-center justify-content-center ">
-          <div className="loader"></div>
-        </div>
-      )}
-
-      <div className="tableCard d-flex align-items-start justify-content-between gap-2 p-3">
-        <div className="">
-          <div className="title">Dépenses</div>
+    <Wrapper>
+      <div className="d-flex align-items-start justify-content-between gap-2 p-3">
+        <div>
+          <div className="d-flex gap-5 align-items-center">
+            <div className="title">Gain</div>
+            {isLoading && <div className="loader"></div>}
+          </div>
           <div className="mt-3">
             <div className="d-flex gap-2">
               <div>Total:</div>
@@ -54,7 +55,7 @@ const SpendingAndWins = () => {
         </div>
         <button
           data-bs-toggle="modal"
-          data-bs-target="#addSpending"
+          data-bs-target="#addWin"
           className="button primary sm"
         >
           <i className="fa-solid fa-plus"></i>
@@ -64,7 +65,7 @@ const SpendingAndWins = () => {
         <table>
           <thead>
             <tr>
-              <th scope="col">Description</th>
+              <th scope="col">Compte</th>
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Date</th>
@@ -72,32 +73,32 @@ const SpendingAndWins = () => {
             </tr>
           </thead>
           <tbody>
-            {spending
+            {wins
               .sort((a, b) => new Date(b.date) - new Date(a.date))
-              .map((spendingDoc) => (
-                <tr key={spendingDoc._id}>
-                  <td>{spendingDoc.description}</td>
+              .map((win) => (
+                <tr key={win._id}>
+                  <td>{win.account}</td>
                   <td>
-                    {Number(spendingDoc.amount).toLocaleString("fr", {
+                    {Number(win.amount).toLocaleString("fr", {
                       style: "currency",
                       currency: "TND",
                       minimumFractionDigits: 0,
                     })}
                   </td>
-                  <td>{spendingDoc.user}</td>
+                  <td>{win.user}</td>
                   <td>
-                    {new Date(spendingDoc.date).toLocaleString("fr", {
+                    {new Date(win.date).toLocaleString("fr", {
                       dateStyle: "medium",
                       timeStyle: "short",
                     })}
                   </td>
                   <td>
-                    {checkUser(spendingDoc.user) && (
+                    {checkUser(win.user) && (
                       <i
                         className="fa-solid fa-trash btn text-danger"
                         data-bs-toggle="modal"
                         data-bs-target="#deleteMove"
-                        onClick={() => setSpendingDoc(spendingDoc)}
+                        onClick={() => setWinDoc(win)}
                       ></i>
                     )}
                   </td>
@@ -107,10 +108,10 @@ const SpendingAndWins = () => {
         </table>
       </div>
 
-      <AddSpending />
-      <DeleteMove move={spendingDoc} />
-    </div>
+      <AddWin />
+      <DeleteMove move={winDoc} />
+    </Wrapper>
   );
 };
 
-export default SpendingAndWins;
+export default Wins;

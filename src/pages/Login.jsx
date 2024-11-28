@@ -1,21 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
 import userIcon from "/user.svg";
 import useStore from "../store";
 import cash from "/cash.jpg";
+import store_user from "../stores/store_user";
+import { useLocation } from "wouter";
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "", shop: "aouina" });
   const login = useStore((state) => state.login);
   const getAllshops = useStore((state) => state.getAllshops);
   const shops = useStore((state) => state.shops);
-  const history = useHistory();
+  const checkAuth = store_user((store) => store.checkAuth);
+  const redirectionLink = store_user((store) => store.redirectionLink);
+  const isAuthenticated = store_user((store) => store.isAuthenticated);
+  const [location, setLocation] = useLocation();
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!shops.length) {
-      getAllshops();
+      setLoading(true);
+      getAllshops().finally(() => setLoading(false));
     }
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLocation(redirectionLink);
+    }
+  }, [isAuthenticated]);
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -24,10 +36,12 @@ const Login = () => {
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
+      setLoading(true);
       await login(data.email, data.password, data.shop);
-      history.push("/");
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,7 +62,7 @@ const Login = () => {
 
           <form className="col-lg-6 p-5" onSubmit={handleLogin}>
             <div className="d-flex flex-column justify-content-center align-items-center h-100">
-              <i class="fa-regular fa-user fs-2 mb-3" />
+              <i className="fa-regular fa-user fs-2 mb-3" />
               <div className="form-floating mb-3 w-100">
                 <input
                   type="email"
@@ -57,6 +71,7 @@ const Login = () => {
                   name="email"
                   onChange={handleInput}
                   required
+                  disabled={isLoading}
                 />
                 <label>Email</label>
               </div>
@@ -69,7 +84,7 @@ const Login = () => {
                   name="password"
                   onChange={handleInput}
                   required
-                  autoComplete="off"
+                  disabled={isLoading}
                 />
                 <label>Mot de passe</label>
               </div>
@@ -80,6 +95,7 @@ const Login = () => {
                   name="shop"
                   onChange={handleInput}
                   value={data.shop}
+                  disabled={isLoading}
                 >
                   {shops.map((shop) => (
                     <option key={shop._id} value={shop.name}>
@@ -90,7 +106,11 @@ const Login = () => {
                 <label>shop</label>
               </div>
 
-              <button className="button primary w-100" type="submit">
+              <button
+                className="button primary w-100"
+                type="submit"
+                disabled={isLoading}
+              >
                 SE CONNECTER
               </button>
             </div>

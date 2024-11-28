@@ -1,45 +1,35 @@
 import React, { useEffect, useRef, useState } from "react";
-import useStore from "../../../store";
+import useStore from "../../store";
 
-const AddSpending = () => {
+const AddAmount = ({ account }) => {
   const [data, setData] = useState({
-    type: "sortie",
-    subType: "dépense",
-    account: "Fond",
+    type: "entrée",
+    subType: "versement",
+    account: "",
     amount: "",
   });
-  const [error, setError] = useState("");
   const addMove = useStore((state) => state.addMove);
   const refClose = useRef();
   const [isLoading, setLoading] = useState(false);
 
   const handleInput = (e) => {
-    let isValid = true;
-    if (e.target.name === "amount") {
-      isValid = validateInput(e);
+    const value = e.target.value;
+    if (Number(e.target.value) > 0) {
+      setData({ ...data, amount: Number(value) });
+    } else {
+      setData({ ...data, amount: "" });
     }
-
-    if (isValid) {
-      setData({ ...data, [e.target.name]: e.target.value });
-    }
-  };
-
-  const validateInput = (event) => {
-    if (!/^[0-9]+$/.test(event.target.value)) {
-      setError("Seuls les numéros sont autorisés");
-      setData({ ...data, [event.target.name]: "" });
-      return false;
-    }
-    setError("");
-    return true;
   };
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       setLoading(true);
-      await addMove(data);
-      refClose.current.click();
+
+      if (data.amount) {
+        await addMove(data);
+        refClose.current.click();
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -48,25 +38,15 @@ const AddSpending = () => {
   };
 
   useEffect(() => {
-    setData({
-      ...data,
-    });
-  }, []);
+    setData({ ...data, account: account?.name });
+  }, [account]);
 
   return (
-    <div
-      className="modal fade"
-      id="addSpending"
-      tabIndex="-1"
-      aria-labelledby="addSpendingLabel"
-      aria-hidden="true"
-    >
+    <div className="modal fade" id="addAmount" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content p-3" onSubmit={handleSubmit}>
           <div className="d-flex justify-content-between align-items-center">
-            <div className="text-black" id="addSpendingLabel">
-              Ajouter une dépense
-            </div>
+            <div className="text-black">Alimenter {account?.name}</div>
             <button
               type="button"
               className="btn-close"
@@ -79,30 +59,13 @@ const AddSpending = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Description"
-                name="description"
-                onChange={handleInput}
-                required
-                autoComplete="off"
-              />
-              <label>Description</label>
-            </div>
-            <div className="form-floating">
-              <input
-                type="text"
-                className="form-control"
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
                 value={data.amount}
-                required
-                autoComplete="off"
               />
               <label>Montant</label>
             </div>
-            {!!error.length && (
-              <small className="ms-2 text-danger">{error}</small>
-            )}
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">
             <button
@@ -116,9 +79,9 @@ const AddSpending = () => {
             <button
               type="submit"
               className="button primary"
-              disabled={isLoading}
+              disabled={!data.amount || isLoading}
             >
-              Ajouter
+              Sauvegarder
             </button>
           </div>
         </form>
@@ -127,4 +90,4 @@ const AddSpending = () => {
   );
 };
 
-export default AddSpending;
+export default AddAmount;

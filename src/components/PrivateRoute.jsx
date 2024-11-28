@@ -1,15 +1,20 @@
-import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route } from "wouter";
+import store_user from "../stores/store_user";
 
-export const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      sessionStorage.getItem("token") ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/login" />
-      )
-    }
-  />
-);
+const PrivateRoute = (props) => {
+  const isAuthenticated = store_user((store) => store.isAuthenticated);
+  const role = store_user((store) => store.userType);
+
+  if (props.path === "/login" && isAuthenticated) {
+    return;
+  }
+  console.log("object");
+
+  if (isAuthenticated && props.roles.includes(role)) {
+    return <Route {...props} />;
+  } else {
+    return <Redirect to="/login" />;
+  }
+};
+
+export default PrivateRoute;

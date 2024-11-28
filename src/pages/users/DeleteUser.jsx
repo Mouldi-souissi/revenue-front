@@ -1,35 +1,37 @@
 import React, { useRef } from "react";
-import useStore from "../../../store";
+import useStore from "../../store";
 
-const DeleteMoves = () => {
-  const deleteAllMoves = useStore((state) => state.deleteAllMoves);
+const DeleteUser = ({ user }) => {
+  const deleteUser = useStore((state) => state.deleteUser);
   const refClose = useRef();
 
   const handleDelete = () => {
-    deleteAllMoves();
+    deleteUser(user._id);
     refClose.current.click();
   };
+
   return (
     <div
       className="modal fade"
-      id="deleteAllMoves"
+      id="deleteUser"
       tabIndex="-1"
+      aria-labelledby="deleteUserLabel"
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content p-3">
-          <div className="d-flex justify-content-between align-items-center">
-            <h1 className="modal-title fs-5"></h1>
+        <div className="modal-content p-3 p-2">
+          <div className="d-flex justify-content-end align-items-center">
+            <h1 className="modal-title fs-5" id="deleteUserLabel"></h1>
             <button
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
-              ref={refClose}
             ></button>
           </div>
-          <div className="modal-body my-3">
-            Veillez confirmer la supression de tout les mouvements
+          <div className="modal-body my-3 my-3">
+            <div>Veillez confirmer la supression de l'utilasateur :</div>
+            <div className="text-black text-center">{user?.name}</div>
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">
             <button
@@ -54,4 +56,4 @@ const DeleteMoves = () => {
   );
 };
 
-export default DeleteMoves;
+export default DeleteUser;

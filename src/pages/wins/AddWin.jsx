@@ -1,23 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import useStore from "../../../store";
+import useStore from "../../store";
 
-const AddSale = () => {
-  const [data, setData] = useState({ depositEnd: "" });
+const AddWin = () => {
+  const [data, setData] = useState({
+    amount: "",
+    type: "sortie",
+    subType: "gain",
+  });
   const [error, setError] = useState("");
-  const [errorAmount, setErrorAmount] = useState("");
   const addMove = useStore((state) => state.addMove);
-
-  const getTotalWins = useStore((state) => state.getTotalWins);
-  const getSpending = useStore((state) => state.getSpending);
-  const getAccounts = useStore((state) => state.getAccounts);
-
   const accounts = useStore((state) => state.accounts);
   const refClose = useRef();
   const [isLoading, setLoading] = useState(false);
 
   const handleInput = (e) => {
     let isValid = true;
-    if (e.target.name === "depositEnd") {
+    if (e.target.name === "amount") {
       isValid = validateInput(e);
     }
 
@@ -37,50 +35,18 @@ const AddSale = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
       setLoading(true);
-      const accounts_res = await getAccounts();
-      const account = accounts_res.find((acc) => acc.name === data.account);
-      const totalWins = await getTotalWins(account.name);
-      const spendings_res = await getSpending();
-
-      const totalSpending = spendings_res.reduce(
-        (acc, curr) => (acc += Number(curr.amount)),
-        0,
-      );
-      console.log("calc", {
-        debut: account.deposit,
-        fin: data.depositEnd,
-        rate: account.rate,
-      });
-      const amount =
-        (Number(account.deposit) - Number(data.depositEnd)) *
-        Number(account.rate);
-      const netSale = amount - totalWins - totalSpending;
-
-      if (amount <= 0) {
-        setErrorAmount(
-          "La vente ne peut pas etre negative! veillez entrer les gains d'abord",
-        );
-        return;
-      } else {
-        setErrorAmount("");
-        await addMove({
-          amount: Number(amount).toFixed(0),
-          type: "entrée",
-          subType: "vente",
-          account: account.name,
-          description: Number(netSale).toFixed(0),
-        });
-        refClose.current.click();
-      }
+      e.preventDefault();
+      await addMove(data);
+      refClose.current.click();
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     setData({
       ...data,
@@ -89,11 +55,11 @@ const AddSale = () => {
   }, [accounts]);
 
   return (
-    <div className="modal fade" id="addSale" tabIndex="-1" aria-hidden="true">
+    <div className="modal fade" id="addWin" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content p-3" onSubmit={handleSubmit}>
           <div className="d-flex justify-content-between align-items-center">
-            <div className="text-black">Ajouter une vente</div>
+            <div className="text-black">Ajouter un gain</div>
             <button
               type="button"
               className="btn-close"
@@ -102,38 +68,46 @@ const AddSale = () => {
             ></button>
           </div>
           <div className="modal-body my-3">
-            {errorAmount && (
-              <small className="text-danger my-3">{errorAmount}</small>
-            )}
             <div className="form-floating mb-3">
               <select
                 className="form-select"
                 name="account"
                 onChange={handleInput}
-                value={data.account}
+                required
               >
                 {accounts
                   .filter((account) => account.name !== "Fond")
                   .map((account) => (
-                    <option key={account._id} value={account.name}>
-                      {account.name}
+                    <option key={account?._id} value={account?.name}>
+                      {account?.name}
                     </option>
                   ))}
               </select>
               <label>Type</label>
             </div>
-            <div className="form-floating">
+
+            {/* <div className="form-floating mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="client/Tél"
+                name="description"
+                onChange={handleInput}
+              />
+              <label>client/Tél</label>
+            </div> */}
+            <div className="form-floating ">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Montant"
-                name="depositEnd"
+                name="amount"
                 onChange={handleInput}
-                value={data.depositEnd}
+                value={data.amount}
                 required
                 autoComplete="off"
               />
-              <label>Balance {data.account} fin</label>
+              <label>Montant</label>
             </div>
             {!!error.length && (
               <small className="ms-2 text-danger">{error}</small>
@@ -162,4 +136,4 @@ const AddSale = () => {
   );
 };
 
-export default AddSale;
+export default AddWin;

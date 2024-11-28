@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
-import useStore from "../../../store";
+import React, { useEffect, useRef, useState } from "react";
+import useStore from "../../store";
 
-const AddAccount = () => {
-  const [data, setData] = useState("");
-  const addAccount = useStore((state) => state.addAccount);
+const EditUser = ({ user }) => {
+  const [data, setData] = useState({ name: "", type: "" });
+  const editUser = useStore((state) => state.editUser);
   const refClose = useRef();
 
   const handleInput = (e) => {
@@ -12,24 +12,27 @@ const AddAccount = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addAccount(data);
+    editUser(data);
     refClose.current.click();
   };
 
+  useEffect(() => {
+    if (user) {
+      setData(user);
+    }
+  }, [user]);
   return (
     <div
       className="modal fade"
-      id="addSite"
+      id="editUser"
       tabIndex="-1"
-      aria-labelledby="addSiteLabel"
+      aria-labelledby="editUserLabel"
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
-        <form className="modal-content p-3" onSubmit={handleSubmit}>
+        <form className="modal-content p-3 p-3" onSubmit={handleSubmit}>
           <div className="d-flex justify-content-between align-items-center">
-            <h1 className="modal-title fs-5" id="addSiteLabel">
-              Ajouter un nouveau compte
-            </h1>
+            <div className="text-black">Editer l'utilisateur</div>
             <button
               type="button"
               className="btn-close"
@@ -37,7 +40,7 @@ const AddAccount = () => {
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body my-3">
+          <div className="modal-body my-3 my-3">
             <div className="form-floating mb-3">
               <input
                 type="text"
@@ -45,32 +48,23 @@ const AddAccount = () => {
                 placeholder="Nom"
                 name="name"
                 onChange={handleInput}
+                value={data.name}
                 required
                 autoComplete="off"
               />
               <label>Nom</label>
             </div>
             <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Lien du logo"
-                name="img"
+              <select
+                className="form-select"
+                name="type"
                 onChange={handleInput}
-              />
-              <label>Lien de logo</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Solde"
-                name="deposit"
-                onChange={handleInput}
-                required
-                autoComplete="off"
-              />
-              <label>Solde</label>
+                value={data.type}
+              >
+                <option value="utilisateur">Utilisateur</option>
+                <option value="admin">Admin</option>
+              </select>
+              <label>Type</label>
             </div>
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">
@@ -83,7 +77,7 @@ const AddAccount = () => {
               Fermer
             </button>
             <button type="submit" className="button primary">
-              Ajouter
+              Sauvgarder
             </button>
           </div>
         </form>
@@ -92,4 +86,4 @@ const AddAccount = () => {
   );
 };
 
-export default AddAccount;
+export default EditUser;
