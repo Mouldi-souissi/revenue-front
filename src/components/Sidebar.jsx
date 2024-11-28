@@ -4,7 +4,7 @@ import store_user from "../stores/store_user";
 import { Link } from "wouter";
 
 const iconsMap = {
-  users: (
+  "/users": (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -22,7 +22,7 @@ const iconsMap = {
       <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
     </svg>
   ),
-  dashboard: (
+  "/dashboard": (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -40,7 +40,7 @@ const iconsMap = {
       <line x1="12" x2="12" y1="17" y2="21" />
     </svg>
   ),
-  sales: (
+  "/sales": (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -58,7 +58,7 @@ const iconsMap = {
       <path d="M12 16V8" />
     </svg>
   ),
-  spending: (
+  "/spending": (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -76,7 +76,7 @@ const iconsMap = {
       <path d="m8 12 4 4 4-4" />
     </svg>
   ),
-  wins: (
+  "/wins": (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -95,7 +95,7 @@ const iconsMap = {
       <path d="m16.71 13.88.7.71-2.82 2.82" />
     </svg>
   ),
-  accounts: (
+  "/accounts": (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -122,7 +122,7 @@ const Sidebar = () => {
   const userType = store_user((state) => state.userType);
   const routes = store_user((state) => state.routes);
 
-  console.log("userType", userType);
+  // console.log("routes", routes);
 
   return (
     <div className={`sidebar ${isSidebarHidden ? "hidden" : ""}`}>

@@ -8,7 +8,6 @@ const PrivateRoute = (props) => {
   if (props.path === "/login" && isAuthenticated) {
     return;
   }
-  console.log("object");
 
   if (isAuthenticated && props.roles.includes(role)) {
     return <Route {...props} />;

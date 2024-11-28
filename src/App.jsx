@@ -3,6 +3,8 @@ import "./App.css";
 import PrivateRoute from "./components/PrivateRoute";
 import { Route, Switch, Redirect } from "wouter";
 import store_user from "./stores/store_user";
+import useScrollTop from "./hooks/useScrollTop";
+import { USER_ROLES } from "./stores/store_user";
 
 // pages
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -16,6 +18,8 @@ import Wins from "./pages/wins/Wins";
 function App() {
   const checkAuth = store_user((store) => store.checkAuth);
 
+  useScrollTop();
+
   useEffect(() => {
     checkAuth();
   }, []);
@@ -27,29 +31,33 @@ function App() {
         <PrivateRoute
           path="/dashboard"
           component={Dashboard}
-          roles={["admin", "user"]}
+          roles={[USER_ROLES.ADMIN, USER_ROLES.USER]}
         />
         <PrivateRoute
           path="/users"
           component={Users}
-          roles={["admin", "user"]}
+          roles={[USER_ROLES.ADMIN, USER_ROLES.USER]}
         />
         <PrivateRoute
           path="/accounts"
           component={Accounts}
-          roles={["admin", "user"]}
+          roles={[USER_ROLES.ADMIN, USER_ROLES.USER]}
         />
         <PrivateRoute
           path="/sales"
           component={Sales}
-          roles={["admin", "user"]}
+          roles={[USER_ROLES.ADMIN, USER_ROLES.USER]}
         />
         <PrivateRoute
           path="/spending"
           component={Spending}
-          roles={["admin", "user"]}
+          roles={[USER_ROLES.ADMIN, USER_ROLES.USER]}
         />
-        <PrivateRoute path="/wins" component={Wins} roles={["admin", "user"]} />
+        <PrivateRoute
+          path="/wins"
+          component={Wins}
+          roles={[USER_ROLES.ADMIN, USER_ROLES.USER]}
+        />
         {/*public routes*/}
         <Route path="/login" component={Login} />
         {/*404*/}

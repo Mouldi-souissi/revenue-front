@@ -20,48 +20,48 @@ axios.interceptors.response.use(
 
 export const USER_ROLES = {
   ADMIN: "admin",
-  USER: "user",
+  USER: "utilisateur",
 };
 
 const ADMIN_ROUTES = [
-  { link: "dashboard", icon: "fas fa-desktop", text: "Tableau de bord" },
-  { link: "users", icon: "fas fa-user-friends", text: "Utilisateurs" },
+  { link: "/dashboard", icon: "fas fa-desktop", text: "Tableau de bord" },
+  { link: "/users", icon: "fas fa-user-friends", text: "Utilisateurs" },
   {
-    link: "accounts",
+    link: "/accounts",
     icon: "fa-solid fa-tablet-screen-button",
     text: "Comptes",
   },
   {
-    link: "sales",
+    link: "/sales",
     icon: "fa-solid fa-up-long green",
     text: "Ventes",
   },
   {
-    link: "spending",
+    link: "/spending",
     icon: "fa-solid fa-down-long red",
     text: "Dépenses",
   },
   {
-    link: "wins",
+    link: "/wins",
     icon: "fa-solid fa-circle-dollar-to-slot",
     text: "Gain",
   },
 ];
 
 const USER_ROUTES = [
-  { link: "dashboard", icon: "fas fa-desktop", text: "Tableau de bordd" },
+  { link: "/dashboard", icon: "fas fa-desktop", text: "Tableau de bordd" },
   {
-    link: "sales",
+    link: "/sales",
     icon: "fa-solid fa-up-long green",
     text: "Ventes",
   },
   {
-    link: "spending",
+    link: "/spending",
     icon: "fa-solid fa-down-long red",
     text: "Dépenses",
   },
   {
-    link: "wins",
+    link: "/wins",
     icon: "fa-solid fa-circle-dollar-to-slot",
     text: "Gain",
   },
@@ -74,10 +74,12 @@ const store_user = create((set, get) => ({
   userType: "admin",
   isLoading: false,
   shop: "aouina",
-  redirectionLink: "/",
+  redirectionLink: "/dashboard",
 
   routes: [],
   isAuthenticated: false,
+
+  users: [],
 
   toggleSideBar: () => {
     set((state) => ({ isSidebarHidden: !state.isSidebarHidden }));
@@ -87,7 +89,7 @@ const store_user = create((set, get) => ({
     set({ activeTab: tab });
   },
 
-  getUsers: () => {
+  getUsers: async () => {
     set({ isLoading: true });
     axios
       .get(`${API_URL}/user`, {
@@ -111,17 +113,13 @@ const store_user = create((set, get) => ({
 
         if (decodedToken.type === USER_ROLES.ADMIN) {
           set({
-            activeTab: "dashboard",
             routes: ADMIN_ROUTES,
-            redirectionLink: "/dashboard",
           });
         }
 
         if (decodedToken.type === USER_ROLES.USER) {
           set({
-            activeTab: "sales",
             routes: USER_ROUTES,
-            redirectionLink: "/sales",
           });
         }
 
@@ -129,6 +127,9 @@ const store_user = create((set, get) => ({
           username: decodedToken.name,
           userType: decodedToken.type,
           shop: decodedToken.shop,
+          redirectionLink: "/dashboard",
+          activeTab: "dashboard",
+          isAuthenticated: true,
         });
         navigate("/", { replace: true });
       })
@@ -136,7 +137,10 @@ const store_user = create((set, get) => ({
   },
   logout: () => {
     window.sessionStorage.removeItem("token");
-    window.location.replace("/login");
+    set({
+      isAuthenticated: false,
+    });
+    navigate("/login", { replace: true });
   },
 
   checkAuth: () => {
@@ -151,17 +155,13 @@ const store_user = create((set, get) => ({
 
       if (decodedToken.type === USER_ROLES.ADMIN) {
         set({
-          activeTab: "dashboard",
           routes: ADMIN_ROUTES,
-          redirectionLink: "/dashboard",
         });
       }
 
       if (decodedToken.type === USER_ROLES.USER) {
         set({
-          activeTab: "sales",
           routes: USER_ROUTES,
-          redirectionLink: "/sales",
         });
       }
 
@@ -169,6 +169,8 @@ const store_user = create((set, get) => ({
         username: decodedToken.name,
         userType: decodedToken.type,
         shop: decodedToken.shop,
+        redirectionLink: "/dashboard",
+        activeTab: "dashboard",
         isAuthenticated: true,
       });
     } catch (err) {
@@ -177,7 +179,7 @@ const store_user = create((set, get) => ({
 
       navigate("/login", { replace: true });
 
-      // console.log(err);
+      console.log(err);
     }
   },
 

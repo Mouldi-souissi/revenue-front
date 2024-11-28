@@ -6,25 +6,31 @@ import DeleteUser from "./DeleteUser";
 import store_user from "../../stores/store_user";
 import Wrapper from "../../components/Wrapper";
 
+const defaultUser = {
+  name: "",
+  type: "",
+};
+
 const Users = () => {
-  const getUsers = useStore((state) => state.getUsers);
+  const [isLoading, setLoading] = useState(false);
+  const [user, setUser] = useState(defaultUser);
+
+  const getUsers = store_user((state) => state.getUsers);
   const shop = useStore((state) => state.shop);
-  const users = useStore((state) => state.users).filter(
+  const users = store_user((state) => state.users).filter(
     (user) => user.shop === shop,
   );
 
-  const isLoading = useStore((state) => state.isLoading);
-  const [deleteData, setDeleteData] = useState("");
-  const [user, setUser] = useState("");
   useEffect(() => {
-    getUsers();
+    setLoading(true);
+    getUsers().finally(() => setLoading(false));
   }, []);
+
   return (
     <Wrapper>
       <div className=" d-flex align-items-center justify-content-between gap-2 p-3">
         <div className="d-flex gap-5 align-items-center">
           <div className="title">Utilisateurs</div>
-
           {isLoading && <div className="loader"></div>}
         </div>
 
@@ -71,7 +77,7 @@ const Users = () => {
                       className="fa-solid fa-trash btn text-danger"
                       data-bs-toggle="modal"
                       data-bs-target="#deleteUser"
-                      onClick={() => setDeleteData(user)}
+                      onClick={() => setUser(user)}
                     ></i>
                   </td>
                 </tr>
@@ -79,10 +85,10 @@ const Users = () => {
           </tbody>
         </table>
       </div>
-
+      {/*modals*/}
       <AddUser />
       <EditUser user={user} />
-      <DeleteUser user={deleteData} />
+      <DeleteUser user={user} />
     </Wrapper>
   );
 };

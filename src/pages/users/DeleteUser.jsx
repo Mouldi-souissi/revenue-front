@@ -31,7 +31,7 @@ const DeleteUser = ({ user }) => {
           </div>
           <div className="modal-body my-3 my-3">
             <div>Veillez confirmer la supression de l'utilasateur :</div>
-            <div className="text-black text-center">{user?.name}</div>
+            <div className="text-black text-center">{user.name}</div>
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">
             <button

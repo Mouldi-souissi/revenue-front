@@ -21,6 +21,7 @@ const EditUser = ({ user }) => {
       setData(user);
     }
   }, [user]);
+
   return (
     <div
       className="modal fade"
@@ -50,7 +51,6 @@ const EditUser = ({ user }) => {
                 onChange={handleInput}
                 value={data.name}
                 required
-                autoComplete="off"
               />
               <label>Nom</label>
             </div>
