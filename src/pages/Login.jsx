@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import cash from "/cash.jpg";
+import cash from "/cash.webp";
 import { useLocation } from "wouter";
 import store_shop from "../stores/store_shop";
 import store_user from "../stores/store_user";

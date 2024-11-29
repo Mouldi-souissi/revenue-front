@@ -61,7 +61,7 @@ function App() {
         {/*public routes*/}
         <Route path="/login" component={Login} />
         {/*404*/}
-        <Route path="*" component={Dashboard} />
+        <Route path="*" component={Login} />
       </Switch>
     </div>
   );
