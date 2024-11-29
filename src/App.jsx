@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./App.css";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./components/other/PrivateRoute";
 import { Route, Switch, Redirect } from "wouter";
 import store_user from "./stores/store_user";
 import useScrollTop from "./hooks/useScrollTop";

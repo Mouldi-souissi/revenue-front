@@ -3,7 +3,7 @@ import EditUser from "./EditUser";
 import AddUser from "./AddUser";
 import DeleteUser from "./DeleteUser";
 import store_user from "../../stores/store_user";
-import Wrapper from "../../components/Wrapper";
+import Wrapper from "../../components/layout/Wrapper";
 
 const defaultUser = {
   name: "",

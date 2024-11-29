@@ -1,4 +1,4 @@
-import store_user from "../stores/store_user";
+import store_user from "../../stores/store_user";
 import userIcon from "/user.svg";
 
 const TopBar = () => {

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import DeleteMove from "../shared/DeleteMove";
-import Pagination from "../../components/Pagination";
+import Pagination from "../../components/UI/Pagination";
 import AddAmount from "./AddAmount";
 import WithDraw from "./WithDraw";
 import store_user from "../../stores/store_user";
-import Wrapper from "../../components/Wrapper";
+import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
 

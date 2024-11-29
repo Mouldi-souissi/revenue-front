@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import store_account from "../../stores/store_account";
 import AddAccount from "./AddAccount";
 import DeleteAccount from "./DeleteAccount";
 import EditAccount from "./EditAccount";
-import Wrapper from "../../components/Wrapper";
+import Wrapper from "../../components/layout/Wrapper";
 
 const Sites = () => {
   const [account, setAccount] = useState("");

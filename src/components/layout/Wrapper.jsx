@@ -1,7 +1,7 @@
 import React from "react";
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
-import store_user from "../stores/store_user";
+import store_user from "../../stores/store_user";
 
 const Wrapper = (props) => {
   const isSidebarHidden = store_user((store) => store.isSidebarHidden);

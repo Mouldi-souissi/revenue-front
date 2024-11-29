@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AddSale from "./AddSale";
 import DeleteMove from "../shared/DeleteMove";
-import Wrapper from "../../components/Wrapper";
+import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";

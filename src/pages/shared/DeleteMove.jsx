@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import store_move from "../../stores/store_move";
 
 const DeleteMove = ({ move }) => {
