@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import userIcon from "/user.svg";
-import useStore from "../store";
-import cash from "/cash.jpg";
+import { useEffect, useState } from "react";
+import cash from "/cash.webp";
+import { useLocation } from "wouter";
+import store_shop from "../stores/store_shop";
+import store_user from "../stores/store_user";
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "", shop: "aouina" });
-  const login = useStore((state) => state.login);
-  const getAllshops = useStore((state) => state.getAllshops);
-  const shops = useStore((state) => state.shops);
-  const history = useHistory();
+
+  const login = store_user((state) => state.login);
+  const checkAuth = store_user((store) => store.checkAuth);
+  const activeTab = store_user((store) => store.activeTab);
+  const isAuthenticated = store_user((store) => store.isAuthenticated);
+  const loginError = store_user((store) => store.loginError);
+
+  const getAllshops = store_shop((state) => state.getAllshops);
+  const shops = store_shop((state) => state.shops);
+
+  const [location, setLocation] = useLocation();
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!shops.length) {
-      getAllshops();
+      setLoading(true);
+      getAllshops().finally(() => setLoading(false));
     }
   }, []);
 
@@ -24,15 +33,22 @@ const Login = () => {
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
+      setLoading(true);
       await login(data.email, data.password, data.shop);
-      history.push("/");
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="container py-5">
+      {loginError && (
+        <div className="alert alert-danger mt-2" role="alert">
+          {loginError}
+        </div>
+      )}
       <div className="signinCard">
         <div className="row">
           <div className="col-lg-6 signup_container">
@@ -48,7 +64,7 @@ const Login = () => {
 
           <form className="col-lg-6 p-5" onSubmit={handleLogin}>
             <div className="d-flex flex-column justify-content-center align-items-center h-100">
-              <i class="fa-regular fa-user fs-2 mb-3" />
+              <i className="fa-regular fa-user fs-2 mb-3" />
               <div className="form-floating mb-3 w-100">
                 <input
                   type="email"
@@ -57,6 +73,7 @@ const Login = () => {
                   name="email"
                   onChange={handleInput}
                   required
+                  disabled={isLoading}
                 />
                 <label>Email</label>
               </div>
@@ -69,7 +86,7 @@ const Login = () => {
                   name="password"
                   onChange={handleInput}
                   required
-                  autoComplete="off"
+                  disabled={isLoading}
                 />
                 <label>Mot de passe</label>
               </div>
@@ -80,6 +97,7 @@ const Login = () => {
                   name="shop"
                   onChange={handleInput}
                   value={data.shop}
+                  disabled={isLoading}
                 >
                   {shops.map((shop) => (
                     <option key={shop._id} value={shop.name}>
@@ -90,9 +108,16 @@ const Login = () => {
                 <label>shop</label>
               </div>
 
-              <button className="button primary w-100" type="submit">
-                SE CONNECTER
-              </button>
+              {isLoading && <div className="loader"></div>}
+              {!isLoading && (
+                <button
+                  className="button primary w-100"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  SE CONNECTER
+                </button>
+              )}
             </div>
           </form>
         </div>
