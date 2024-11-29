@@ -3,8 +3,6 @@ import userIcon from "/user.svg";
 
 const TopBar = () => {
   const toggleSideBar = store_user((state) => state.toggleSideBar);
-  const isSidebarHidden = store_user((state) => state.isSidebarHidden);
-  const activeTab = store_user((state) => state.activeTab);
   const logout = store_user((state) => state.logout);
   const username = store_user((state) => state.username);
 

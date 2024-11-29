@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import useStore from "../../store";
+import { useEffect, useRef, useState } from "react";
+import store_account from "../../stores/store_account";
 
 const EditAccount = ({ account }) => {
   const [data, setData] = useState({
@@ -8,7 +8,7 @@ const EditAccount = ({ account }) => {
     img: "",
     deposit: "",
   });
-  const editAccount = useStore((state) => state.editAccount);
+  const editAccount = store_account((state) => state.editAccount);
   const refClose = useRef();
 
   const handleInput = (e) => {

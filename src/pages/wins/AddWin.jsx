@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import useStore from "../../store";
+import store_account from "../../stores/store_account";
+import store_move from "../../stores/store_move";
 
 const AddWin = () => {
   const [data, setData] = useState({
@@ -8,8 +9,8 @@ const AddWin = () => {
     subType: "gain",
   });
   const [error, setError] = useState("");
-  const addMove = useStore((state) => state.addMove);
-  const accounts = useStore((state) => state.accounts);
+  const addMove = store_move((state) => state.addMove);
+  const accounts = store_account((state) => state.accounts);
   const refClose = useRef();
   const [isLoading, setLoading] = useState(false);
 

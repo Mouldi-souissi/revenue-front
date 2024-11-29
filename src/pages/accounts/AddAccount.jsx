@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
-import useStore from "../../store";
+import { useRef, useState } from "react";
+import store_account from "../../stores/store_account";
 
 const AddAccount = () => {
   const [data, setData] = useState("");
-  const addAccount = useStore((state) => state.addAccount);
+  const addAccount = store_account((state) => state.addAccount);
   const refClose = useRef();
 
   const handleInput = (e) => {

@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
-import useStore from "../store";
+import store_move from "../../stores/store_move";
 
 const DeleteMove = ({ move }) => {
-  const deleteMove = useStore((state) => state.deleteMove);
+  const deleteMove = store_move((state) => state.deleteMove);
   const refClose = useRef();
   const [isLoading, setLoading] = useState(false);
 

@@ -1,11 +1,12 @@
-import React, { useRef, useState, useEffect } from "react";
-import useStore from "../../store";
+import { useRef, useState, useEffect } from "react";
+import store_user from "../../stores/store_user";
+import store_shop from "../../stores/store_shop";
 
 const AddUser = () => {
   const [data, setData] = useState({ type: "utilisateur", shop: "aouina" });
-  const addUser = useStore((state) => state.addUser);
-  const getAllshops = useStore((state) => state.getAllshops);
-  const shops = useStore((state) => state.shops);
+  const addUser = store_user((state) => state.addUser);
+  const getAllshops = store_shop((state) => state.getAllshops);
+  const shops = store_shop((state) => state.shops);
   const refClose = useRef();
 
   useEffect(() => {

@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import useStore from "../../store";
+import { useRef, useState } from "react";
+import store_move from "../../stores/store_move";
 
 const WithDraw = () => {
   const [data, setData] = useState({
@@ -8,7 +8,8 @@ const WithDraw = () => {
     account: "Fond",
     amount: "",
   });
-  const addMove = useStore((state) => state.addMove);
+
+  const addMove = store_move((state) => state.addMove);
   const refClose = useRef();
   const [isLoading, setLoading] = useState(false);
 

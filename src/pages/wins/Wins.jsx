@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from "react";
-import useStore from "../../store";
-import DeleteMove from "../../components/DeleteMove";
+import DeleteMove from "../shared/DeleteMove";
 import AddWin from "./AddWin";
 import Wrapper from "../../components/Wrapper";
+import store_account from "../../stores/store_account";
+import store_user from "../../stores/store_user";
+import store_move from "../../stores/store_move";
 
 const Wins = () => {
+  const [isLoading, setLoading] = useState(false);
   const [winDoc, setWinDoc] = useState("");
-  const getWins = useStore((state) => state.getWins);
-  const wins = useStore((state) => state.wins);
-  const getAccounts = useStore((state) => state.getAccounts);
-  const isLoading = useStore((state) => state.isLoading);
+
+  const getWins = store_move((state) => state.getWins);
+  const wins = store_move((state) => state.wins);
+
+  const getAccounts = store_account((state) => state.getAccounts);
+
+  const username = store_user((state) => state.username);
+  const userType = store_user((state) => state.userType);
+
   const total = wins.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
   useEffect(() => {
-    getWins();
+    setLoading(true);
+    getWins().finally(() => setLoading(false));
     getAccounts();
   }, []);
-
-  const username = useStore((state) => state.username);
-  const userType = useStore((state) => state.userType);
 
   const checkUser = (user) => {
     if (userType === "admin") {

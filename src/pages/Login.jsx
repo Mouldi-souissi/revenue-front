@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-import userIcon from "/user.svg";
-import useStore from "../store";
 import cash from "/cash.jpg";
-import store_user from "../stores/store_user";
 import { useLocation } from "wouter";
+import store_shop from "../stores/store_shop";
+import store_user from "../stores/store_user";
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "", shop: "aouina" });
-  const login = useStore((state) => state.login);
-  const getAllshops = useStore((state) => state.getAllshops);
-  const shops = useStore((state) => state.shops);
+
+  const login = store_user((state) => state.login);
   const checkAuth = store_user((store) => store.checkAuth);
   const redirectionLink = store_user((store) => store.redirectionLink);
   const isAuthenticated = store_user((store) => store.isAuthenticated);
+
+  const getAllshops = store_shop((state) => state.getAllshops);
+  const shops = store_shop((state) => state.shops);
+
   const [location, setLocation] = useLocation();
   const [isLoading, setLoading] = useState(false);
 

@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import useStore from "../../store";
+import { useEffect, useRef, useState } from "react";
+import store_user from "../../stores/store_user";
 
 const EditUser = ({ user }) => {
   const [data, setData] = useState({ name: "", type: "" });
-  const editUser = useStore((state) => state.editUser);
+  const editUser = store_user((state) => state.editUser);
   const refClose = useRef();
 
   const handleInput = (e) => {

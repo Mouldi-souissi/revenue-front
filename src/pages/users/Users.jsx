@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import useStore from "../../store";
+import { useEffect, useState } from "react";
 import EditUser from "./EditUser";
 import AddUser from "./AddUser";
 import DeleteUser from "./DeleteUser";
@@ -16,7 +15,7 @@ const Users = () => {
   const [user, setUser] = useState(defaultUser);
 
   const getUsers = store_user((state) => state.getUsers);
-  const shop = useStore((state) => state.shop);
+  const shop = store_user((state) => state.shop);
   const users = store_user((state) => state.users).filter(
     (user) => user.shop === shop,
   );

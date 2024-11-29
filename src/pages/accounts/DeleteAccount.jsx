@@ -1,14 +1,15 @@
-import React, { useRef } from "react";
-import useStore from "../../store";
+import { useRef } from "react";
+import store_account from "../../stores/store_account";
 
 const DeleteAccount = ({ account }) => {
-  const deleteAccount = useStore((state) => state.deleteAccount);
+  const deleteAccount = store_account((state) => state.deleteAccount);
   const refClose = useRef();
 
   const handleDelete = () => {
     deleteAccount(account._id);
     refClose.current.click();
   };
+
   return (
     <div className="modal fade" id="deleteAccount">
       <div className="modal-dialog modal-dialog-centered">

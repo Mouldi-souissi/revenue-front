@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from "react";
-import useStore from "../../store";
-import DeleteMove from "../../components/DeleteMove";
+import { useEffect, useState } from "react";
+import DeleteMove from "../shared/DeleteMove";
 import AddSpending from "./AddSpending";
 import Wrapper from "../../components/Wrapper";
+import store_user from "../../stores/store_user";
+import store_move from "../../stores/store_move";
 
 const Spending = () => {
+  const [isLoading, setLoading] = useState(false);
   const [spendingDoc, setSpendingDoc] = useState("");
-  const getSpending = useStore((state) => state.getSpending);
-  const spending = useStore((state) => state.spending);
-  const isLoading = useStore((state) => state.isLoading);
-  const username = useStore((state) => state.username);
-  const userType = useStore((state) => state.userType);
+
+  const getSpending = store_move((state) => state.getSpending);
+  const spending = store_move((state) => state.spending);
+
+  const username = store_user((state) => state.username);
+  const userType = store_user((state) => state.userType);
+
   const total = spending.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
   useEffect(() => {
-    getSpending();
+    setLoading(true);
+    getSpending().finally(() => setLoading(false));
   }, []);
 
   const checkUser = (user) => {

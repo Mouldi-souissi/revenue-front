@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from "react";
-import useStore from "../../store";
-import DeleteMove from "../../components/DeleteMove";
+import { useEffect, useState } from "react";
+import DeleteMove from "../shared/DeleteMove";
 import Pagination from "../../components/Pagination";
 import AddAmount from "./AddAmount";
-import DeleteMoves from "./DeleteMoves";
 import WithDraw from "./WithDraw";
 import store_user from "../../stores/store_user";
 import Wrapper from "../../components/Wrapper";
+import store_account from "../../stores/store_account";
+import store_move from "../../stores/store_move";
 
 const Dashboard = () => {
-  const getMoves = useStore((state) => state.getMoves);
-  const moves = useStore((state) => state.moves);
-  const userType = useStore((state) => state.userType);
-  const isLoading = useStore((state) => state.isLoading);
+  const [isLoading, setLoading] = useState(false);
   const [period, setPeriod] = useState("daily");
   const [move, setMove] = useState("");
   const [accountDoc, setAccountDoc] = useState("");
-  const getAccounts = useStore((state) => state.getAccounts);
-  const accounts = useStore((state) => state.accounts);
 
-  const getUsers = useStore((state) => state.getUsers);
-  const shop = useStore((state) => state.shop);
-  const users = useStore((state) => state.users).filter(
+  const getMoves = store_move((state) => state.getMoves);
+  const moves = store_move((state) => state.moves);
+
+  const getAccounts = store_account((state) => state.getAccounts);
+  const accounts = store_account((state) => state.accounts);
+
+  const userType = store_user((state) => state.userType);
+  const getUsers = store_user((state) => state.getUsers);
+  const shop = store_user((state) => state.shop);
+  const users = store_user((state) => state.users).filter(
     (user) => user.shop === shop,
   );
   const [userFilter, setUserFilter] = useState("all");
@@ -130,15 +132,18 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
+    getMoves().finally(() => setLoading(false));
+
     getAccounts();
-    getMoves();
     getUsers();
   }, [userType]);
 
-  const handlePeriod = (e) => {
+  const handlePeriod = async (e) => {
     const selected = e.target.value;
     setPeriod(selected);
-    getMoves(selected);
+    setLoading(true);
+    getMoves(selected).finally(() => setLoading(false));
   };
 
   return (
@@ -239,11 +244,6 @@ const Dashboard = () => {
                 ))}
               </select>
             </div>
-            {/* <i
-            className="fa-solid fa-trash btn text-danger"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteAllMoves"
-          ></i> */}
           </div>
         </div>
 
@@ -417,7 +417,6 @@ const Dashboard = () => {
       </div>
 
       <DeleteMove move={move} />
-      <DeleteMoves />
       <AddAmount account={accountDoc} />
       <WithDraw />
     </Wrapper>

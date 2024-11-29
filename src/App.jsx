@@ -4,7 +4,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { Route, Switch, Redirect } from "wouter";
 import store_user from "./stores/store_user";
 import useScrollTop from "./hooks/useScrollTop";
-import { USER_ROLES } from "./stores/store_user";
+import { USER_ROLES } from "./constants";
 
 // pages
 import Dashboard from "./pages/dashboard/Dashboard";

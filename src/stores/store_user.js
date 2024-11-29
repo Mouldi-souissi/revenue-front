@@ -3,6 +3,7 @@ import decode from "jwt-decode";
 import axios from "axios";
 import { API_URL } from "../constants";
 import { navigate } from "wouter/use-browser-location";
+import { USER_ROLES, ADMIN_ROUTES, USER_ROUTES } from "../constants";
 
 axios.interceptors.response.use(
   (response) => response, // Simply return the response for successful requests
@@ -11,74 +12,22 @@ axios.interceptors.response.use(
 
     if (msg === "invalid token") {
       sessionStorage.removeItem("token");
-      window.location.replace("/login");
+      navigate("/login", { replace: true });
     }
 
     return Promise.reject(error); // Reject the promise to indicate an error
   },
 );
 
-export const USER_ROLES = {
-  ADMIN: "admin",
-  USER: "utilisateur",
-};
-
-const ADMIN_ROUTES = [
-  { link: "/dashboard", icon: "fas fa-desktop", text: "Tableau de bord" },
-  { link: "/users", icon: "fas fa-user-friends", text: "Utilisateurs" },
-  {
-    link: "/accounts",
-    icon: "fa-solid fa-tablet-screen-button",
-    text: "Comptes",
-  },
-  {
-    link: "/sales",
-    icon: "fa-solid fa-up-long green",
-    text: "Ventes",
-  },
-  {
-    link: "/spending",
-    icon: "fa-solid fa-down-long red",
-    text: "Dépenses",
-  },
-  {
-    link: "/wins",
-    icon: "fa-solid fa-circle-dollar-to-slot",
-    text: "Gain",
-  },
-];
-
-const USER_ROUTES = [
-  { link: "/dashboard", icon: "fas fa-desktop", text: "Tableau de bordd" },
-  {
-    link: "/sales",
-    icon: "fa-solid fa-up-long green",
-    text: "Ventes",
-  },
-  {
-    link: "/spending",
-    icon: "fa-solid fa-down-long red",
-    text: "Dépenses",
-  },
-  {
-    link: "/wins",
-    icon: "fa-solid fa-circle-dollar-to-slot",
-    text: "Gain",
-  },
-];
-
 const store_user = create((set, get) => ({
   isSidebarHidden: false,
   activeTab: "dashboard",
   username: "User",
   userType: "admin",
-  isLoading: false,
   shop: "aouina",
   redirectionLink: "/dashboard",
-
   routes: [],
   isAuthenticated: false,
-
   users: [],
 
   toggleSideBar: () => {
@@ -90,50 +39,53 @@ const store_user = create((set, get) => ({
   },
 
   getUsers: async () => {
-    set({ isLoading: true });
-    axios
-      .get(`${API_URL}/user`, {
+    try {
+      const res = await axios.get(`${API_URL}/user`, {
         headers: { token: sessionStorage.getItem("token") },
-      })
-      .then((res) => {
-        set({ users: res.data });
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        set({ isLoading: false });
       });
+
+      set({ users: res.data });
+    } catch (err) {
+      console.log(err);
+    }
   },
 
-  login: (email, password, shop = "aouina") => {
-    axios
-      .post(`${API_URL}/user/login`, { email, password, shop })
-      .then((res) => {
-        sessionStorage.setItem("token", res.data);
-        const decodedToken = decode(res.data);
+  login: async (email, password, shop = "aouina") => {
+    try {
+      const res = await axios.post(`${API_URL}/user/login`, {
+        email,
+        password,
+        shop,
+      });
 
-        if (decodedToken.type === USER_ROLES.ADMIN) {
-          set({
-            routes: ADMIN_ROUTES,
-          });
-        }
+      sessionStorage.setItem("token", res.data);
+      const decodedToken = decode(res.data);
 
-        if (decodedToken.type === USER_ROLES.USER) {
-          set({
-            routes: USER_ROUTES,
-          });
-        }
-
+      if (decodedToken.type === USER_ROLES.ADMIN) {
         set({
-          username: decodedToken.name,
-          userType: decodedToken.type,
-          shop: decodedToken.shop,
-          redirectionLink: "/dashboard",
-          activeTab: "dashboard",
-          isAuthenticated: true,
+          routes: ADMIN_ROUTES,
         });
-        navigate("/", { replace: true });
-      })
-      .catch((err) => console.log(err));
+      }
+
+      if (decodedToken.type === USER_ROLES.USER) {
+        set({
+          routes: USER_ROUTES,
+        });
+      }
+
+      set({
+        username: decodedToken.name,
+        userType: decodedToken.type,
+        shop: decodedToken.shop,
+        redirectionLink: "/dashboard",
+        activeTab: "dashboard",
+        isAuthenticated: true,
+      });
+
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.log(err);
+    }
   },
   logout: () => {
     window.sessionStorage.removeItem("token");
@@ -147,11 +99,11 @@ const store_user = create((set, get) => ({
     try {
       const token = sessionStorage.getItem("token") || null;
 
-      if (!token) throw new Error("no token");
+      if (!token) return;
 
       const decodedToken = decode(token) || null;
 
-      if (!decodedToken) throw new Error("token decode err");
+      if (!decodedToken) return;
 
       if (decodedToken.type === USER_ROLES.ADMIN) {
         set({
@@ -174,69 +126,54 @@ const store_user = create((set, get) => ({
         isAuthenticated: true,
       });
     } catch (err) {
-      // sessionStorage.removeItem("token");
-      // window.location.replace("/login");
-
       navigate("/login", { replace: true });
-
       console.log(err);
     }
   },
 
-  addUser: (userData) => {
-    set({ isLoading: true });
-    axios
-      .post(`${API_URL}/user/register`, userData, {
+  addUser: async (userData) => {
+    try {
+      const res = await axios.post(`${API_URL}/user/register`, userData, {
         headers: { token: sessionStorage.getItem("token") },
-      })
-      .then((res) => {
-        set((state) => ({ users: [...state.users, res.data] }));
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        set({ isLoading: false });
       });
+      set((state) => ({ users: [...state.users, res.data] }));
+    } catch (err) {
+      console.log(err);
+    }
   },
 
-  deleteUser: (id) => {
-    set({ isLoading: true });
-    axios
-      .delete(`${API_URL}/user/${id}`, {
+  deleteUser: async (id) => {
+    try {
+      const res = await axios.delete(`${API_URL}/user/${id}`, {
         headers: { token: sessionStorage.getItem("token") },
-      })
-      .then((res) => {
-        set((state) => ({
-          users: state.users.filter((user) => user._id !== res.data._id),
-        }));
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        set({ isLoading: false });
       });
+      set((state) => ({
+        users: state.users.filter((user) => user._id !== res.data._id),
+      }));
+    } catch (err) {
+      console.log(error);
+    }
   },
 
-  editUser: (user) => {
-    set({ isLoading: true });
-    axios
-      .put(
+  editUser: async (user) => {
+    try {
+      const res = await axios.put(
         `${API_URL}/user/${user._id}`,
         { name: user.name, type: user.type },
         {
           headers: { token: sessionStorage.getItem("token") },
         },
-      )
-      .then((res) => {
-        set((state) => ({
-          users: [
-            ...state.users.filter((user) => user._id !== res.data._id),
-            res.data,
-          ],
-        }));
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        set({ isLoading: false });
-      });
+      );
+
+      set((state) => ({
+        users: [
+          ...state.users.filter((user) => user._id !== res.data._id),
+          res.data,
+        ],
+      }));
+    } catch (err) {
+      console.log(err);
+    }
   },
 }));
 

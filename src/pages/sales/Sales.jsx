@@ -1,38 +1,42 @@
 import { useEffect, useState } from "react";
-import useStore from "../../store";
 import AddSale from "./AddSale";
-import DeleteMove from "../../components/DeleteMove";
+import DeleteMove from "../shared/DeleteMove";
 import Wrapper from "../../components/Wrapper";
+import store_account from "../../stores/store_account";
+import store_user from "../../stores/store_user";
+import store_move from "../../stores/store_move";
 
 const Sales = () => {
   const [sale, setSale] = useState("");
-  const sales = useStore((state) => state.sales);
-  const getSales = useStore((state) => state.getSales);
-  const getAccounts = useStore((state) => state.getAccounts);
-  const isLoading = useStore((state) => state.isLoading);
+  const [isLoading, setLoading] = useState(false);
 
-  const spending = useStore((state) => state.spending);
-  const getSpending = useStore((state) => state.getSpending);
-  const wins = useStore((state) => state.wins);
-  const getWins = useStore((state) => state.getWins);
+  const sales = store_move((state) => state.sales);
+  const getSales = store_move((state) => state.getSales);
+  const spending = store_move((state) => state.spending);
+  const getSpending = store_move((state) => state.getSpending);
+  const totalWins = store_move((state) => state.totalWins);
+  const getTotalWins = store_move((state) => state.getTotalWins);
+
+  const getAccounts = store_account((state) => state.getAccounts);
+
+  const username = store_user((state) => state.username);
+  const userType = store_user((state) => state.userType);
 
   const totalSpending = spending.reduce(
     (acc, curr) => (acc += Number(curr.amount)),
     0,
   );
-  const totalWins = wins.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
   const total = sales.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
   const totalNetSales = total - totalWins - totalSpending;
 
   useEffect(() => {
-    getSales();
+    setLoading(true);
+    getSales().finally(() => setLoading(false));
+
     getAccounts();
     getSpending();
-    getWins();
+    getTotalWins();
   }, []);
-
-  const username = useStore((state) => state.username);
-  const userType = useStore((state) => state.userType);
 
   const checkUser = (user) => {
     if (userType === "admin") {

@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
-import useStore from "../../store";
+import { useRef } from "react";
+import store_user from "../../stores/store_user";
 
 const DeleteUser = ({ user }) => {
-  const deleteUser = useStore((state) => state.deleteUser);
+  const deleteUser = store_user((state) => state.deleteUser);
   const refClose = useRef();
 
   const handleDelete = () => {

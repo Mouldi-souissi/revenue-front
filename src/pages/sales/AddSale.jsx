@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import useStore from "../../store";
+import store_account from "../../stores/store_account";
+import store_move from "../../stores/store_move";
 
 const AddSale = () => {
   const [data, setData] = useState({ depositEnd: "" });
   const [error, setError] = useState("");
   const [errorAmount, setErrorAmount] = useState("");
-  const addMove = useStore((state) => state.addMove);
 
-  const getTotalWins = useStore((state) => state.getTotalWins);
-  const getSpending = useStore((state) => state.getSpending);
-  const getAccounts = useStore((state) => state.getAccounts);
+  const addMove = store_move((state) => state.addMove);
+  const getTotalWins = store_move((state) => state.getTotalWins);
+  const getSpending = store_move((state) => state.getSpending);
 
-  const accounts = useStore((state) => state.accounts);
+  const getAccounts = store_account((state) => state.getAccounts);
+  const accounts = store_account((state) => state.accounts);
+
   const refClose = useRef();
   const [isLoading, setLoading] = useState(false);
 
@@ -41,7 +43,7 @@ const AddSale = () => {
     try {
       setLoading(true);
       const accounts_res = await getAccounts();
-      const account = accounts_res.find((acc) => acc.name === data.account);
+      const account = accounts.find((acc) => acc.name === data.account);
       const totalWins = await getTotalWins(account.name);
       const spendings_res = await getSpending();
 

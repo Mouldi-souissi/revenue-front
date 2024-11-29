@@ -1,5 +1,3 @@
-import React from "react";
-import userIcon from "/user.svg";
 import store_user from "../stores/store_user";
 import { Link } from "wouter";
 
@@ -118,15 +116,14 @@ const Sidebar = () => {
   const isSidebarHidden = store_user((state) => state.isSidebarHidden);
   const switchTab = store_user((state) => state.switchTab);
   const activeTab = store_user((state) => state.activeTab);
-  const username = store_user((state) => state.username);
-  const userType = store_user((state) => state.userType);
   const routes = store_user((state) => state.routes);
-
-  // console.log("routes", routes);
+  const shop = store_user((state) => state.shop);
 
   return (
     <div className={`sidebar ${isSidebarHidden ? "hidden" : ""}`}>
-      <div className="text-white fs-3 m-3 appTitle">Caisse</div>
+      <div className="text-white fs-3 m-3 appTitle">
+        Caisse <span className="small">{shop}</span>
+      </div>
 
       <ul>
         {routes.map((route, i) => (

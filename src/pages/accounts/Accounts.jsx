@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useStore from "../../store";
+import store_account from "../../stores/store_account";
 import AddAccount from "./AddAccount";
 import DeleteAccount from "./DeleteAccount";
 import EditAccount from "./EditAccount";
@@ -7,12 +7,14 @@ import Wrapper from "../../components/Wrapper";
 
 const Sites = () => {
   const [account, setAccount] = useState("");
-  const accounts = useStore((state) => state.accounts);
-  const getAccounts = useStore((state) => state.getAccounts);
-  const isLoading = useStore((state) => state.isLoading);
+  const [isLoading, setLoading] = useState(false);
+
+  const accounts = store_account((state) => state.accounts);
+  const getAccounts = store_account((state) => state.getAccounts);
 
   useEffect(() => {
-    getAccounts();
+    setLoading(true);
+    getAccounts().finally(() => setLoading(false));
   }, []);
 
   return (
