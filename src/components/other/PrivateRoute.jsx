@@ -5,10 +5,6 @@ const PrivateRoute = (props) => {
   const isAuthenticated = store_user((store) => store.isAuthenticated);
   const role = store_user((store) => store.userType);
 
-  if (props.path === "/login" && isAuthenticated) {
-    return;
-  }
-
   if (isAuthenticated && props.roles.includes(role)) {
     return <Route {...props} />;
   } else {

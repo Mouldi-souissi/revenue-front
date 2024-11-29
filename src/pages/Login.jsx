@@ -9,8 +9,9 @@ const Login = () => {
 
   const login = store_user((state) => state.login);
   const checkAuth = store_user((store) => store.checkAuth);
-  const redirectionLink = store_user((store) => store.redirectionLink);
+  const activeTab = store_user((store) => store.activeTab);
   const isAuthenticated = store_user((store) => store.isAuthenticated);
+  const loginError = store_user((store) => store.loginError);
 
   const getAllshops = store_shop((state) => state.getAllshops);
   const shops = store_shop((state) => state.shops);
@@ -24,12 +25,6 @@ const Login = () => {
       getAllshops().finally(() => setLoading(false));
     }
   }, []);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      setLocation("/");
-    }
-  }, [isAuthenticated]);
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -49,6 +44,11 @@ const Login = () => {
 
   return (
     <div className="container py-5">
+      {loginError && (
+        <div className="alert alert-danger mt-2" role="alert">
+          {loginError}
+        </div>
+      )}
       <div className="signinCard">
         <div className="row">
           <div className="col-lg-6 signup_container">
@@ -108,13 +108,16 @@ const Login = () => {
                 <label>shop</label>
               </div>
 
-              <button
-                className="button primary w-100"
-                type="submit"
-                disabled={isLoading}
-              >
-                SE CONNECTER
-              </button>
+              {isLoading && <div className="loader"></div>}
+              {!isLoading && (
+                <button
+                  className="button primary w-100"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  SE CONNECTER
+                </button>
+              )}
             </div>
           </form>
         </div>

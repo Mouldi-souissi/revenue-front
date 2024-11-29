@@ -25,10 +25,10 @@ const store_user = create((set, get) => ({
   username: "User",
   userType: "admin",
   shop: "aouina",
-  redirectionLink: "/",
   routes: [],
   isAuthenticated: false,
   users: [],
+  loginError: "",
 
   toggleSideBar: () => {
     set((state) => ({ isSidebarHidden: !state.isSidebarHidden }));
@@ -36,6 +36,7 @@ const store_user = create((set, get) => ({
 
   switchTab: (tab) => {
     set({ activeTab: tab });
+    sessionStorage.setItem("activeTab", tab);
   },
 
   getUsers: async () => {
@@ -52,6 +53,7 @@ const store_user = create((set, get) => ({
 
   login: async (email, password, shop = "aouina") => {
     try {
+      set({ loginError: "" });
       const res = await axios.post(`${API_URL}/user/login`, {
         email,
         password,
@@ -77,7 +79,6 @@ const store_user = create((set, get) => ({
         username: decodedToken.name,
         userType: decodedToken.type,
         shop: decodedToken.shop,
-        redirectionLink: "/",
         activeTab: "/",
         isAuthenticated: true,
       });
@@ -85,6 +86,12 @@ const store_user = create((set, get) => ({
       navigate("/", { replace: true });
     } catch (err) {
       console.log(err);
+
+      if (err.response.data == "invalid credentials") {
+        set({ loginError: "Email et/ou mot de passe incorrect(s)." });
+      } else {
+        set({ loginError: "Il y a eu un problème technique." });
+      }
     }
   },
   logout: () => {
@@ -98,33 +105,35 @@ const store_user = create((set, get) => ({
   checkAuth: () => {
     try {
       const token = sessionStorage.getItem("token") || null;
+      const activeTab = sessionStorage.getItem("activeTab") || "/";
 
-      if (!token) return;
+      if (token) {
+        const decodedToken = decode(token) || null;
 
-      const decodedToken = decode(token) || null;
+        if (decodedToken.type === USER_ROLES.ADMIN) {
+          set({
+            routes: ADMIN_ROUTES,
+          });
+        }
 
-      if (!decodedToken) return;
+        if (decodedToken.type === USER_ROLES.USER) {
+          set({
+            routes: USER_ROUTES,
+          });
+        }
 
-      if (decodedToken.type === USER_ROLES.ADMIN) {
         set({
-          routes: ADMIN_ROUTES,
+          username: decodedToken.name,
+          userType: decodedToken.type,
+          shop: decodedToken.shop,
+          activeTab: activeTab,
+          isAuthenticated: true,
         });
-      }
 
-      if (decodedToken.type === USER_ROLES.USER) {
-        set({
-          routes: USER_ROUTES,
-        });
+        navigate(activeTab, { replace: true });
+      } else {
+        navigate("/login", { replace: true });
       }
-
-      set({
-        username: decodedToken.name,
-        userType: decodedToken.type,
-        shop: decodedToken.shop,
-        redirectionLink: "/",
-        activeTab: "/",
-        isAuthenticated: true,
-      });
     } catch (err) {
       navigate("/login", { replace: true });
       console.log(err);

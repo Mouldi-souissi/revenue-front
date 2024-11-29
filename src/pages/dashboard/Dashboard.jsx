@@ -23,9 +23,8 @@ const Dashboard = () => {
   const userType = store_user((state) => state.userType);
   const getUsers = store_user((state) => state.getUsers);
   const shop = store_user((state) => state.shop);
-  const users = store_user((state) => state.users).filter(
-    (user) => user.shop === shop,
-  );
+  const users = store_user((state) => state.users);
+
   const [userFilter, setUserFilter] = useState("all");
 
   const calulateStats = (type, userFilter) => {
@@ -148,7 +147,6 @@ const Dashboard = () => {
 
   return (
     <Wrapper>
-      {/*<div className="fw-bold fs-5 mt-2 mb-4 text-center">État des Comptes</div>*/}
       <div className="dashboard_cards mb-4">
         {accounts.map((account) => (
           <div className="dashboard_card" key={account._id}>
@@ -359,7 +357,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="table-responsive my-5">
-        <table className="">
+        <table>
           <thead>
             <tr>
               <th scope="col">Compte</th>

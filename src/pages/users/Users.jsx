@@ -16,9 +16,7 @@ const Users = () => {
 
   const getUsers = store_user((state) => state.getUsers);
   const shop = store_user((state) => state.shop);
-  const users = store_user((state) => state.users).filter(
-    (user) => user.shop === shop,
-  );
+  const users = store_user((state) => state.users);
 
   useEffect(() => {
     setLoading(true);
