@@ -21,11 +21,11 @@ axios.interceptors.response.use(
 
 const store_user = create((set, get) => ({
   isSidebarHidden: false,
-  activeTab: "dashboard",
+  activeTab: "/",
   username: "User",
   userType: "admin",
   shop: "aouina",
-  redirectionLink: "/dashboard",
+  redirectionLink: "/",
   routes: [],
   isAuthenticated: false,
   users: [],
@@ -77,8 +77,8 @@ const store_user = create((set, get) => ({
         username: decodedToken.name,
         userType: decodedToken.type,
         shop: decodedToken.shop,
-        redirectionLink: "/dashboard",
-        activeTab: "dashboard",
+        redirectionLink: "/",
+        activeTab: "/",
         isAuthenticated: true,
       });
 
@@ -121,8 +121,8 @@ const store_user = create((set, get) => ({
         username: decodedToken.name,
         userType: decodedToken.type,
         shop: decodedToken.shop,
-        redirectionLink: "/dashboard",
-        activeTab: "dashboard",
+        redirectionLink: "/",
+        activeTab: "/",
         isAuthenticated: true,
       });
     } catch (err) {

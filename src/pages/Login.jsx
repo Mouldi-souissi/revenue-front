@@ -27,7 +27,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      setLocation(redirectionLink);
+      setLocation("/");
     }
   }, [isAuthenticated]);
 

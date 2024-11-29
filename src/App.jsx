@@ -29,7 +29,7 @@ function App() {
       <Switch>
         {/*private routes*/}
         <PrivateRoute
-          path="/dashboard"
+          path="/"
           component={Dashboard}
           roles={[USER_ROLES.ADMIN, USER_ROLES.USER]}
         />
@@ -61,7 +61,7 @@ function App() {
         {/*public routes*/}
         <Route path="/login" component={Login} />
         {/*404*/}
-        <Route path="*" component={Login} />
+        <Route path="*" component={Dashboard} />
       </Switch>
     </div>
   );

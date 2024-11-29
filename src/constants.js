@@ -6,7 +6,7 @@ export const USER_ROLES = {
 };
 
 export const ADMIN_ROUTES = [
-  { link: "/dashboard", text: "Tableau de bord" },
+  { link: "/", text: "Tableau de bord" },
   { link: "/users", text: "Utilisateurs" },
   {
     link: "/accounts",
@@ -27,7 +27,7 @@ export const ADMIN_ROUTES = [
 ];
 
 export const USER_ROUTES = [
-  { link: "/dashboard", text: "Tableau de bordd" },
+  { link: "/", text: "Tableau de bordd" },
   {
     link: "/sales",
     text: "Ventes",

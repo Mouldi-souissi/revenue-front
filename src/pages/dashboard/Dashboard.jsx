@@ -154,25 +154,27 @@ const Dashboard = () => {
           <div className="dashboard_card" key={account._id}>
             <div className="d-flex justify-content-between align-items-center">
               <div className="card_title">{account.name}</div>
-              <div className="d-flex gap-2">
-                {account.name === "Fond" && (
+              {userType === "admin" && (
+                <div className="d-flex gap-2">
+                  {account.name === "Fond" && (
+                    <button
+                      className="button sm primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#withdraw"
+                    >
+                      <i className="fa-solid fa-minus" />
+                    </button>
+                  )}
                   <button
                     className="button sm primary"
                     data-bs-toggle="modal"
-                    data-bs-target="#withdraw"
+                    data-bs-target="#addAmount"
+                    onClick={() => setAccountDoc(account)}
                   >
-                    <i className="fa-solid fa-minus" />
+                    <i className="fa-solid fa-plus" />
                   </button>
-                )}
-                <button
-                  className="button sm primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addAmount"
-                  onClick={() => setAccountDoc(account)}
-                >
-                  <i className="fa-solid fa-plus" />
-                </button>
-              </div>
+                </div>
+              )}
             </div>
             <div className="d-flex align-items-start justify-content-center flex-column mt-2">
               <div className="d-flex align-items-baseline gap-2">
@@ -366,7 +368,7 @@ const Dashboard = () => {
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Date</th>
-              <th scope="col">Actions</th>
+              {userType === "admin" && <th scope="col">Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -391,12 +393,14 @@ const Dashboard = () => {
                 </td>
 
                 <td>
-                  <i
-                    className="fa-solid fa-trash btn text-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteMove"
-                    onClick={() => setMove(move)}
-                  ></i>
+                  {userType === "admin" && (
+                    <i
+                      className="fa-solid fa-trash btn text-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteMove"
+                      onClick={() => setMove(move)}
+                    ></i>
+                  )}
                 </td>
               </tr>
             ))}
