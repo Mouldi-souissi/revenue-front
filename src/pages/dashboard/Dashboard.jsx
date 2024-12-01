@@ -7,10 +7,120 @@ import store_user from "../../stores/store_user";
 import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
+import { formatDate } from "../../helpers/timeAndDate";
+
+const handleSubtypeIcon = (subtype) => {
+  const icons = {
+    vente: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-circle-arrow-up"
+        color="yellowgreen"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="m16 12-4-4-4 4" />
+        <path d="M12 16V8" />
+      </svg>
+    ),
+    gain: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-coins"
+        color="yellow"
+      >
+        <circle cx="8" cy="8" r="6" />
+        <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
+        <path d="M7 6h1v4" />
+        <path d="m16.71 13.88.7.71-2.82 2.82" />
+      </svg>
+    ),
+    dépense: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-circle-arrow-down"
+        color="red"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 8v8" />
+        <path d="m8 12 4 4 4-4" />
+      </svg>
+    ),
+    versement: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-circle-plus"
+        color="green"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M8 12h8" />
+        <path d="M12 8v8" />
+      </svg>
+    ),
+    retrait: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-circle-minus"
+        color="orange"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M8 12h8" />
+      </svg>
+    ),
+  };
+
+  const icon = icons[subtype];
+
+  if (icon) {
+    return icon;
+  }
+
+  return "";
+};
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(false);
   const [period, setPeriod] = useState("daily");
+
   const [move, setMove] = useState("");
   const [accountDoc, setAccountDoc] = useState("");
 
@@ -178,8 +288,6 @@ const Dashboard = () => {
               <div className="d-flex align-items-baseline gap-2">
                 <div className="card_value">
                   {Number(account.deposit).toLocaleString("fr", {
-                    // style: "currency",
-                    // currency: "TND",
                     minimumFractionDigits: 0,
                   })}
                 </div>
@@ -374,21 +482,26 @@ const Dashboard = () => {
               <tr key={move._id}>
                 <td>{move.account}</td>
                 <td>{move.type}</td>
-                <td>{move.subType}</td>
                 <td>
-                  {Number(move.amount).toLocaleString("fr", {
-                    style: "currency",
-                    currency: "TND",
-                    minimumFractionDigits: 0,
-                  })}
+                  <div className="d-flex align-items-center gap-2">
+                    {handleSubtypeIcon(move.subType)}
+                    <div>{move.subType}</div>
+                  </div>
+                </td>
+                <td>
+                  <div className="d-flex align-items-baseline gap-1">
+                    <div>
+                      {Number(move.amount).toLocaleString("fr", {
+                        // style: "currency",
+                        // currency: "TND",
+                        minimumFractionDigits: 0,
+                      })}
+                    </div>
+                    <div className="small">TND</div>
+                  </div>
                 </td>
                 <td>{move.user}</td>
-                <td className="date">
-                  {new Date(move.date).toLocaleString("fr", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
-                </td>
+                <td className="date">{formatDate(move.date)}</td>
 
                 <td>
                   {userType === "admin" && (
@@ -402,6 +515,13 @@ const Dashboard = () => {
                 </td>
               </tr>
             ))}
+            {!currentMoves.length && (
+              <tr>
+                <td colSpan="7" className="text-center">
+                  pas de donnée
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

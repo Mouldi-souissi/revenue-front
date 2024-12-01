@@ -4,6 +4,7 @@ import AddSpending from "./AddSpending";
 import Wrapper from "../../components/layout/Wrapper";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
+import { formatDate } from "../../helpers/timeAndDate";
 
 const Spending = () => {
   const [isLoading, setLoading] = useState(false);
@@ -88,12 +89,7 @@ const Spending = () => {
                     })}
                   </td>
                   <td>{spendingDoc.user}</td>
-                  <td>
-                    {new Date(spendingDoc.date).toLocaleString("fr", {
-                      dateStyle: "medium",
-                      timeStyle: "short",
-                    })}
-                  </td>
+                  <td>{formatDate(spendingDoc.date)}</td>
                   <td>
                     {checkUser(spendingDoc.user) && (
                       <i

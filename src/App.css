@@ -19,6 +19,7 @@ body {
   font-family: "Poppins", sans-serif;
   background: #f3f1f7;
   min-height: 100vh;
+  /*  -webkit-user-select: none;*/
 }
 
 .mainPage {
@@ -629,4 +630,32 @@ table tr:last-child td:last-child {
   opacity: 1;
   visibility: visible;
   transform: scaleY(1);
+}
+
+/*colors*/
+.subtype {
+  border-radius: 50%;
+  color: black;
+  height: 8px;
+  width: 8px;
+}
+
+.subtype.red {
+  background: red;
+}
+
+.subtype.yellowgreen {
+  background: yellowgreen;
+}
+
+.subtype.yellow {
+  background: yellow;
+}
+
+.subtype.orange {
+  background: orange;
+}
+
+.subtype.blue {
+  background: blue;
 }

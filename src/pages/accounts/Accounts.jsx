@@ -4,6 +4,7 @@ import AddAccount from "./AddAccount";
 import DeleteAccount from "./DeleteAccount";
 import EditAccount from "./EditAccount";
 import Wrapper from "../../components/layout/Wrapper";
+import { formatDate } from "../../helpers/timeAndDate";
 
 const Sites = () => {
   const [account, setAccount] = useState("");
@@ -62,14 +63,7 @@ const Sites = () => {
                       minimumFractionDigits: 0,
                     })}
                   </td>
-                  <td>
-                    {account.lastUpdated
-                      ? new Date(account.lastUpdated).toLocaleString("fr", {
-                          dateStyle: "medium",
-                          timeStyle: "short",
-                        })
-                      : "-"}
-                  </td>
+                  <td>{formatDate(account.lastUpdated)}</td>
                   {/* <td>
                     <i
                       className="fa-solid fa-gear btn"

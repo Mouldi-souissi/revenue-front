@@ -5,6 +5,7 @@ import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
+import { formatDate } from "../../helpers/timeAndDate";
 
 const Sales = () => {
   const [sale, setSale] = useState("");
@@ -115,12 +116,7 @@ const Sales = () => {
                     })}
                   </td>
                   <td>{sale.user}</td>
-                  <td>
-                    {new Date(sale.date).toLocaleString("fr", {
-                      dateStyle: "medium",
-                      timeStyle: "short",
-                    })}
-                  </td>
+                  <td>{formatDate(sale.date)}</td>
                   <td>
                     {checkUser(sale.user) && (
                       <i

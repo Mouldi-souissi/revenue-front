@@ -5,6 +5,7 @@ import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
+import { formatDate } from "../../helpers/timeAndDate";
 
 const Wins = () => {
   const [isLoading, setLoading] = useState(false);
@@ -92,12 +93,7 @@ const Wins = () => {
                     })}
                   </td>
                   <td>{win.user}</td>
-                  <td>
-                    {new Date(win.date).toLocaleString("fr", {
-                      dateStyle: "medium",
-                      timeStyle: "short",
-                    })}
-                  </td>
+                  <td>{formatDate(win.date)}</td>
                   <td>
                     {checkUser(win.user) && (
                       <i
