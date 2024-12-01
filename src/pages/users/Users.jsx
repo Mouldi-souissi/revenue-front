@@ -79,6 +79,13 @@ const Users = () => {
                   </td>
                 </tr>
               ))}
+            {!users.length && (
+              <tr>
+                <td colSpan="7" className="text-center">
+                  pas de donnée
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

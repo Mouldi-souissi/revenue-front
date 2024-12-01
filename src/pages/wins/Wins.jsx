@@ -46,7 +46,9 @@ const Wins = () => {
       <div className="d-flex align-items-start justify-content-between gap-2 p-3">
         <div>
           <div className="d-flex gap-5 align-items-center">
-            <div className="title">Gain</div>
+            <div className="title">
+              Gain <span className="small">(Aujourd'hui)</span>
+            </div>
             {isLoading && <div className="loader"></div>}
           </div>
           <div className="mt-3">
@@ -106,6 +108,13 @@ const Wins = () => {
                 </td>
               </tr>
             ))}
+            {!wins.length && (
+              <tr>
+                <td colSpan="7" className="text-center">
+                  pas de donnée
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
