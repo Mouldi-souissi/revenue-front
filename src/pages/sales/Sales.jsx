@@ -13,30 +13,18 @@ const Sales = () => {
 
   const sales = store_move((state) => state.sales);
   const getSales = store_move((state) => state.getSales);
-  const spending = store_move((state) => state.spending);
-  const getSpending = store_move((state) => state.getSpending);
-  const totalWins = store_move((state) => state.totalWins);
-  const getTotalWins = store_move((state) => state.getTotalWins);
 
   const getAccounts = store_account((state) => state.getAccounts);
 
   const username = store_user((state) => state.username);
   const userType = store_user((state) => state.userType);
 
-  const totalSpending = spending.reduce(
-    (acc, curr) => (acc += Number(curr.amount)),
-    0,
-  );
   const total = sales.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
-  const totalNetSales = total - totalWins - totalSpending;
 
   useEffect(() => {
     setLoading(true);
     getSales().finally(() => setLoading(false));
-
     getAccounts();
-    getSpending();
-    getTotalWins();
   }, []);
 
   const checkUser = (user) => {
@@ -64,17 +52,6 @@ const Sales = () => {
               <div>Total:</div>
               <div>
                 {total.toLocaleString("fr", {
-                  style: "currency",
-                  currency: "TND",
-                  minimumFractionDigits: 0,
-                })}
-              </div>
-            </div>
-
-            <div className="d-flex gap-2">
-              <div>Total net:</div>
-              <div>
-                {totalNetSales.toLocaleString("fr", {
                   style: "currency",
                   currency: "TND",
                   minimumFractionDigits: 0,

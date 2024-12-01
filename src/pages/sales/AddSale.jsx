@@ -51,11 +51,7 @@ const AddSale = () => {
         (acc, curr) => (acc += Number(curr.amount)),
         0,
       );
-      console.log("calc", {
-        debut: account.deposit,
-        fin: data.depositEnd,
-        rate: account.rate,
-      });
+
       const amount =
         (Number(account.deposit) - Number(data.depositEnd)) *
         Number(account.rate);
