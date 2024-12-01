@@ -80,32 +80,30 @@ const Sales = () => {
             </tr>
           </thead>
           <tbody>
-            {sales
-              .sort((a, b) => new Date(b.date) - new Date(a.date))
-              .map((sale) => (
-                <tr key={sale._id}>
-                  <td>{sale.account}</td>
-                  <td>
-                    {Number(sale.amount).toLocaleString("fr", {
-                      style: "currency",
-                      currency: "TND",
-                      minimumFractionDigits: 0,
-                    })}
-                  </td>
-                  <td>{sale.user}</td>
-                  <td>{formatDate(sale.date)}</td>
-                  <td>
-                    {checkUser(sale.user) && (
-                      <i
-                        className="fa-solid fa-trash btn text-danger"
-                        data-bs-toggle="modal"
-                        data-bs-target="#deleteMove"
-                        onClick={() => setSale(sale)}
-                      ></i>
-                    )}
-                  </td>
-                </tr>
-              ))}
+            {sales.map((sale) => (
+              <tr key={sale._id}>
+                <td>{sale.account}</td>
+                <td>
+                  {Number(sale.amount).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
+                </td>
+                <td>{sale.user}</td>
+                <td>{formatDate(sale.date)}</td>
+                <td>
+                  {checkUser(sale.user) && (
+                    <i
+                      className="fa-solid fa-trash btn text-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteMove"
+                      onClick={() => setSale(sale)}
+                    ></i>
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

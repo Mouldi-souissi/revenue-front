@@ -97,6 +97,7 @@ const AddSale = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              ref={refClose}
             ></button>
           </div>
           <div className="modal-body my-3">
@@ -137,23 +138,23 @@ const AddSale = () => {
               <small className="ms-2 text-danger">{error}</small>
             )}
           </div>
-          <div className="d-flex justify-content-end align-items-center gap-2">
-            <button
-              type="button"
-              className="button"
-              data-bs-dismiss="modal"
-              ref={refClose}
-            >
-              Fermer
-            </button>
-            <button
-              type="submit"
-              className="button primary"
-              disabled={isLoading}
-            >
-              Ajouter
-            </button>
+          <div className="d-flex align-items-center justify-content-center mb-3">
+            {isLoading && <div className="loader"></div>}
           </div>
+          {!isLoading && (
+            <div className="d-flex justify-content-end align-items-center gap-2">
+              <button type="button" className="button" data-bs-dismiss="modal">
+                Fermer
+              </button>
+              <button
+                type="submit"
+                className="button primary"
+                disabled={isLoading}
+              >
+                Ajouter
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

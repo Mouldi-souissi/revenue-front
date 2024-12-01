@@ -80,32 +80,30 @@ const Wins = () => {
             </tr>
           </thead>
           <tbody>
-            {wins
-              .sort((a, b) => new Date(b.date) - new Date(a.date))
-              .map((win) => (
-                <tr key={win._id}>
-                  <td>{win.account}</td>
-                  <td>
-                    {Number(win.amount).toLocaleString("fr", {
-                      style: "currency",
-                      currency: "TND",
-                      minimumFractionDigits: 0,
-                    })}
-                  </td>
-                  <td>{win.user}</td>
-                  <td>{formatDate(win.date)}</td>
-                  <td>
-                    {checkUser(win.user) && (
-                      <i
-                        className="fa-solid fa-trash btn text-danger"
-                        data-bs-toggle="modal"
-                        data-bs-target="#deleteMove"
-                        onClick={() => setWinDoc(win)}
-                      ></i>
-                    )}
-                  </td>
-                </tr>
-              ))}
+            {wins.map((win) => (
+              <tr key={win._id}>
+                <td>{win.account}</td>
+                <td>
+                  {Number(win.amount).toLocaleString("fr", {
+                    style: "currency",
+                    currency: "TND",
+                    minimumFractionDigits: 0,
+                  })}
+                </td>
+                <td>{win.user}</td>
+                <td>{formatDate(win.date)}</td>
+                <td>
+                  {checkUser(win.user) && (
+                    <i
+                      className="fa-solid fa-trash btn text-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteMove"
+                      onClick={() => setWinDoc(win)}
+                    ></i>
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

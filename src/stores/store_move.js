@@ -98,11 +98,10 @@ const store_move = create((set, get) => ({
         set((state) => ({
           moves: [...state.moves, res.data],
         }));
-        get().getAccounts();
       }
       if (res.data.subType === "retrait") {
-        get().getMoves("daily");
-        get().getAccounts();
+        // get().getMoves("daily");
+        // get().getAccounts();
       }
     } catch (err) {
       console.log(err);
@@ -168,7 +167,7 @@ const store_move = create((set, get) => ({
         moves: state.moves.filter((doc) => doc._id !== res.data._id),
       }));
 
-      get().getAccounts();
+      // get().getAccounts();
     } catch (err) {
       console.log(err);
     }

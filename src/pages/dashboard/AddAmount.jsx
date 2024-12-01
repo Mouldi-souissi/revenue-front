@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import store_move from "../../stores/store_move";
+import store_account from "../../stores/store_account";
 
 const AddAmount = ({ account }) => {
   const [data, setData] = useState({
@@ -11,6 +12,7 @@ const AddAmount = ({ account }) => {
   const addMove = store_move((state) => state.addMove);
   const refClose = useRef();
   const [isLoading, setLoading] = useState(false);
+  const getAccounts = store_account((state) => state.getAccounts);
 
   const handleInput = (e) => {
     const value = e.target.value;
@@ -28,6 +30,7 @@ const AddAmount = ({ account }) => {
 
       if (data.amount) {
         await addMove(data);
+        await getAccounts();
         refClose.current.click();
       }
     } catch (error) {
@@ -52,6 +55,7 @@ const AddAmount = ({ account }) => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              ref={refClose}
             ></button>
           </div>
           <div className="modal-body my-3">
@@ -67,23 +71,23 @@ const AddAmount = ({ account }) => {
               <label>Montant</label>
             </div>
           </div>
-          <div className="d-flex justify-content-end align-items-center gap-2">
-            <button
-              type="button"
-              className="button"
-              data-bs-dismiss="modal"
-              ref={refClose}
-            >
-              Fermer
-            </button>
-            <button
-              type="submit"
-              className="button primary"
-              disabled={!data.amount || isLoading}
-            >
-              Sauvegarder
-            </button>
+          <div className="d-flex align-items-center justify-content-center mb-3">
+            {isLoading && <div className="loader"></div>}
           </div>
+          {!isLoading && (
+            <div className="d-flex justify-content-end align-items-center gap-2">
+              <button type="button" className="button" data-bs-dismiss="modal">
+                Fermer
+              </button>
+              <button
+                type="submit"
+                className="button primary"
+                disabled={!data.amount || isLoading}
+              >
+                Sauvegarder
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

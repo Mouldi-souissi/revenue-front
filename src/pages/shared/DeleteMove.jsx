@@ -1,8 +1,11 @@
 import { useRef, useState } from "react";
 import store_move from "../../stores/store_move";
+import store_account from "../../stores/store_account";
 
 const DeleteMove = ({ move }) => {
   const deleteMove = store_move((state) => state.deleteMove);
+  const getAccounts = store_account((state) => state.getAccounts);
+
   const refClose = useRef();
   const [isLoading, setLoading] = useState(false);
 
@@ -11,6 +14,7 @@ const DeleteMove = ({ move }) => {
       if (move._id) {
         setLoading(true);
         await deleteMove(move._id);
+        await getAccounts();
         refClose.current.click();
       }
     } catch (error) {
@@ -35,27 +39,28 @@ const DeleteMove = ({ move }) => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              ref={refClose}
             ></button>
           </div>
           <div className="modal-body my-3">Veillez confirmer la supression</div>
-          <div className="d-flex justify-content-end align-items-center gap-2">
-            <button
-              type="button"
-              className="button"
-              data-bs-dismiss="modal"
-              ref={refClose}
-            >
-              Fermer
-            </button>
-            <button
-              type="button"
-              className="button primary"
-              onClick={handleDelete}
-              disabled={isLoading}
-            >
-              Supprimer
-            </button>
+          <div className="d-flex align-items-center justify-content-center mb-3">
+            {isLoading && <div className="loader"></div>}
           </div>
+          {!isLoading && (
+            <div className="d-flex justify-content-end align-items-center gap-2">
+              <button type="button" className="button" data-bs-dismiss="modal">
+                Fermer
+              </button>
+              <button
+                type="button"
+                className="button primary"
+                onClick={handleDelete}
+                disabled={isLoading}
+              >
+                Supprimer
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
