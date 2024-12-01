@@ -1,17 +1,21 @@
-export const formatDate = (input) => {
-  if (!input) return "-";
-  const date = new Date(input);
+export const formatDate = (inputString) => {
+  // return input;
+  if (!inputString) return "-";
 
-  // Format date to Tunisian time (Africa/Tunis)
-  const formatter = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "Africa/Tunis",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
+  // Remove the 'Z' at the end if present
+  const dateString = inputString.replace("Z", "");
 
-  return formatter.format(date);
+  // Create a Date object
+  const dateObject = new Date(dateString);
+
+  // Format the date and time
+  const year = dateObject.getFullYear();
+  const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObject.getDate()).padStart(2, "0");
+  const hours = String(dateObject.getHours()).padStart(2, "0");
+  const minutes = String(dateObject.getMinutes()).padStart(2, "0");
+  const seconds = String(dateObject.getSeconds()).padStart(2, "0");
+  const milliseconds = String(dateObject.getMilliseconds()).padStart(3, "0");
+
+  return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 };
