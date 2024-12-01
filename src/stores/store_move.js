@@ -102,6 +102,9 @@ const store_move = create((set, get) => ({
       if (res.data.subType === "retrait") {
         // get().getMoves("daily");
         // get().getAccounts();
+        set((state) => ({
+          moves: [...state.moves, res.data],
+        }));
       }
     } catch (err) {
       console.log(err);

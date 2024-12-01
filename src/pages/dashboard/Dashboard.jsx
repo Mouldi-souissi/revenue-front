@@ -7,7 +7,7 @@ import store_user from "../../stores/store_user";
 import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
-import { formatDate } from "../../helpers/timeAndDate";
+import { formatDate, compareDates } from "../../helpers/timeAndDate";
 
 const handleSubtypeIcon = (subtype) => {
   const icons = {
@@ -125,7 +125,9 @@ const Dashboard = () => {
   const [accountDoc, setAccountDoc] = useState("");
 
   const getMoves = store_move((state) => state.getMoves);
-  const moves = store_move((state) => state.moves);
+  const moves = store_move((state) => state.moves).sort((a, b) =>
+    compareDates(a.date, b.date),
+  );
 
   const getAccounts = store_account((state) => state.getAccounts);
   const accounts = store_account((state) => state.accounts);

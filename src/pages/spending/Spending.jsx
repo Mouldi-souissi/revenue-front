@@ -4,14 +4,16 @@ import AddSpending from "./AddSpending";
 import Wrapper from "../../components/layout/Wrapper";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
-import { formatDate } from "../../helpers/timeAndDate";
+import { formatDate, compareDates } from "../../helpers/timeAndDate";
 
 const Spending = () => {
   const [isLoading, setLoading] = useState(false);
   const [spendingDoc, setSpendingDoc] = useState("");
 
   const getSpending = store_move((state) => state.getSpending);
-  const spending = store_move((state) => state.spending);
+  const spending = store_move((state) => state.spending).sort((a, b) =>
+    compareDates(a.date, b.date),
+  );
 
   const username = store_user((state) => state.username);
   const userType = store_user((state) => state.userType);

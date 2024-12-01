@@ -5,14 +5,16 @@ import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
-import { formatDate } from "../../helpers/timeAndDate";
+import { formatDate, compareDates } from "../../helpers/timeAndDate";
 
 const Wins = () => {
   const [isLoading, setLoading] = useState(false);
   const [winDoc, setWinDoc] = useState("");
 
   const getWins = store_move((state) => state.getWins);
-  const wins = store_move((state) => state.wins);
+  const wins = store_move((state) => state.wins).sort((a, b) =>
+    compareDates(a.date, b.date),
+  );
 
   const getAccounts = store_account((state) => state.getAccounts);
 

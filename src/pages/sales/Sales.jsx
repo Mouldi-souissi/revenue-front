@@ -5,13 +5,15 @@ import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
-import { formatDate } from "../../helpers/timeAndDate";
+import { formatDate, compareDates } from "../../helpers/timeAndDate";
 
 const Sales = () => {
   const [sale, setSale] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  const sales = store_move((state) => state.sales);
+  const sales = store_move((state) => state.sales).sort((a, b) =>
+    compareDates(a.date, b.date),
+  );
   const getSales = store_move((state) => state.getSales);
 
   const getAccounts = store_account((state) => state.getAccounts);
