@@ -5,7 +5,7 @@ import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
-import { formatDate, compareDates } from "../../helpers/timeAndDate";
+import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
 
 const Sales = () => {
   const [sale, setSale] = useState("");
@@ -95,7 +95,7 @@ const Sales = () => {
                   })}
                 </td>
                 <td>{sale.user}</td>
-                <td>{formatDate(sale.date)}</td>
+                <td>{toTunisTime(sale.date)}</td>
                 <td>
                   {checkUser(sale.user) && (
                     <i

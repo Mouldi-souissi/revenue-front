@@ -7,7 +7,7 @@ import store_user from "../../stores/store_user";
 import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
-import { formatDate, compareDates } from "../../helpers/timeAndDate";
+import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
 
 const handleSubtypeIcon = (subtype) => {
   const icons = {
@@ -503,7 +503,7 @@ const Dashboard = () => {
                   </div>
                 </td>
                 <td>{move.user}</td>
-                <td className="date">{formatDate(move.date)}</td>
+                <td className="date">{toTunisTime(move.date)}</td>
 
                 <td>
                   {userType === "admin" && (

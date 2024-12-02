@@ -4,7 +4,7 @@ import AddSpending from "./AddSpending";
 import Wrapper from "../../components/layout/Wrapper";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
-import { formatDate, compareDates } from "../../helpers/timeAndDate";
+import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
 
 const Spending = () => {
   const [isLoading, setLoading] = useState(false);
@@ -91,7 +91,7 @@ const Spending = () => {
                   })}
                 </td>
                 <td>{spendingDoc.user}</td>
-                <td>{formatDate(spendingDoc.date)}</td>
+                <td>{toTunisTime(spendingDoc.date)}</td>
                 <td>
                   {checkUser(spendingDoc.user) && (
                     <i

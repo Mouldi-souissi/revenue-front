@@ -27,3 +27,11 @@ export function compareDates(a, b) {
   // return dateA - dateB;
   return dateB - dateA;
 }
+
+export function toTunisTime(input) {
+  const date = new Date(input).toLocaleString("fr-FR", {
+    timeZone: "Africa/Tunis",
+  });
+
+  return date;
+}
