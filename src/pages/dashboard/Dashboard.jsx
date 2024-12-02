@@ -117,6 +117,36 @@ const handleSubtypeIcon = (subtype) => {
   return "";
 };
 
+const calulateRevenue = (moves, userFilter) => {
+  let revenue = 0;
+  let wins = 0;
+  let spending = 0;
+  let sales = 0;
+
+  for (let move of moves) {
+    if (move.subType === "gain") {
+      if (userFilter === "all" || userFilter === move.user) {
+        wins += Number(move.amount);
+      }
+    }
+    if (move.subType === "dépense") {
+      if (userFilter === "all" || userFilter === move.user) {
+        spending += Number(move.amount);
+      }
+    }
+
+    if (move.subType === "vente") {
+      if (userFilter === "all" || userFilter === move.user) {
+        sales += Number(move.amount);
+      }
+    }
+  }
+
+  revenue = sales - wins - spending;
+
+  return { revenue, wins, spending, sales };
+};
+
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(false);
   const [period, setPeriod] = useState("daily");
@@ -138,84 +168,6 @@ const Dashboard = () => {
   const users = store_user((state) => state.users);
 
   const [userFilter, setUserFilter] = useState("all");
-
-  const calulateStats = (type, userFilter) => {
-    let total = 0;
-    if (userFilter !== "all") {
-      if (type === "recette") {
-        for (let move of moves) {
-          if (
-            move.type === "entrée" &&
-            move.subType !== "versement" &&
-            move["user"] === userFilter
-          ) {
-            total += Number(move.amount);
-          }
-          if (
-            move.type === "sortie" &&
-            move["user"] === userFilter &&
-            move.subType !== "retrait"
-          ) {
-            total -= Number(move.amount);
-          }
-        }
-      }
-      if (type === "gain") {
-        total = moves
-          .filter(
-            (move) => move.subType === "gain" && move["user"] === userFilter,
-          )
-          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
-      }
-      if (type === "spending") {
-        total = moves
-          .filter(
-            (move) => move.subType === "dépense" && move["user"] === userFilter,
-          )
-          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
-      }
-      if (type === "vente") {
-        total = moves
-          .filter(
-            (move) => move.subType === "vente" && move["user"] === userFilter,
-          )
-          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
-      }
-    } else {
-      if (type === "recette") {
-        for (let move of moves) {
-          if (move.type === "entrée" && move.subType !== "versement") {
-            total += Number(move.amount);
-          }
-          if (move.type === "sortie" && move.subType !== "retrait") {
-            total -= Number(move.amount);
-          }
-        }
-      }
-      if (type === "gain") {
-        total = moves
-          .filter((move) => move.subType === "gain")
-          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
-      }
-      if (type === "spending") {
-        total = moves
-          .filter((move) => move.subType === "dépense")
-          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
-      }
-      if (type === "vente") {
-        total = moves
-          .filter((move) => move.subType === "vente")
-          .reduce((acc, curr) => (acc += Number(curr.amount)), 0);
-      }
-    }
-
-    return total.toFixed(0);
-  };
-
-  const recette = calulateStats("recette", userFilter);
-  const gain = calulateStats("gain", userFilter);
-  const spending = calulateStats("spending", userFilter);
-  const vente = calulateStats("vente", userFilter);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -251,6 +203,11 @@ const Dashboard = () => {
     setCurrentPage(1);
     setUserFilter("all");
   };
+
+  const { revenue, wins, spending, sales } = calulateRevenue(
+    filteredMoves,
+    userFilter,
+  );
 
   return (
     <Wrapper>
@@ -317,13 +274,15 @@ const Dashboard = () => {
           <div className="title text-center">Les movements</div>
           {isLoading && <div className="loader"></div>}
         </div>
-        <div className="d-flex align-items-center justify-content-center flex-wrap gap-3">
-          <div className="d-flex justify-content-center align-items-center gap-3">
-            <div className="input-group">
-              <span className="input-group-text">Période</span>
+        <div className="row g-3 mx-5">
+          <div className="col-lg-6">
+            <div className="input-group w-100">
+              <span className="input-group-text" style={{ width: "30%" }}>
+                Période
+              </span>
               <select
                 className="form-select"
-                style={{ maxWidth: "250px" }}
+                // style={{ maxWidth: "250px" }}
                 value={period}
                 onChange={handlePeriod}
               >
@@ -333,11 +292,15 @@ const Dashboard = () => {
                 <option value="monthly">Ce mois</option>
               </select>
             </div>
-            <div className="input-group">
-              <span className="input-group-text">Utilisateur</span>
+          </div>
+          <div className="col-lg-6">
+            <div className="input-group w-100">
+              <span className="input-group-text" style={{ width: "30%" }}>
+                Utilisateur
+              </span>
               <select
                 className="form-select"
-                style={{ maxWidth: "250px" }}
+                // style={{ maxWidth: "250px" }}
                 value={userFilter}
                 onChange={(e) => setUserFilter(e.target.value)}
               >
@@ -375,7 +338,7 @@ const Dashboard = () => {
             <div className="inner-circle">
               <div className="circle-title">Recette</div>
               <div className="d-flex align-items-baseline gap-2">
-                <div className="circle-value">{recette}</div>
+                <div className="circle-value">{revenue}</div>
                 <div className="small">TND</div>
               </div>
             </div>
@@ -401,7 +364,7 @@ const Dashboard = () => {
             <div className="inner-circle">
               <div className="circle-title">Ventes</div>
               <div className="d-flex align-items-baseline gap-2">
-                <div className="circle-value">{vente}</div>
+                <div className="circle-value">{sales}</div>
                 <div className="small">TND</div>
               </div>
             </div>
@@ -428,7 +391,7 @@ const Dashboard = () => {
             <div className="inner-circle">
               <div className="circle-title">Gain</div>
               <div className="d-flex align-items-baseline gap-2">
-                <div className="circle-value">{gain}</div>
+                <div className="circle-value">{wins}</div>
                 <div className="small">TND</div>
               </div>
             </div>
