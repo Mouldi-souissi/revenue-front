@@ -36,35 +36,27 @@ const Revenue = () => {
           onSubmit={handleSubmit}
         >
           <div className="col-lg-6 mb-3">
-            <div className="input-group">
-              <span className="input-group-text" style={{ width: "30%" }}>
-                Date de début
-              </span>
-              <input
-                type="datetime-local"
-                className="form-control"
-                name="start"
-                value={start}
-                onChange={(e) => setStart(e.target.value)}
-                required
-              />
-            </div>
+            <label className="">Date de début</label>
+            <input
+              type="datetime-local"
+              className="form-control"
+              name="start"
+              value={start}
+              onChange={(e) => setStart(e.target.value)}
+              required
+            />
           </div>
 
           <div className="col-lg-6 mb-3">
-            <div className="input-group">
-              <span className="input-group-text" style={{ width: "30%" }}>
-                Date de fin
-              </span>
-              <input
-                type="datetime-local"
-                className="form-control"
-                name="end"
-                value={end}
-                onChange={(e) => setEnd(e.target.value)}
-                required
-              />
-            </div>
+            <label className="">Date de fin</label>
+            <input
+              type="datetime-local"
+              className="form-control"
+              name="end"
+              value={end}
+              onChange={(e) => setEnd(e.target.value)}
+              required
+            />
           </div>
 
           <div className="d-flex justify-content-end">
