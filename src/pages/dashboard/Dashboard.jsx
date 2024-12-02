@@ -218,9 +218,9 @@ const Dashboard = () => {
   const vente = calulateStats("vente", userFilter);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(10);
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const itemsPerPage = 10;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+
   let filteredMoves = [];
 
   if (userFilter === "all") {
@@ -228,26 +228,19 @@ const Dashboard = () => {
   } else {
     filteredMoves = moves.filter((m) => m.user === userFilter);
   }
-  let currentMoves = filteredMoves.slice(indexOfFirstPost, indexOfLastPost);
+  let currentMoves = filteredMoves.slice(startIndex, startIndex + itemsPerPage);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const nextPage = (pageNumbers) => {
-    if (currentPage + 1 <= pageNumbers[pageNumbers.length - 1]) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-  const previousPage = (pageNumbers) => {
-    if (currentPage - 1 >= pageNumbers[0]) {
-      setCurrentPage(currentPage - 1);
-    }
+  const onPageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   useEffect(() => {
     setLoading(true);
     getMoves().finally(() => setLoading(false));
-
     getAccounts();
     getUsers();
+    setCurrentPage(1);
+    setUserFilter("all");
   }, [userType]);
 
   const handlePeriod = async (e) => {
@@ -255,6 +248,8 @@ const Dashboard = () => {
     setPeriod(selected);
     setLoading(true);
     getMoves(selected).finally(() => setLoading(false));
+    setCurrentPage(1);
+    setUserFilter("all");
   };
 
   return (
@@ -530,13 +525,10 @@ const Dashboard = () => {
 
       <div className="d-flex align-items-center justify-content-center my-3">
         <Pagination
-          className="pt-5"
-          postsPerPage={postsPerPage}
-          totalMoves={filteredMoves.length}
-          paginate={paginate}
-          nextPage={nextPage}
-          previousPage={previousPage}
+          totalItems={filteredMoves.length}
+          itemsPerPage={itemsPerPage}
           currentPage={currentPage}
+          onPageChange={onPageChange}
         />
       </div>
 

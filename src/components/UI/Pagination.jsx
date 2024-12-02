@@ -1,44 +1,79 @@
 import React from "react";
 
-function Pagination({
-  postsPerPage,
-  totalMoves,
-  paginate,
-  nextPage,
-  previousPage,
+const Pagination = ({
+  totalItems,
+  itemsPerPage,
   currentPage,
-}) {
-  const pageNumbers = [];
+  onPageChange,
+  pageWindow = 10, // Default window size is 10
+}) => {
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  for (let i = 1; i <= Math.ceil(totalMoves / postsPerPage); i++) {
-    pageNumbers.push(i);
-  }
+  // Calculate the range of pages to display
+  const currentWindowStart =
+    Math.floor((currentPage - 1) / pageWindow) * pageWindow + 1;
+  const currentWindowEnd = Math.min(
+    currentWindowStart + pageWindow - 1,
+    totalPages,
+  );
+
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      onPageChange(page);
+    }
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = currentWindowStart; i <= currentWindowEnd; i++) {
+      pageNumbers.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={`page-btn ${currentPage === i ? "active" : ""}`}
+        >
+          {i}
+        </button>,
+      );
+    }
+    return pageNumbers;
+  };
 
   return (
-    <ul className="d-flex justify-content-start align-items-center flex-wrap gap-2">
+    <div className="pagination">
       <button
-        className="button sm me-2"
-        onClick={() => previousPage(pageNumbers)}
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="page-btn"
       >
-        <i className="fa fa-chevron-left" />
+        Précédent
       </button>
-      {pageNumbers.map((number) => (
-        <li key={number} className="page-item me-2">
-          <button
-            onClick={() => paginate(number)}
-            className={`button sm ${
-              currentPage === number ? "primary" : ""
-            } btn font-weight-bold`}
-          >
-            {number}
-          </button>
-        </li>
-      ))}
-      <button className="button sm me-2" onClick={() => nextPage(pageNumbers)}>
-        <i className="fa fa-chevron-right" />
+      {currentWindowStart > 1 && (
+        <button
+          className="page-btn"
+          onClick={() => handlePageChange(currentWindowStart - 1)}
+        >
+          ...
+        </button>
+      )}
+      {renderPageNumbers()}
+      {currentWindowEnd < totalPages && (
+        <button
+          className="page-btn"
+          onClick={() => handlePageChange(currentWindowEnd + 1)}
+        >
+          ...
+        </button>
+      )}
+      <button
+        className="page-btn"
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        Suivant
       </button>
-    </ul>
+    </div>
   );
-}
+};
 
 export default Pagination;

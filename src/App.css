@@ -659,3 +659,24 @@ table tr:last-child td:last-child {
 .subtype.blue {
   background: blue;
 }
+
+/*pagination*/
+.pagination {
+  width: 100%;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+.page-btn {
+  /*  margin: 3px;*/
+  padding: 0.6em 1.2em;
+  font-size: 0.8em;
+}
+
+.page-btn.active {
+  background: var(--green);
+  color: white;
+}
