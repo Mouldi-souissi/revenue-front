@@ -25,6 +25,10 @@ export const ADMIN_ROUTES = [
     link: "/wins",
     text: "Gain",
   },
+  {
+    link: "/revenue",
+    text: "Recette",
+  },
 ];
 
 export const USER_ROUTES = [
@@ -40,5 +44,9 @@ export const USER_ROUTES = [
   {
     link: "/wins",
     text: "Gain",
+  },
+  {
+    link: "/revenue",
+    text: "Recette",
   },
 ];

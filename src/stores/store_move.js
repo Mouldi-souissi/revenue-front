@@ -2,12 +2,20 @@ import create from "zustand";
 import axios from "axios";
 import { API_URL } from "../constants";
 
+const defaultRevenue = {
+  totalSales: 0,
+  totalWins: 0,
+  totalSpending: 0,
+  revenue: 0,
+};
+
 const store_move = create((set, get) => ({
   moves: [],
   spending: [],
   wins: [],
   sales: [],
   totalWins: 0,
+  revenue: defaultRevenue,
 
   getMoves: async (period = "daily") => {
     try {
@@ -171,6 +179,20 @@ const store_move = create((set, get) => ({
       }));
 
       // get().getAccounts();
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  getRevenue: async (start, end, user = "all") => {
+    try {
+      const res = await axios.get(
+        `${API_URL}/move/revenue/${start}/${end}/${user}`,
+        {
+          headers: { token: sessionStorage.getItem("token") },
+        },
+      );
+      set({ revenue: res.data });
     } catch (err) {
       console.log(err);
     }
