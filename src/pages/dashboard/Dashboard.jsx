@@ -274,7 +274,7 @@ const Dashboard = () => {
           <div className="title text-center">Les movements</div>
           {isLoading && <div className="loader"></div>}
         </div>
-        <div className="row g-3 mx-5">
+        <div className="row g-3 mx-lg-5 mx-sm-none">
           <div className="col-lg-6">
             <div className="input-group w-100">
               <span className="input-group-text" style={{ width: "30%" }}>
