@@ -8,6 +8,7 @@ import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
 import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
+import { useLocation, useSearch } from "wouter";
 
 const handleSubtypeIcon = (subtype) => {
   const icons = {
@@ -147,6 +148,41 @@ const calulateRevenue = (moves, userFilter) => {
   return { revenue, wins, spending, sales };
 };
 
+const usePagination = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const onPageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  return {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    startIndex,
+    endIndex,
+    onPageChange,
+  };
+};
+
+const useFilter = (moves) => {
+  const [userFilter, setUserFilter] = useState("all");
+  const [subTypeFilter, setSubTypeFilter] = useState("all");
+
+  let filteredMoves = [];
+
+  if (userFilter === "all") {
+    filteredMoves = moves;
+  } else {
+    filteredMoves = moves.filter((m) => m.user === userFilter);
+  }
+
+  return { filteredMoves, userFilter, setUserFilter };
+};
+
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(false);
   const [period, setPeriod] = useState("daily");
@@ -167,24 +203,19 @@ const Dashboard = () => {
   const shop = store_user((state) => state.shop);
   const users = store_user((state) => state.users);
 
-  const [userFilter, setUserFilter] = useState("all");
+  // filter hook
+  const { filteredMoves, userFilter, setUserFilter } = useFilter(moves);
+  // pagination hook
+  const {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    startIndex,
+    endIndex,
+    onPageChange,
+  } = usePagination();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-
-  let filteredMoves = [];
-
-  if (userFilter === "all") {
-    filteredMoves = moves;
-  } else {
-    filteredMoves = moves.filter((m) => m.user === userFilter);
-  }
-  let currentMoves = filteredMoves.slice(startIndex, startIndex + itemsPerPage);
-
-  const onPageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  let paginatedMoves = filteredMoves.slice(startIndex, endIndex);
 
   useEffect(() => {
     setLoading(true);
@@ -282,7 +313,6 @@ const Dashboard = () => {
               </span>
               <select
                 className="form-select"
-                // style={{ maxWidth: "250px" }}
                 value={period}
                 onChange={handlePeriod}
               >
@@ -298,9 +328,9 @@ const Dashboard = () => {
               <span className="input-group-text" style={{ width: "30%" }}>
                 Utilisateur
               </span>
+
               <select
                 className="form-select"
-                // style={{ maxWidth: "250px" }}
                 value={userFilter}
                 onChange={(e) => setUserFilter(e.target.value)}
               >
@@ -438,7 +468,7 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {currentMoves.map((move) => (
+            {paginatedMoves.map((move) => (
               <tr key={move._id}>
                 <td>{move.account}</td>
                 <td>{move.type}</td>
@@ -475,7 +505,7 @@ const Dashboard = () => {
                 </td>
               </tr>
             ))}
-            {!currentMoves.length && (
+            {!paginatedMoves.length && (
               <tr>
                 <td colSpan="7" className="text-center">
                   pas de donnée
