@@ -64,22 +64,26 @@ const Sites = () => {
                     })}
                   </td>
                   <td>{toTunisTime(account.lastUpdated)}</td>
-                  {/* <td>
-                    <i
-                      className="fa-solid fa-gear btn"
+                  {/*    <td>
+                    <button
+                      className="smallBtn me-1"
                       data-bs-toggle="modal"
                       data-bs-target="#editAccount"
                       onClick={() => setAccount(account)}
-                    ></i>
+                    >
+                      <i className="fa-solid fa-gear"></i>
+                    </button>
                     {account.name !== "Fond" && (
-                      <i
-                        className="fa-solid fa-trash btn text-danger"
+                      <button
+                        className="smallBtn"
                         data-bs-toggle="modal"
                         data-bs-target="#deleteAccount"
                         onClick={() => setAccount(account)}
-                      ></i>
+                      >
+                        <i className="fa-solid fa-trash text-danger"></i>
+                      </button>
                     )}
-                  </td> */}
+                  </td>*/}
                 </tr>
               ))}
             {!accounts.length && (

@@ -64,18 +64,24 @@ const Users = () => {
                   <td>{user.type}</td>
                   <td>{user.shop}</td>
                   <td>
-                    <i
-                      className="fa-solid fa-gear btn"
+                    <button
+                      className="smallBtn me-1"
+                      disabled={true}
                       data-bs-toggle="modal"
                       data-bs-target="#editUser"
                       onClick={() => setUser(user)}
-                    ></i>
-                    <i
-                      className="fa-solid fa-trash btn text-danger"
+                    >
+                      <i className="fa-solid fa-gear"></i>
+                    </button>
+
+                    <button
+                      className="smallBtn"
                       data-bs-toggle="modal"
                       data-bs-target="#deleteUser"
                       onClick={() => setUser(user)}
-                    ></i>
+                    >
+                      <i className="fa-solid fa-trash text-danger"></i>
+                    </button>
                   </td>
                 </tr>
               ))}

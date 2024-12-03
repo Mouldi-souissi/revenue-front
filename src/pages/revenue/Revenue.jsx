@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Wrapper from "../../components/layout/Wrapper";
 import store_move from "../../stores/store_move";
+import store_user from "../../stores/store_user";
 
 const Revenue = () => {
   const [isLoading, setLoading] = useState(false);
   const [isVisible, toggleVisibility] = useState(false);
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
+  const [user, setUser] = useState("all");
 
   const getRevenue = store_move((store) => store.getRevenue);
   const revenue = store_move((store) => store.revenue);
+
+  const users = store_user((state) => state.users);
+  const getUsers = store_user((state) => state.getUsers);
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,6 +26,7 @@ const Revenue = () => {
     getRevenue(
       new Date(start).toISOString(),
       new Date(end).toISOString(),
+      user,
     ).finally(() => {
       toggleVisibility(true);
       setLoading(false);
@@ -35,7 +45,7 @@ const Revenue = () => {
           className="row align-items-center justify-content-center"
           onSubmit={handleSubmit}
         >
-          <div className="col-lg-6 mb-3">
+          <div className="col-lg-4 mb-3">
             <label className="">Date de début</label>
             <input
               type="datetime-local"
@@ -47,7 +57,7 @@ const Revenue = () => {
             />
           </div>
 
-          <div className="col-lg-6 mb-3">
+          <div className="col-lg-4 mb-3">
             <label className="">Date de fin</label>
             <input
               type="datetime-local"
@@ -57,6 +67,23 @@ const Revenue = () => {
               onChange={(e) => setEnd(e.target.value)}
               required
             />
+          </div>
+
+          <div className="col-lg-4 mb-3">
+            <label>Utilisateur</label>
+
+            <select
+              className="form-select"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+            >
+              <option value="all">Tous</option>
+              {users.map((user) => (
+                <option value={user.name} key={user._id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="d-flex justify-content-end">

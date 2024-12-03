@@ -98,12 +98,14 @@ const Sales = () => {
                 <td>{toTunisTime(sale.date)}</td>
                 <td>
                   {checkUser(sale.user) && (
-                    <i
-                      className="fa-solid fa-trash btn text-danger"
+                    <button
+                      className="smallBtn"
                       data-bs-toggle="modal"
                       data-bs-target="#deleteMove"
                       onClick={() => setSale(sale)}
-                    ></i>
+                    >
+                      <i className="fa-solid fa-trash text-danger"></i>
+                    </button>
                   )}
                 </td>
               </tr>

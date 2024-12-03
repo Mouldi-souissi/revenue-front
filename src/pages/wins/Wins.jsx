@@ -98,12 +98,14 @@ const Wins = () => {
                 <td>{toTunisTime(win.date)}</td>
                 <td>
                   {checkUser(win.user) && (
-                    <i
-                      className="fa-solid fa-trash btn text-danger"
+                    <button
+                      className="smallBtn"
                       data-bs-toggle="modal"
                       data-bs-target="#deleteMove"
                       onClick={() => setWinDoc(win)}
-                    ></i>
+                    >
+                      <i className="fa-solid fa-trash text-danger"></i>
+                    </button>
                   )}
                 </td>
               </tr>

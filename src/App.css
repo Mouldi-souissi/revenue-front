@@ -371,55 +371,42 @@ table tr:last-child td:last-child {
 /*buttons*/
 
 .button {
-  display: inline-block;
-  outline: 0;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  border-radius: 4px;
-  font-size: 16px;
-  padding: 8px 20px;
-  outline: 1px solid black;
-  box-shadow: 1px 1px 2px rgba(56, 65, 74, 0.8);
   transition: all 0.3s ease;
-  outline: 1px solid black;
-  color: black;
-  background: transparent;
+  font-weight: bold;
+  padding: 9px 18px;
+  font-size: 16px;
+  outline: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .button.primary {
-  outline: 1px solid var(--green);
-  color: var(--green);
-}
-
-.button:hover {
-  box-shadow: 1px 3px 5px rgba(56, 65, 74, 0.5);
-}
-
-.button:focus {
-  outline: 1px solid aquamarine !important;
+  background: var(--green);
+  color: white;
 }
 
 .button.sm {
-  font-size: 14px;
-  padding: 5px 16px;
+  padding: 8px 16px;
+  font-size: 13px;
+  border: 1px solid var(--green);
+  color: var(--green);
+  background: transparent;
 }
 
 .button:disabled {
-  /*  opacity: 0.8;*/
+  opacity: 0.8;
   cursor: not-allowed;
-  /*  background: rgba(56, 65, 74, 0.1);*/
 }
 
 .button.transparent {
-  outline: none !important;
-  box-shadow: none;
   padding: 6px 12px;
   font-size: 15px;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
 }
 
-.button.transparent:hover {
-  color: var(--green);
+.smallBtn {
+  font-size: 14px;
+  padding: 4px 12px;
 }
 
 .tableCard {

@@ -8,7 +8,8 @@ import Wrapper from "../../components/layout/Wrapper";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
 import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
-import { useLocation, useSearch } from "wouter";
+import { usePagination } from "../../hooks/usePagination";
+import { useMovesFilter } from "../../hooks/useMovesFilter";
 
 const handleSubtypeIcon = (subtype) => {
   const icons = {
@@ -148,41 +149,6 @@ const calulateRevenue = (moves, userFilter) => {
   return { revenue, wins, spending, sales };
 };
 
-const usePagination = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  const onPageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  return {
-    currentPage,
-    setCurrentPage,
-    itemsPerPage,
-    startIndex,
-    endIndex,
-    onPageChange,
-  };
-};
-
-const useFilter = (moves) => {
-  const [userFilter, setUserFilter] = useState("all");
-  const [subTypeFilter, setSubTypeFilter] = useState("all");
-
-  let filteredMoves = [];
-
-  if (userFilter === "all") {
-    filteredMoves = moves;
-  } else {
-    filteredMoves = moves.filter((m) => m.user === userFilter);
-  }
-
-  return { filteredMoves, userFilter, setUserFilter };
-};
-
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(false);
   const [period, setPeriod] = useState("daily");
@@ -204,7 +170,7 @@ const Dashboard = () => {
   const users = store_user((state) => state.users);
 
   // filter hook
-  const { filteredMoves, userFilter, setUserFilter } = useFilter(moves);
+  const { filteredMoves, userFilter, setUserFilter } = useMovesFilter(moves);
   // pagination hook
   const {
     currentPage,
@@ -251,7 +217,7 @@ const Dashboard = () => {
                 <div className="d-flex gap-2">
                   {account.name === "Fond" && (
                     <button
-                      className="button sm primary"
+                      className="button primary sm"
                       data-bs-toggle="modal"
                       data-bs-target="#withdraw"
                     >
@@ -259,7 +225,7 @@ const Dashboard = () => {
                     </button>
                   )}
                   <button
-                    className="button sm primary"
+                    className="button primary sm"
                     data-bs-toggle="modal"
                     data-bs-target="#addAmount"
                     onClick={() => setAccountDoc(account)}
@@ -495,12 +461,14 @@ const Dashboard = () => {
 
                 <td>
                   {userType === "admin" && (
-                    <i
-                      className="fa-solid fa-trash btn text-danger"
+                    <button
+                      className="smallBtn"
                       data-bs-toggle="modal"
                       data-bs-target="#deleteMove"
                       onClick={() => setMove(move)}
-                    ></i>
+                    >
+                      <i className="fa-solid fa-trash  text-danger"></i>
+                    </button>
                   )}
                 </td>
               </tr>

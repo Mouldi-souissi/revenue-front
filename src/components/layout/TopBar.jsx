@@ -12,11 +12,11 @@ const TopBar = () => {
         <img src={userIcon} alt="user icon" className="user-icon" />
         <div>{username}</div>
       </div>
-      <div className="d-flex align-items-center">
-        <button className="button sm transparent" onClick={toggleSideBar}>
+      <div className="d-flex align-items-center gap-1">
+        <button className="button transparent" onClick={toggleSideBar}>
           <i className="fa-solid fa-bars"></i>
         </button>
-        <button className="button sm transparent" onClick={logout}>
+        <button className="button transparent" onClick={logout}>
           <i className="fa-solid fa-arrow-right-from-bracket"></i>
         </button>
       </div>
