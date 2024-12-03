@@ -6,6 +6,7 @@ import store_account from "../../stores/store_account";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
 import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
+import { formatNumber } from "../../helpers/currency";
 
 const Wins = () => {
   const [isLoading, setLoading] = useState(false);
@@ -88,11 +89,10 @@ const Wins = () => {
               <tr key={win._id}>
                 <td>{win.account}</td>
                 <td>
-                  {Number(win.amount).toLocaleString("fr", {
-                    style: "currency",
-                    currency: "TND",
-                    minimumFractionDigits: 0,
-                  })}
+                  <div className="d-flex align-items-baseline gap-1">
+                    <div>{formatNumber(win.amount)}</div>
+                    <div className="small">TND</div>
+                  </div>
                 </td>
                 <td>{win.user}</td>
                 <td>{toTunisTime(win.date)}</td>

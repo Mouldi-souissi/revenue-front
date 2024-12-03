@@ -5,6 +5,7 @@ import Wrapper from "../../components/layout/Wrapper";
 import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
 import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
+import { formatNumber } from "../../helpers/currency";
 
 const Spending = () => {
   const [isLoading, setLoading] = useState(false);
@@ -84,11 +85,10 @@ const Spending = () => {
               <tr key={spendingDoc._id}>
                 <td>{spendingDoc.description}</td>
                 <td>
-                  {Number(spendingDoc.amount).toLocaleString("fr", {
-                    style: "currency",
-                    currency: "TND",
-                    minimumFractionDigits: 0,
-                  })}
+                  <div className="d-flex align-items-baseline gap-1">
+                    <div>{formatNumber(spendingDoc.amount)}</div>
+                    <div className="small">TND</div>
+                  </div>
                 </td>
                 <td>{spendingDoc.user}</td>
                 <td>{toTunisTime(spendingDoc.date)}</td>

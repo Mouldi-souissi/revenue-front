@@ -169,7 +169,7 @@ ul {
   padding: 20px;
   border-radius: 15px;
   /*  height: 160px;*/
-  width: 320px;
+  min-width: 320px;
   color: black;
   overflow: hidden;
   /*  border: 1px solid grey;*/
@@ -332,7 +332,7 @@ table tr:last-child td:last-child {
 
 .circle {
   padding: 20px;
-  width: 235px;
+  min-width: 235px;
   border-radius: 15px;
   display: flex;
   align-items: center;

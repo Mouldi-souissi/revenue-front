@@ -5,6 +5,7 @@ import DeleteAccount from "./DeleteAccount";
 import EditAccount from "./EditAccount";
 import Wrapper from "../../components/layout/Wrapper";
 import { toTunisTime } from "../../helpers/timeAndDate";
+import { formatNumber } from "../../helpers/currency";
 
 const Sites = () => {
   const [account, setAccount] = useState("");
@@ -57,11 +58,10 @@ const Sites = () => {
                   <td>{account.name}</td>
                   <td>{account.rate}</td>
                   <td>
-                    {Number(account.deposit).toLocaleString("fr", {
-                      style: "currency",
-                      currency: "TND",
-                      minimumFractionDigits: 0,
-                    })}
+                    <div className="d-flex align-items-baseline gap-1">
+                      <div>{formatNumber(account.deposit)}</div>
+                      <div className="small">TND</div>
+                    </div>
                   </td>
                   <td>{toTunisTime(account.lastUpdated)}</td>
                   {/*    <td>
