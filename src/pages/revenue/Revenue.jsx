@@ -2,12 +2,21 @@ import { useState, useEffect } from "react";
 import Wrapper from "../../components/layout/Wrapper";
 import store_move from "../../stores/store_move";
 import store_user from "../../stores/store_user";
+import {
+  formatDateTimeLocal,
+  getStartOfday,
+  getEndOfday,
+} from "../../helpers/timeAndDate";
 
 const Revenue = () => {
+  const today = new Date();
+  const startOfDay = formatDateTimeLocal(getStartOfday(today));
+  const endOfDay = formatDateTimeLocal(getEndOfday(today));
+
   const [isLoading, setLoading] = useState(false);
   const [isVisible, toggleVisibility] = useState(false);
-  const [start, setStart] = useState(new Date());
-  const [end, setEnd] = useState(new Date());
+  const [start, setStart] = useState(startOfDay);
+  const [end, setEnd] = useState(endOfDay);
   const [user, setUser] = useState("all");
 
   const getRevenue = store_move((store) => store.getRevenue);
@@ -54,6 +63,7 @@ const Revenue = () => {
               value={start}
               onChange={(e) => setStart(e.target.value)}
               required
+              max={end}
             />
           </div>
 
@@ -66,6 +76,8 @@ const Revenue = () => {
               value={end}
               onChange={(e) => setEnd(e.target.value)}
               required
+              min={start}
+              max={end}
             />
           </div>
 
