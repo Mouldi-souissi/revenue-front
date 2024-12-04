@@ -51,13 +51,12 @@ const store_user = create((set, get) => ({
     }
   },
 
-  login: async (email, password, shop = "aouina") => {
+  login: async (email, password) => {
     try {
       set({ loginError: "" });
       const res = await axios.post(`${API_URL}/user/login`, {
         email,
         password,
-        shop,
       });
 
       sessionStorage.setItem("token", res.data);

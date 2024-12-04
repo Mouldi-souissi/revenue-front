@@ -5,26 +5,13 @@ import store_shop from "../stores/store_shop";
 import store_user from "../stores/store_user";
 
 const Login = () => {
-  const [data, setData] = useState({ email: "", password: "", shop: "aouina" });
+  const [data, setData] = useState({ email: "", password: "" });
 
   const login = store_user((state) => state.login);
-  const checkAuth = store_user((store) => store.checkAuth);
-  const activeTab = store_user((store) => store.activeTab);
-  const isAuthenticated = store_user((store) => store.isAuthenticated);
   const loginError = store_user((store) => store.loginError);
-
-  const getAllshops = store_shop((state) => state.getAllshops);
-  const shops = store_shop((state) => state.shops);
 
   const [location, setLocation] = useLocation();
   const [isLoading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!shops.length) {
-      setLoading(true);
-      getAllshops().finally(() => setLoading(false));
-    }
-  }, []);
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -34,7 +21,7 @@ const Login = () => {
     try {
       e.preventDefault();
       setLoading(true);
-      await login(data.email, data.password, data.shop);
+      await login(data.email, data.password);
     } catch (error) {
       console.log(error);
     } finally {
@@ -89,23 +76,6 @@ const Login = () => {
                   disabled={isLoading}
                 />
                 <label>Mot de passe</label>
-              </div>
-
-              <div className="form-floating mb-3 w-100">
-                <select
-                  className="form-select"
-                  name="shop"
-                  onChange={handleInput}
-                  value={data.shop}
-                  disabled={isLoading}
-                >
-                  {shops.map((shop) => (
-                    <option key={shop._id} value={shop.name}>
-                      {shop.name}
-                    </option>
-                  ))}
-                </select>
-                <label>shop</label>
               </div>
 
               {isLoading && <div className="loader"></div>}

@@ -3,23 +3,17 @@ import store_user from "../../stores/store_user";
 import store_shop from "../../stores/store_shop";
 
 const AddUser = () => {
-  const [data, setData] = useState({ type: "utilisateur", shop: "aouina" });
+  const [data, setData] = useState({ type: "utilisateur" });
   const addUser = store_user((state) => state.addUser);
-  const getAllshops = store_shop((state) => state.getAllshops);
-  const shops = store_shop((state) => state.shops);
   const refClose = useRef();
-
-  useEffect(() => {
-    getAllshops();
-  }, []);
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addUser(data);
+    await addUser(data);
     refClose.current.click();
   };
   return (
@@ -85,21 +79,6 @@ const AddUser = () => {
                   <option value="admin">Admin</option>
                 </select>
                 <label>Type</label>
-              </div>
-              <div className="form-floating mb-3">
-                <select
-                  className="form-select"
-                  name="shop"
-                  onChange={handleInput}
-                  value={data.shop}
-                >
-                  {shops.map((shop) => (
-                    <option key={shop._id} value={shop.name}>
-                      {shop.name}
-                    </option>
-                  ))}
-                </select>
-                <label>shop</label>
               </div>
             </div>
             <div className="d-flex justify-content-end align-items-center gap-2">
