@@ -5,6 +5,7 @@ import {
   getStartOfday,
   getEndOfday,
   toTunisTime,
+  subtract30Days,
 } from "../../helpers/timeAndDate";
 import store_move from "../../stores/store_move";
 import { formatNumber } from "../../helpers/currency";
@@ -121,6 +122,7 @@ const History = () => {
   const today = new Date();
   const startOfDay = formatDateTimeLocal(getStartOfday(today));
   const endOfDay = formatDateTimeLocal(getEndOfday(today));
+  const thirtydays = formatDateTimeLocal(subtract30Days(today));
 
   const [isLoading, setLoading] = useState(false);
   const [isVisible, toggleVisibility] = useState(false);
@@ -165,6 +167,7 @@ const History = () => {
               onChange={(e) => setStart(e.target.value)}
               required
               max={end}
+              min={thirtydays}
             />
           </div>
 
@@ -216,7 +219,10 @@ const History = () => {
                   </div>
                   <div className="d-flex align-items-center gap-2">
                     <div>Montant:</div>
-                    <div>{formatNumber(h.amount)}</div>
+                    <div>
+                      {formatNumber(h.amount)}
+                      <span className="small ms-1">TND</span>
+                    </div>
                   </div>
                   <div className="d-flex align-items-center gap-2">
                     <div>Utilisateur:</div>
@@ -235,7 +241,10 @@ const History = () => {
                       <div key={account._id}>
                         <div className="d-flex align-items-center gap-2">
                           <div>{account.name}</div>
-                          <div>{account.deposit}</div>
+                          <div>
+                            {account.deposit}
+                            <span className="small ms-1">TND</span>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -248,7 +257,10 @@ const History = () => {
                       <div key={account._id}>
                         <div className="d-flex align-items-center gap-2">
                           <div>{account.name}</div>
-                          <div>{account.deposit}</div>
+                          <div>
+                            {account.deposit}
+                            <span className="small ms-1">TND</span>
+                          </div>
                         </div>
                       </div>
                     ))}

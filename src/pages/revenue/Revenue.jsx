@@ -6,6 +6,7 @@ import {
   formatDateTimeLocal,
   getStartOfday,
   getEndOfday,
+  subtract30Days,
 } from "../../helpers/timeAndDate";
 import RevenueCards from "../shared/RevenueCards";
 
@@ -13,6 +14,7 @@ const Revenue = () => {
   const today = new Date();
   const startOfDay = formatDateTimeLocal(getStartOfday(today));
   const endOfDay = formatDateTimeLocal(getEndOfday(today));
+  const thirtydays = formatDateTimeLocal(subtract30Days(today));
 
   const [isLoading, setLoading] = useState(false);
   const [isVisible, toggleVisibility] = useState(false);
@@ -65,6 +67,7 @@ const Revenue = () => {
               onChange={(e) => setStart(e.target.value)}
               required
               max={end}
+              min={thirtydays}
             />
           </div>
 
