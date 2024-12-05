@@ -275,7 +275,7 @@ const Dashboard = () => {
 
       <div className="my-3">
         <div className="d-flex gap-5 align-items-center justify-content-center mb-4">
-          <div className="title text-center">Les movements</div>
+          <div className="title text-center">Les opérations</div>
           {isLoading && <div className="loader"></div>}
         </div>
         <div className="row g-3 mx-lg-5 mx-sm-none">

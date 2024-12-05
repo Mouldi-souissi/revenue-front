@@ -29,6 +29,10 @@ export const ADMIN_ROUTES = [
     link: "/revenue",
     text: "Recette",
   },
+  {
+    link: "/history",
+    text: "Historique",
+  },
 ];
 
 export const USER_ROUTES = [

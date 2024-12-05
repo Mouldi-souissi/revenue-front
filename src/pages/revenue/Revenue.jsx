@@ -55,7 +55,7 @@ const Revenue = () => {
           className="row align-items-center justify-content-center"
           onSubmit={handleSubmit}
         >
-          <div className="col-lg-4 mb-3">
+          <div className="col-lg-3 mb-3">
             <label className="">Date de début</label>
             <input
               type="datetime-local"
@@ -68,7 +68,7 @@ const Revenue = () => {
             />
           </div>
 
-          <div className="col-lg-4 mb-3">
+          <div className="col-lg-3 mb-3">
             <label className="">Date de fin</label>
             <input
               type="datetime-local"
@@ -82,7 +82,7 @@ const Revenue = () => {
             />
           </div>
 
-          <div className="col-lg-4 mb-3">
+          <div className="col-lg-3 mb-3">
             <label>Utilisateur</label>
 
             <select
@@ -98,16 +98,16 @@ const Revenue = () => {
               ))}
             </select>
           </div>
-
-          <div className="d-flex justify-content-end">
-            <button
-              type="submit"
-              revenue={revenue}
-              className="button primary"
-              disabled={isLoading}
-            >
-              Calculer
-            </button>
+          <div className="col-lg-3">
+            <div className="d-flex justify-content-end">
+              <button
+                type="submit"
+                className="button primary"
+                disabled={isLoading}
+              >
+                Calculer
+              </button>
+            </div>
           </div>
         </form>
       </div>

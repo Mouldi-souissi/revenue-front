@@ -16,6 +16,7 @@ const store_move = create((set, get) => ({
   sales: [],
   totalWins: 0,
   revenue: defaultRevenue,
+  history: [],
 
   getMoves: async (period = "daily") => {
     try {
@@ -193,6 +194,17 @@ const store_move = create((set, get) => ({
         },
       );
       set({ revenue: res.data });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  getHistory: async (start, end) => {
+    try {
+      const res = await axios.get(`${API_URL}/history/${start}/${end}`, {
+        headers: { token: sessionStorage.getItem("token") },
+      });
+      set({ history: res.data });
     } catch (err) {
       console.log(err);
     }

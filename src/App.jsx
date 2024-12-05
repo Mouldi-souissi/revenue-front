@@ -15,6 +15,7 @@ import Sales from "./pages/sales/Sales";
 import Spending from "./pages/spending/Spending";
 import Wins from "./pages/wins/Wins";
 import Revenue from "./pages/revenue/Revenue";
+import History from "./pages/history/History";
 
 function App() {
   const checkAuth = store_user((store) => store.checkAuth);
@@ -63,6 +64,11 @@ function App() {
           path="/revenue"
           component={Revenue}
           roles={[USER_ROLES.ADMIN, USER_ROLES.USER]}
+        />
+        <PrivateRoute
+          path="/history"
+          component={History}
+          roles={[USER_ROLES.ADMIN]}
         />
 
         {/*public routes*/}
