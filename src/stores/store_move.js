@@ -52,6 +52,7 @@ const store_move = create((set, get) => ({
       set({
         wins: res.data,
       });
+      return res.data;
     } catch (err) {
       console.log(err);
     }
@@ -70,13 +71,16 @@ const store_move = create((set, get) => ({
 
   getTotalWins: async (account) => {
     try {
-      const res = await axios.get(`${API_URL}/move/totalWins/${account}`, {
-        headers: { token: sessionStorage.getItem("token") },
-      });
+      const wins = await get().getWins();
 
-      set({ totalWins: res.data });
+      let total = 0;
+      for (let win of wins) {
+        if (win.account === account) {
+          total += Number(win.amount);
+        }
+      }
 
-      return res.data;
+      return total;
     } catch (err) {
       console.log(err);
     }

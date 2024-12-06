@@ -8,8 +8,6 @@ const AddSale = () => {
   const [errorAmount, setErrorAmount] = useState("");
 
   const addMove = store_move((state) => state.addMove);
-  const getTotalWins = store_move((state) => state.getTotalWins);
-  const getSpending = store_move((state) => state.getSpending);
 
   const getAccounts = store_account((state) => state.getAccounts);
   const accounts = store_account((state) => state.accounts);
@@ -42,20 +40,12 @@ const AddSale = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const accounts_res = await getAccounts();
-      const account = accounts.find((acc) => acc.name === data.account);
-      const totalWins = await getTotalWins(account.name);
-      const spendings_res = await getSpending();
-
-      const totalSpending = spendings_res.reduce(
-        (acc, curr) => (acc += Number(curr.amount)),
-        0,
-      );
+      const accounts_state = await getAccounts();
+      const account = accounts_state.find((acc) => acc.name === data.account);
 
       const amount =
         (Number(account.deposit) - Number(data.depositEnd)) *
         Number(account.rate);
-      const netSale = amount - totalWins - totalSpending;
 
       if (amount <= 0) {
         setErrorAmount(
@@ -80,10 +70,13 @@ const AddSale = () => {
     }
   };
   useEffect(() => {
-    setData({
-      ...data,
-      account: accounts.filter((account) => account.name !== "Fond")[0]?.name,
-    });
+    const filtered = accounts.filter((account) => account.type !== "primary");
+    if (filtered.length) {
+      setData({
+        ...data,
+        account: filtered[0]?.name,
+      });
+    }
   }, [accounts]);
 
   return (
@@ -112,7 +105,7 @@ const AddSale = () => {
                 value={data.account}
               >
                 {accounts
-                  .filter((account) => account.name !== "Fond")
+                  .filter((account) => account.type !== "primary")
                   .map((account) => (
                     <option key={account._id} value={account.name}>
                       {account.name}
