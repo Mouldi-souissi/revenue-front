@@ -59,7 +59,6 @@ const AddSale = () => {
           type: "entrée",
           subType: "vente",
           account: account.name,
-          description: Number(netSale).toFixed(0),
         });
         refClose.current.click();
       }
