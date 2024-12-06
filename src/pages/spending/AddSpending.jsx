@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import store_move from "../../stores/store_move";
+import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
 
 const AddSpending = () => {
   const [data, setData] = useState({
-    type: "sortie",
-    subType: "dépense",
+    type: MOVE_TYPES.out,
+    subType: MOVE_SUBTYPES.spending,
     account: "Fond",
     amount: "",
   });

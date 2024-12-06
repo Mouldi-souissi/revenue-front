@@ -54,3 +54,16 @@ export const USER_ROUTES = [
     text: "Recette",
   },
 ];
+
+export const MOVE_SUBTYPES = {
+  sale: "vente",
+  win: "gain",
+  spending: "dépense",
+  deposit: "versement",
+  withdraw: "retrait",
+};
+
+export const MOVE_TYPES = {
+  in: "entrée",
+  out: "sortie",
+};

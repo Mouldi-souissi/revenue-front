@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Wrapper from "../../components/layout/Wrapper";
 import {
   formatDateTimeLocal,
@@ -137,7 +137,7 @@ const History = () => {
     setLoading(true);
     getHistory(
       new Date(start).toISOString(),
-      new Date(end).toISOString(),
+      new Date(end).toISOString()
     ).finally(() => {
       toggleVisibility(true);
       setLoading(false);

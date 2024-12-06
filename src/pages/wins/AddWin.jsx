@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
+import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
 
 const AddWin = () => {
   const [data, setData] = useState({
     amount: "",
-    type: "sortie",
-    subType: "gain",
+    type: MOVE_TYPES.out,
+    subType: MOVE_SUBTYPES.win,
   });
   const [error, setError] = useState("");
   const addMove = store_move((state) => state.addMove);

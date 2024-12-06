@@ -12,6 +12,7 @@ import { usePagination } from "../../hooks/usePagination";
 import { useMovesFilter } from "../../hooks/useMovesFilter";
 import RevenueCards from "../shared/RevenueCards";
 import { formatNumber, formatCurrency } from "../../helpers/currency";
+import { MOVE_SUBTYPES } from "../../constants";
 
 const handleSubtypeIcon = (subtype) => {
   const icons = {
@@ -128,18 +129,18 @@ const calulateRevenue = (moves, userFilter) => {
   let sales = 0;
 
   for (let move of moves) {
-    if (move.subType === "gain") {
+    if (move.subType === MOVE_SUBTYPES.win) {
       if (userFilter === "all" || userFilter === move.user) {
         wins += Number(move.amount);
       }
     }
-    if (move.subType === "dépense") {
+    if (move.subType === MOVE_SUBTYPES.spending) {
       if (userFilter === "all" || userFilter === move.user) {
         spending += Number(move.amount);
       }
     }
 
-    if (move.subType === "vente") {
+    if (move.subType === MOVE_SUBTYPES.sale) {
       if (userFilter === "all" || userFilter === move.user) {
         sales += Number(move.amount);
       }
@@ -160,7 +161,7 @@ const Dashboard = () => {
 
   const getMoves = store_move((state) => state.getMoves);
   const moves = store_move((state) => state.moves).sort((a, b) =>
-    compareDates(a.date, b.date),
+    compareDates(a.date, b.date)
   );
 
   const getAccounts = store_account((state) => state.getAccounts);
@@ -216,7 +217,7 @@ const Dashboard = () => {
 
   const { revenue, wins, spending, sales } = calulateRevenue(
     filteredMoves,
-    userFilter,
+    userFilter
   );
 
   return (

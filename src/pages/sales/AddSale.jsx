@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
+import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
 
 const AddSale = () => {
   const [data, setData] = useState({ depositEnd: "" });
@@ -49,15 +50,15 @@ const AddSale = () => {
 
       if (amount <= 0) {
         setErrorAmount(
-          "La vente ne peut pas etre negative! veillez entrer les gains d'abord",
+          "La vente ne peut pas etre negative! veillez entrer les gains d'abord"
         );
         return;
       } else {
         setErrorAmount("");
         await addMove({
           amount: Number(amount).toFixed(0),
-          type: "entrée",
-          subType: "vente",
+          type: MOVE_TYPES.in,
+          subType: MOVE_SUBTYPES.sale,
           account: account.name,
         });
         refClose.current.click();

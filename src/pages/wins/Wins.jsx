@@ -7,14 +7,15 @@ import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
 import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
 import { formatNumber } from "../../helpers/currency";
+import { MOVE_SUBTYPES } from "../../constants";
 
 const Wins = () => {
   const [isLoading, setLoading] = useState(false);
   const [winDoc, setWinDoc] = useState("");
 
-  const getWins = store_move((state) => state.getWins);
+  const getMoves = store_move((state) => state.getMoves);
   const wins = store_move((state) => state.wins).sort((a, b) =>
-    compareDates(a.date, b.date),
+    compareDates(a.date, b.date)
   );
 
   const getAccounts = store_account((state) => state.getAccounts);
@@ -26,7 +27,7 @@ const Wins = () => {
 
   useEffect(() => {
     setLoading(true);
-    getWins().finally(() => setLoading(false));
+    getMoves("daily", MOVE_SUBTYPES.win).finally(() => setLoading(false));
     getAccounts();
   }, []);
 

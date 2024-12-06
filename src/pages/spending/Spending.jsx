@@ -6,14 +6,15 @@ import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
 import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
 import { formatNumber } from "../../helpers/currency";
+import { MOVE_SUBTYPES } from "../../constants";
 
 const Spending = () => {
   const [isLoading, setLoading] = useState(false);
   const [spendingDoc, setSpendingDoc] = useState("");
 
-  const getSpending = store_move((state) => state.getSpending);
+  const getMoves = store_move((state) => state.getMoves);
   const spending = store_move((state) => state.spending).sort((a, b) =>
-    compareDates(a.date, b.date),
+    compareDates(a.date, b.date)
   );
 
   const username = store_user((state) => state.username);
@@ -23,7 +24,7 @@ const Spending = () => {
 
   useEffect(() => {
     setLoading(true);
-    getSpending().finally(() => setLoading(false));
+    getMoves("daily", MOVE_SUBTYPES.spending).finally(() => setLoading(false));
   }, []);
 
   const checkUser = (user) => {

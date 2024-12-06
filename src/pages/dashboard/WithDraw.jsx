@@ -1,11 +1,12 @@
 import { useRef, useState } from "react";
 import store_move from "../../stores/store_move";
 import store_account from "../../stores/store_account";
+import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
 
 const WithDraw = () => {
   const [data, setData] = useState({
-    type: "sortie",
-    subType: "retrait",
+    type: MOVE_TYPES.out,
+    subType: MOVE_SUBTYPES.withdraw,
     account: "Fond",
     amount: "",
   });
