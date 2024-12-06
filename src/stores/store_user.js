@@ -8,9 +8,7 @@ import { USER_ROLES, ADMIN_ROUTES, USER_ROUTES } from "../constants";
 axios.interceptors.response.use(
   (response) => response, // Simply return the response for successful requests
   (error) => {
-    const msg = error.response ? error.response.data : null;
-
-    if (msg === "invalid token") {
+    if (error.response && error.response.status === 401) {
       sessionStorage.removeItem("token");
       navigate("/login", { replace: true });
     }
