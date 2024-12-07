@@ -1,58 +1,63 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import store_move from "../../stores/store_move";
 import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
+import { formatInput } from "../../helpers/input";
+import MoveValidator from "../../payloadValidators/moveValidator";
+import store_account from "../../stores/store_account";
 
 const AddSpending = () => {
-  const [data, setData] = useState({
-    type: MOVE_TYPES.out,
-    subType: MOVE_SUBTYPES.spending,
-    account: "Fond",
-    amount: "",
-  });
-  const [error, setError] = useState("");
-  const addMove = store_move((state) => state.addMove);
-  const refClose = useRef();
   const [isLoading, setLoading] = useState(false);
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+  const refClose = useRef();
+
+  const addMove = store_move((state) => state.addMove);
+
+  const accounts = store_account((state) => state.accounts);
 
   const handleInput = (e) => {
-    let isValid = true;
-    if (e.target.name === "amount") {
-      isValid = validateInput(e);
-    }
-
-    if (isValid) {
-      setData({ ...data, [e.target.name]: e.target.value });
-    }
-  };
-
-  const validateInput = (event) => {
-    if (!/^[0-9]+$/.test(event.target.value)) {
-      setError("Seuls les numéros sont autorisés");
-      setData({ ...data, [event.target.name]: "" });
-      return false;
-    }
-    setError("");
-    return true;
+    const value = e.target.value;
+    setAmount(formatInput(value));
   };
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       setLoading(true);
-      await addMove(data);
+
+      const primaryAccount = accounts.find(
+        (account) => account.type === "primary",
+      );
+
+      if (!primaryAccount) return;
+
+      const payload = new MoveValidator(
+        MOVE_TYPES.out,
+        MOVE_SUBTYPES.spending,
+        amount,
+        primaryAccount.name,
+        primaryAccount._id,
+        description,
+      );
+
+      const { isValid, error } = payload.isValid();
+
+      if (!isValid) {
+        console.log({ error });
+        return;
+      }
+
+      await addMove(payload);
+      setAmount("");
+      setDescription("");
       refClose.current.click();
+      resetAccount();
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    setData({
-      ...data,
-    });
-  }, []);
 
   return (
     <div
@@ -83,7 +88,8 @@ const AddSpending = () => {
                 className="form-control"
                 placeholder="Description"
                 name="description"
-                onChange={handleInput}
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
                 required
                 autoComplete="off"
               />
@@ -96,15 +102,12 @@ const AddSpending = () => {
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
-                value={data.amount}
+                value={amount}
                 required
                 autoComplete="off"
               />
               <label>Montant</label>
             </div>
-            {!!error.length && (
-              <small className="ms-2 text-danger">{error}</small>
-            )}
           </div>
           <div className="d-flex align-items-center justify-content-center mb-3">
             {isLoading && <div className="loader"></div>}

@@ -16,6 +16,7 @@ const AddSale = () => {
   const getAccounts = store_account((state) => state.getAccounts);
   const accounts = store_account((state) => state.accounts);
   const selectedAccount = store_account((state) => state.selectedAccount);
+  const selectAccount = store_account((state) => state.selectAccount);
   const resetAccount = store_account((state) => state.resetAccount);
 
   const handleInput = (e) => {
@@ -24,10 +25,9 @@ const AddSale = () => {
   };
 
   const setSelectedAccount = (id) => {
-    console.log(id);
     const account = accounts.find((acc) => acc._id === id);
     if (account) {
-      selectedAccount(account);
+      selectAccount(account);
     }
   };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import DeleteMove from "../shared/DeleteMove";
 import AddWin from "./AddWin";
 import Wrapper from "../../components/layout/Wrapper";
@@ -12,13 +12,16 @@ import { MOVE_SUBTYPES } from "../../constants";
 const Wins = () => {
   const [isLoading, setLoading] = useState(false);
   const [winDoc, setWinDoc] = useState("");
+  const addWinModal = useRef();
 
   const getMoves = store_move((state) => state.getMoves);
   const wins = store_move((state) => state.wins).sort((a, b) =>
-    compareDates(a.date, b.date)
+    compareDates(a.date, b.date),
   );
 
   const getAccounts = store_account((state) => state.getAccounts);
+  const accounts = store_account((state) => state.accounts);
+  const selectAccount = store_account((state) => state.selectAccount);
 
   const username = store_user((state) => state.username);
   const userType = store_user((state) => state.userType);
@@ -40,6 +43,14 @@ const Wins = () => {
       } else {
         return false;
       }
+    }
+  };
+
+  const handleAddWinModal = () => {
+    const filtered = accounts.filter((acc) => acc.type !== "primary");
+    if (filtered.length) {
+      selectAccount(filtered[0]);
+      addWinModal.current.click();
     }
   };
 
@@ -66,11 +77,7 @@ const Wins = () => {
             </div>
           </div>
         </div>
-        <button
-          data-bs-toggle="modal"
-          data-bs-target="#addWin"
-          className="button primary sm"
-        >
+        <button className="button primary sm" onClick={handleAddWinModal}>
           <i className="fa-solid fa-plus"></i>
         </button>
       </div>
@@ -121,6 +128,13 @@ const Wins = () => {
           </tbody>
         </table>
       </div>
+
+      <button
+        ref={addWinModal}
+        className="d-none"
+        data-bs-toggle="modal"
+        data-bs-target="#addWin"
+      ></button>
 
       <AddWin />
       <DeleteMove move={winDoc} />
