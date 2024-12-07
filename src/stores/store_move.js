@@ -10,12 +10,6 @@ const defaultRevenue = {
   revenue: 0,
 };
 
-const defaultAccount = {
-  _id: "",
-  name: "",
-  amount: "",
-};
-
 const store_move = create((set, get) => ({
   moves: [],
   spending: [],
@@ -23,15 +17,6 @@ const store_move = create((set, get) => ({
   sales: [],
   revenue: defaultRevenue,
   history: [],
-  selectedAccount: defaultAccount,
-
-  selectAccount: (account) => {
-    set({ selectedAccount: account });
-  },
-
-  resetAccount: () => {
-    set({ selectedAccount: defaultAccount });
-  },
 
   getMoves: async (period = "daily", subType = "all") => {
     try {

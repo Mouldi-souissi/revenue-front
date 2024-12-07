@@ -2,50 +2,64 @@ import { useRef, useState } from "react";
 import store_move from "../../stores/store_move";
 import store_account from "../../stores/store_account";
 import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
+import MoveValidator from "../../payloadValidators/moveValidator";
+import { formatInput } from "../../helpers/input";
 
 const WithDraw = () => {
-  const [data, setData] = useState({
-    type: MOVE_TYPES.out,
-    subType: MOVE_SUBTYPES.withdraw,
-    account: "Fond",
-    amount: "",
-  });
+  const [isLoading, setLoading] = useState(false);
+  const [amount, setAmount] = useState("");
+  const refClose = useRef();
 
   const addMove = store_move((state) => state.addMove);
-  const refClose = useRef();
-  const [isLoading, setLoading] = useState(false);
+
   const getAccounts = store_account((state) => state.getAccounts);
+  const selectedAccount = store_account((state) => state.selectedAccount);
+  const resetAccount = store_account((state) => state.resetAccount);
 
   const handleInput = (e) => {
     const value = e.target.value;
-    if (Number(e.target.value) > 0) {
-      setData({ ...data, amount: Number(value) });
-    } else {
-      setData({ ...data, amount: "" });
-    }
+    setAmount(formatInput(value));
   };
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       setLoading(true);
-      if (data.amount) {
-        await addMove(data);
-        await getAccounts();
-        refClose.current.click();
+
+      const payload = new MoveValidator(
+        MOVE_TYPES.out,
+        MOVE_SUBTYPES.withdraw,
+        amount,
+        selectedAccount.name,
+        selectedAccount._id,
+      );
+
+      const { isValid, error } = payload.isValid();
+
+      if (!isValid) {
+        console.log({ error });
+        return;
       }
+
+      await addMove(payload);
+      await getAccounts();
+
+      setAmount("");
+      refClose.current.click();
+      resetAccount();
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className="modal fade" id="withdraw" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content p-3" onSubmit={handleSubmit}>
           <div className="d-flex justify-content-between align-items-center">
-            <div className="text-black">Retrait Fond</div>
+            <div className="text-black">Retrait {selectedAccount.name}</div>
             <button
               type="button"
               className="btn-close"
@@ -62,7 +76,8 @@ const WithDraw = () => {
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
-                value={data.amount}
+                value={amount}
+                autoComplete="off"
               />
               <label>Montant</label>
             </div>
@@ -78,7 +93,7 @@ const WithDraw = () => {
               <button
                 type="submit"
                 className="button primary"
-                disabled={!data.amount || isLoading}
+                disabled={!amount || isLoading}
               >
                 Sauvegarder
               </button>
