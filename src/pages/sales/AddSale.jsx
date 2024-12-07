@@ -24,6 +24,7 @@ const AddSale = () => {
   };
 
   const setSelectedAccount = (id) => {
+    console.log(id);
     const account = accounts.find((acc) => acc._id === id);
     if (account) {
       selectedAccount(account);
