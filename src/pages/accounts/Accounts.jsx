@@ -27,13 +27,13 @@ const Sites = () => {
           {isLoading && <div className="loader"></div>}
         </div>
 
-        <button
+        {/*      <button
           data-bs-toggle="modal"
           data-bs-target="#addSite"
           className="button primary sm"
         >
           <i className="fa-solid fa-plus"></i>
-        </button>
+        </button>*/}
       </div>
       <div className="table-responsive mt-3">
         <table>
