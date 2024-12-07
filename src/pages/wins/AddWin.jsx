@@ -1,60 +1,64 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
 import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
+import { formatInput } from "../../helpers/input";
+import MoveValidator from "../../payloadValidators/moveValidator";
 
 const AddWin = () => {
-  const [data, setData] = useState({
-    amount: "",
-    type: MOVE_TYPES.out,
-    subType: MOVE_SUBTYPES.win,
-  });
-  const [error, setError] = useState("");
-  const addMove = store_move((state) => state.addMove);
-  const accounts = store_account((state) => state.accounts);
-  const refClose = useRef();
   const [isLoading, setLoading] = useState(false);
+  const [amount, setAmount] = useState("");
+  const refClose = useRef();
+
+  const addMove = store_move((state) => state.addMove);
+
+  const accounts = store_account((state) => state.accounts);
+  const selectedAccount = store_account((state) => state.selectedAccount);
+  const selectAccount = store_account((state) => state.selectAccount);
+  const resetAccount = store_account((state) => state.resetAccount);
 
   const handleInput = (e) => {
-    let isValid = true;
-    if (e.target.name === "amount") {
-      isValid = validateInput(e);
-    }
-
-    if (isValid) {
-      setData({ ...data, [e.target.name]: e.target.value });
-    }
+    const value = e.target.value;
+    setAmount(formatInput(value));
   };
 
-  const validateInput = (event) => {
-    if (!/^[0-9]+$/.test(event.target.value)) {
-      setError("Seuls les numéros sont autorisés");
-      setData({ ...data, [event.target.name]: "" });
-      return false;
+  const setSelectedAccount = (id) => {
+    const account = accounts.find((acc) => acc._id === id);
+    if (account) {
+      selectAccount(account);
     }
-    setError("");
-    return true;
   };
 
   const handleSubmit = async (e) => {
     try {
-      setLoading(true);
       e.preventDefault();
-      await addMove(data);
+      setLoading(true);
+
+      const payload = new MoveValidator(
+        MOVE_TYPES.out,
+        MOVE_SUBTYPES.win,
+        amount,
+        selectedAccount.name,
+        selectedAccount._id,
+      );
+
+      const { isValid, error } = payload.isValid();
+
+      if (!isValid) {
+        console.log({ error });
+        return;
+      }
+
+      await addMove(payload);
+      setAmount("");
       refClose.current.click();
+      resetAccount();
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    setData({
-      ...data,
-      account: accounts.filter((account) => account.name !== "Fond")[0]?.name,
-    });
-  }, [accounts]);
 
   return (
     <div className="modal fade" id="addWin" tabIndex="-1" aria-hidden="true">
@@ -75,30 +79,19 @@ const AddWin = () => {
               <select
                 className="form-select"
                 name="account"
-                onChange={handleInput}
-                required
+                onChange={(e) => setSelectedAccount(e.target.value)}
+                value={selectedAccount._id}
               >
                 {accounts
-                  .filter((account) => account.name !== "Fond")
+                  .filter((account) => account.type !== "primary")
                   .map((account) => (
-                    <option key={account?._id} value={account?.name}>
-                      {account?.name}
+                    <option key={account._id} value={account._id}>
+                      {account.name}
                     </option>
                   ))}
               </select>
               <label>Type</label>
             </div>
-
-            {/* <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="client/Tél"
-                name="description"
-                onChange={handleInput}
-              />
-              <label>client/Tél</label>
-            </div> */}
             <div className="form-floating ">
               <input
                 type="text"
@@ -106,15 +99,12 @@ const AddWin = () => {
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
-                value={data.amount}
+                value={amount}
                 required
                 autoComplete="off"
               />
               <label>Montant</label>
             </div>
-            {!!error.length && (
-              <small className="ms-2 text-danger">{error}</small>
-            )}
           </div>
           <div className="d-flex align-items-center justify-content-center mb-3">
             {isLoading && <div className="loader"></div>}

@@ -2,8 +2,23 @@ import create from "zustand";
 import axios from "axios";
 import { API_URL } from "../constants";
 
+const defaultAccount = {
+  _id: "",
+  name: "",
+  amount: "",
+};
+
 const store_account = create((set, get) => ({
   accounts: [],
+  selectedAccount: defaultAccount,
+
+  selectAccount: (account) => {
+    set({ selectedAccount: account });
+  },
+
+  resetAccount: () => {
+    set({ selectedAccount: defaultAccount });
+  },
 
   getAccounts: async () => {
     try {
