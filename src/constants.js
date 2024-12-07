@@ -67,3 +67,10 @@ export const MOVE_TYPES = {
   in: "entrée",
   out: "sortie",
 };
+
+export const PERIOD_VALUES = {
+  daily: "daily",
+  yesterday: "yesterday",
+  weekly: "weekly",
+  monthly: "monthly",
+};

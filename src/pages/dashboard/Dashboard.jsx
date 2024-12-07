@@ -12,7 +12,7 @@ import { usePagination } from "../../hooks/usePagination";
 import { useMovesFilter } from "../../hooks/useMovesFilter";
 import RevenueCards from "../shared/RevenueCards";
 import { formatNumber, formatCurrency } from "../../helpers/currency";
-import { MOVE_SUBTYPES } from "../../constants";
+import { MOVE_SUBTYPES, PERIOD_VALUES } from "../../constants";
 
 const handleSubtypeIcon = (subtype) => {
   const icons = {
@@ -152,6 +152,13 @@ const calulateRevenue = (moves, userFilter) => {
   return { revenue, wins, spending, sales };
 };
 
+const periodOptions = [
+  { text: "Aujourd'hui", value: PERIOD_VALUES.daily },
+  { text: "Hier", value: PERIOD_VALUES.yesterday },
+  { text: "Cette semaine", value: PERIOD_VALUES.weekly },
+  { text: "Ce mois", value: PERIOD_VALUES.monthly },
+];
+
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(false);
   const [period, setPeriod] = useState("daily");
@@ -159,9 +166,10 @@ const Dashboard = () => {
   const [move, setMove] = useState("");
   const [accountDoc, setAccountDoc] = useState("");
 
+  const selectAccount = store_move((state) => state.selectAccount);
   const getMoves = store_move((state) => state.getMoves);
   const moves = store_move((state) => state.moves).sort((a, b) =>
-    compareDates(a.date, b.date)
+    compareDates(a.date, b.date),
   );
 
   const getAccounts = store_account((state) => state.getAccounts);
@@ -217,7 +225,7 @@ const Dashboard = () => {
 
   const { revenue, wins, spending, sales } = calulateRevenue(
     filteredMoves,
-    userFilter
+    userFilter,
   );
 
   return (
@@ -229,11 +237,12 @@ const Dashboard = () => {
               <div className="card_title">{account.name}</div>
               {userType === "admin" && (
                 <div className="d-flex gap-2">
-                  {account.name === "Fond" && (
+                  {account.type === "primary" && (
                     <button
                       className="button primary sm"
                       data-bs-toggle="modal"
                       data-bs-target="#withdraw"
+                      onClick={() => selectAccount(account)}
                     >
                       <i className="fa-solid fa-minus" />
                     </button>
@@ -242,7 +251,7 @@ const Dashboard = () => {
                     className="button primary sm"
                     data-bs-toggle="modal"
                     data-bs-target="#addAmount"
-                    onClick={() => setAccountDoc(account)}
+                    onClick={() => selectAccount(account)}
                   >
                     <i className="fa-solid fa-plus" />
                   </button>
@@ -290,10 +299,11 @@ const Dashboard = () => {
                 value={period}
                 onChange={handlePeriod}
               >
-                <option value="daily">Aujourd'hui</option>
-                <option value="yesterday">Hier</option>
-                <option value="weekly">Cette semaine</option>
-                <option value="monthly">Ce mois</option>
+                {periodOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.text}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

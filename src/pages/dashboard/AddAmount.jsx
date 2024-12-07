@@ -1,26 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import store_move from "../../stores/store_move";
 import store_account from "../../stores/store_account";
 import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
+import MoveValidator from "../../payloadValidators/moveValidator";
 
-const AddAmount = ({ account }) => {
-  const [data, setData] = useState({
-    type: MOVE_TYPES.in,
-    subType: MOVE_SUBTYPES.deposit,
-    account: "",
-    amount: "",
-  });
-  const addMove = store_move((state) => state.addMove);
-  const refClose = useRef();
+const AddAmount = () => {
   const [isLoading, setLoading] = useState(false);
+  const [amount, setAmount] = useState("");
+  const refClose = useRef();
+
+  const selectedAccount = store_move((state) => state.selectedAccount);
+  const resetAccount = store_move((state) => state.resetAccount);
+  const addMove = store_move((state) => state.addMove);
+
   const getAccounts = store_account((state) => state.getAccounts);
 
   const handleInput = (e) => {
     const value = e.target.value;
     if (Number(e.target.value) > 0) {
-      setData({ ...data, amount: Number(value) });
+      setAmount(Number(value));
     } else {
-      setData({ ...data, amount: "" });
+      setAmount("");
     }
   };
 
@@ -29,11 +29,27 @@ const AddAmount = ({ account }) => {
       e.preventDefault();
       setLoading(true);
 
-      if (data.amount) {
-        await addMove(data);
-        await getAccounts();
-        refClose.current.click();
+      const payload = new MoveValidator(
+        MOVE_TYPES.in,
+        MOVE_SUBTYPES.deposit,
+        amount,
+        selectedAccount.name,
+        selectedAccount._id,
+      );
+
+      const { isValid, error } = payload.isValid();
+
+      if (!isValid) {
+        console.log({ error });
+        return;
       }
+
+      await addMove(payload);
+      await getAccounts();
+
+      setAmount("");
+      refClose.current.click();
+      resetAccount();
     } catch (error) {
       console.log(error);
     } finally {
@@ -41,16 +57,12 @@ const AddAmount = ({ account }) => {
     }
   };
 
-  useEffect(() => {
-    setData({ ...data, account: account?.name });
-  }, [account]);
-
   return (
     <div className="modal fade" id="addAmount" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content p-3" onSubmit={handleSubmit}>
           <div className="d-flex justify-content-between align-items-center">
-            <div className="text-black">Alimenter {account?.name}</div>
+            <div className="text-black">Alimenter {selectedAccount.name}</div>
             <button
               type="button"
               className="btn-close"
@@ -67,7 +79,8 @@ const AddAmount = ({ account }) => {
                 placeholder="Montant"
                 name="amount"
                 onChange={handleInput}
-                value={data.amount}
+                value={amount}
+                autoComplete="off"
               />
               <label>Montant</label>
             </div>
@@ -83,7 +96,7 @@ const AddAmount = ({ account }) => {
               <button
                 type="submit"
                 className="button primary"
-                disabled={!data.amount || isLoading}
+                disabled={!amount || isLoading}
               >
                 Sauvegarder
               </button>
