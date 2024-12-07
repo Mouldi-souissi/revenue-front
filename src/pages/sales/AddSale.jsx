@@ -1,33 +1,40 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
 import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
-import { formatInput } from "../../helpers/input";
-import MoveValidator from "../../payloadValidators/moveValidator";
 
 const AddSale = () => {
-  const [isLoading, setLoading] = useState(false);
-  const [depositEnd, setDepositEnd] = useState("");
+  const [data, setData] = useState({ depositEnd: "" });
+  const [error, setError] = useState("");
   const [errorAmount, setErrorAmount] = useState("");
-  const refClose = useRef();
 
   const addMove = store_move((state) => state.addMove);
 
   const getAccounts = store_account((state) => state.getAccounts);
   const accounts = store_account((state) => state.accounts);
-  const selectedAccount = store_account((state) => state.selectedAccount);
-  const resetAccount = store_account((state) => state.resetAccount);
+
+  const refClose = useRef();
+  const [isLoading, setLoading] = useState(false);
 
   const handleInput = (e) => {
-    const value = e.target.value;
-    setDepositEnd(formatInput(value));
+    let isValid = true;
+    if (e.target.name === "depositEnd") {
+      isValid = validateInput(e);
+    }
+
+    if (isValid) {
+      setData({ ...data, [e.target.name]: e.target.value });
+    }
   };
 
-  const setSelectedAccount = (id) => {
-    const account = accounts.find((acc) => acc._id === id);
-    if (account) {
-      selectedAccount(account);
+  const validateInput = (event) => {
+    if (!/^[0-9]+$/.test(event.target.value)) {
+      setError("Seuls les numéros sont autorisés");
+      setData({ ...data, [event.target.name]: "" });
+      return false;
     }
+    setError("");
+    return true;
   };
 
   const handleSubmit = async (e) => {
@@ -35,40 +42,26 @@ const AddSale = () => {
     try {
       setLoading(true);
       const accounts_state = await getAccounts();
-      const account = accounts_state.find(
-        (acc) => acc._id === selectedAccount._id,
-      );
+      const account = accounts_state.find((acc) => acc.name === data.account);
 
       const amount =
-        (Number(account.deposit) - Number(depositEnd)) * Number(account.rate);
+        (Number(account.deposit) - Number(data.depositEnd)) *
+        Number(account.rate);
 
       if (amount <= 0) {
         setErrorAmount(
-          "La vente ne peut pas etre negative! veillez entrer les gains d'abord",
+          "La vente ne peut pas etre negative! veillez entrer les gains d'abord"
         );
         return;
       } else {
         setErrorAmount("");
-
-        const payload = new MoveValidator(
-          MOVE_TYPES.in,
-          MOVE_SUBTYPES.sale,
-          Number(amount).toFixed(0),
-          selectedAccount.name,
-          selectedAccount._id,
-        );
-
-        const { isValid, error } = payload.isValid();
-
-        if (!isValid) {
-          console.log({ error });
-          return;
-        }
-
-        await addMove(payload);
-        setDepositEnd("");
+        await addMove({
+          amount: Number(amount).toFixed(0),
+          type: MOVE_TYPES.in,
+          subType: MOVE_SUBTYPES.sale,
+          account: account.name,
+        });
         refClose.current.click();
-        resetAccount();
       }
     } catch (error) {
       console.log(error);
@@ -76,6 +69,15 @@ const AddSale = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    const filtered = accounts.filter((account) => account.type !== "primary");
+    if (filtered.length) {
+      setData({
+        ...data,
+        account: filtered[0]?.name,
+      });
+    }
+  }, [accounts]);
 
   return (
     <div className="modal fade" id="addSale" tabIndex="-1" aria-hidden="true">
@@ -99,13 +101,13 @@ const AddSale = () => {
               <select
                 className="form-select"
                 name="account"
-                onChange={(e) => setSelectedAccount(e.target.value)}
-                value={selectedAccount._id}
+                onChange={handleInput}
+                value={data.account}
               >
                 {accounts
                   .filter((account) => account.type !== "primary")
                   .map((account) => (
-                    <option key={account._id} value={account._id}>
+                    <option key={account._id} value={account.name}>
                       {account.name}
                     </option>
                   ))}
@@ -119,12 +121,15 @@ const AddSale = () => {
                 placeholder="Montant"
                 name="depositEnd"
                 onChange={handleInput}
-                value={depositEnd}
+                value={data.depositEnd}
                 required
                 autoComplete="off"
               />
-              <label>Balance {selectedAccount.name} fin</label>
+              <label>Balance {data.account} fin</label>
             </div>
+            {!!error.length && (
+              <small className="ms-2 text-danger">{error}</small>
+            )}
           </div>
           <div className="d-flex align-items-center justify-content-center mb-3">
             {isLoading && <div className="loader"></div>}

@@ -164,13 +164,14 @@ const Dashboard = () => {
   const [period, setPeriod] = useState("daily");
 
   const [move, setMove] = useState("");
+  const [accountDoc, setAccountDoc] = useState("");
 
+  const selectAccount = store_move((state) => state.selectAccount);
   const getMoves = store_move((state) => state.getMoves);
   const moves = store_move((state) => state.moves).sort((a, b) =>
     compareDates(a.date, b.date),
   );
 
-  const selectAccount = store_account((state) => state.selectAccount);
   const getAccounts = store_account((state) => state.getAccounts);
   const accounts = store_account((state) => state.accounts);
 
@@ -403,7 +404,7 @@ const Dashboard = () => {
       </div>
 
       <DeleteMove move={move} />
-      <AddAmount />
+      <AddAmount account={accountDoc} />
       <WithDraw />
     </Wrapper>
   );

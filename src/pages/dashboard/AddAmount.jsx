@@ -3,22 +3,25 @@ import store_move from "../../stores/store_move";
 import store_account from "../../stores/store_account";
 import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
 import MoveValidator from "../../payloadValidators/moveValidator";
-import { formatInput } from "../../helpers/input";
 
 const AddAmount = () => {
   const [isLoading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const refClose = useRef();
 
+  const selectedAccount = store_move((state) => state.selectedAccount);
+  const resetAccount = store_move((state) => state.resetAccount);
   const addMove = store_move((state) => state.addMove);
 
   const getAccounts = store_account((state) => state.getAccounts);
-  const selectedAccount = store_account((state) => state.selectedAccount);
-  const resetAccount = store_account((state) => state.resetAccount);
 
   const handleInput = (e) => {
     const value = e.target.value;
-    setAmount(formatInput(value));
+    if (Number(e.target.value) > 0) {
+      setAmount(Number(value));
+    } else {
+      setAmount("");
+    }
   };
 
   const handleSubmit = async (e) => {

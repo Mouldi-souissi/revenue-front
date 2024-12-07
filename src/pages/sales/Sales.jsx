@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import AddSale from "./AddSale";
 import DeleteMove from "../shared/DeleteMove";
 import Wrapper from "../../components/layout/Wrapper";
@@ -12,16 +12,13 @@ import { MOVE_SUBTYPES } from "../../constants";
 const Sales = () => {
   const [sale, setSale] = useState("");
   const [isLoading, setLoading] = useState(false);
-  const addSaleModal = useRef();
 
   const sales = store_move((state) => state.sales).sort((a, b) =>
-    compareDates(a.date, b.date),
+    compareDates(a.date, b.date)
   );
   const getMoves = store_move((state) => state.getMoves);
 
   const getAccounts = store_account((state) => state.getAccounts);
-  const accounts = store_account((state) => state.accounts);
-  const selectAccount = store_account((state) => state.selectAccount);
 
   const username = store_user((state) => state.username);
   const userType = store_user((state) => state.userType);
@@ -43,14 +40,6 @@ const Sales = () => {
       } else {
         return false;
       }
-    }
-  };
-
-  const handleAddSaleModal = () => {
-    const filtered = accounts.filter((acc) => acc.type !== "primary");
-    if (filtered.length) {
-      selectAccount(filtered[0]);
-      addSaleModal.current.click();
     }
   };
 
@@ -77,7 +66,11 @@ const Sales = () => {
             </div>
           </div>
         </div>
-        <button className="button primary sm" onClick={handleAddSaleModal}>
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#addSale"
+          className="button primary sm"
+        >
           <i className="fa-solid fa-plus"></i>
         </button>
       </div>
@@ -128,13 +121,6 @@ const Sales = () => {
           </tbody>
         </table>
       </div>
-
-      <button
-        ref={addSaleModal}
-        className="d-none"
-        data-bs-toggle="modal"
-        data-bs-target="#addSale"
-      ></button>
 
       <AddSale />
       <DeleteMove move={sale} />
