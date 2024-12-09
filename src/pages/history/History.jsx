@@ -11,114 +11,8 @@ import store_move from "../../stores/store_move";
 import { formatNumber } from "../../helpers/currency";
 import { usePagination } from "../../hooks/usePagination";
 import Pagination from "../../components/UI/Pagination";
-
-const handleSubtypeIcon = (subtype) => {
-  const icons = {
-    vente: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="lucide lucide-circle-arrow-up"
-        color="yellowgreen"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <path d="m16 12-4-4-4 4" />
-        <path d="M12 16V8" />
-      </svg>
-    ),
-    gain: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="lucide lucide-coins"
-        color="yellow"
-      >
-        <circle cx="8" cy="8" r="6" />
-        <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
-        <path d="M7 6h1v4" />
-        <path d="m16.71 13.88.7.71-2.82 2.82" />
-      </svg>
-    ),
-    dépense: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="lucide lucide-circle-arrow-down"
-        color="red"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 8v8" />
-        <path d="m8 12 4 4 4-4" />
-      </svg>
-    ),
-    versement: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="lucide lucide-circle-plus"
-        color="green"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <path d="M8 12h8" />
-        <path d="M12 8v8" />
-      </svg>
-    ),
-    retrait: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="lucide lucide-circle-minus"
-        color="orange"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <path d="M8 12h8" />
-      </svg>
-    ),
-  };
-
-  const icon = icons[subtype];
-
-  if (icon) {
-    return icon;
-  }
-
-  return "";
-};
+import { getIconColor } from "../../helpers/getIconColor";
+import IconSVG from "../../components/UI/IconSVG";
 
 const History = () => {
   const today = new Date();
@@ -233,7 +127,11 @@ const History = () => {
                     <div>
                       <span>{h.moveSubType}</span>
                       <span className="ms-2">
-                        {handleSubtypeIcon(h.moveSubType)}
+                        <IconSVG
+                          name={h.moveSubType}
+                          size={20}
+                          color={getIconColor(h.moveSubType)}
+                        />
                       </span>
                     </div>
                   </div>
@@ -289,17 +187,16 @@ const History = () => {
               </div>
             </div>
           ))}
-
-          <div className="d-flex align-items-center justify-content-center my-3">
-            <Pagination
-              totalItems={history.length}
-              itemsPerPage={itemsPerPage}
-              currentPage={currentPage}
-              onPageChange={onPageChange}
-            />
-          </div>
         </div>
       )}
+      <div className="d-flex align-items-center justify-content-center my-3">
+        <Pagination
+          totalItems={history.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
+      </div>
     </Wrapper>
   );
 };

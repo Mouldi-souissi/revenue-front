@@ -92,7 +92,7 @@ export const ACCOUNT_TYPES = {
 
 export const ICON_COLORS = {
   vente: "yellowgreen",
-  gain: "yellow",
+  gain: "gold",
   dépense: "red",
   versement: "green",
   retrait: "orange",

@@ -652,16 +652,11 @@ table tr:last-child td:last-child {
 
 /*pagination*/
 .pagination {
-  width: 100%;
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  justify-content: center;
-  overflow: auto;
+  overflow-x: auto;
 }
 
 .page-btn {
-  /*  margin: 3px;*/
+  margin: 3px;
   padding: 0.6em 1.2em;
   font-size: 0.8em;
 }
