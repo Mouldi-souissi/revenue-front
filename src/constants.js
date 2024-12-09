@@ -7,51 +7,61 @@ export const USER_ROLES = {
 };
 
 export const ADMIN_ROUTES = [
-  { link: "/", text: "Tableau de bord" },
-  { link: "/users", text: "Utilisateurs" },
+  { link: "/", text: "Tableau de bord", icon: "dashboard" },
+  { link: "/users", text: "Utilisateurs", icon: "users" },
   {
     link: "/accounts",
     text: "Comptes",
+    icon: "accounts",
   },
   {
     link: "/sales",
     text: "Ventes",
+    icon: "vente",
   },
   {
     link: "/spending",
     text: "Dépenses",
+    icon: "dépense",
   },
   {
     link: "/wins",
     text: "Gain",
+    icon: "gain",
   },
   {
     link: "/revenue",
     text: "Recette",
+    icon: "revenue",
   },
   {
     link: "/history",
     text: "Historique",
+    icon: "history",
   },
 ];
 
 export const USER_ROUTES = [
-  { link: "/", text: "Tableau de bordd" },
+  { link: "/", text: "Tableau de bord", icon: "dashboard" },
   {
     link: "/sales",
     text: "Ventes",
+    icon: "vente",
   },
   {
     link: "/spending",
     text: "Dépenses",
+    icon: "dépense",
   },
   {
     link: "/wins",
     text: "Gain",
+    icon: "gain",
   },
   {
     link: "/revenue",
     text: "Recette",
+    icon: "revenue",
   },
 ];
 
@@ -78,4 +88,14 @@ export const PERIOD_VALUES = {
 export const ACCOUNT_TYPES = {
   primary: "primary",
   secondary: "secondary",
+};
+
+export const ICON_COLORS = {
+  vente: "yellowgreen",
+  gain: "yellow",
+  dépense: "red",
+  versement: "green",
+  retrait: "orange",
+  revenue: "cyan",
+  sidebar: "white",
 };
