@@ -182,7 +182,7 @@ ul {
 .dashboard_card:hover {
   box-shadow: 0 5px 10px rgba(56, 65, 74, 0.2);
 
-  transform: translateY(-2px);
+  /*  transform: translateY(-2px);*/
   /*  outline: 2px dotted aquamarine;*/
 }
 
@@ -372,44 +372,55 @@ table tr:last-child td:last-child {
 
 /*buttons*/
 
-.button {
-  transition: all 0.3s ease;
-  font-weight: bold;
-  padding: 9px 18px;
-  font-size: 16px;
-  outline: 1px solid rgba(0, 0, 0, 0.2);
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-weight: 500;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-size: 14px;
+  padding: 8px 16px;
 }
 
-.button.primary {
+button:hover {
+  border-color: var(--green);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 1px auto -webkit-focus-ring-color;
+}
+
+button.primary {
   background: var(--green);
   color: white;
 }
 
-.button.sm {
-  padding: 8px 16px;
-  font-size: 13px;
-  border: 1px solid var(--green);
+button.secondary {
   color: var(--green);
+  border-color: var(--green);
   background: transparent;
 }
 
-.button:disabled {
-  opacity: 0.6;
+button.secondary:hover {
+  background: var(--green);
+  color: white;
+}
+
+button:disabled {
+  opacity: 0.9;
   cursor: not-allowed;
 }
 
-.button.transparent {
+button.transparent {
   padding: 6px 12px;
-  font-size: 15px;
   background: transparent;
-  box-shadow: none;
-  outline: none;
-  color: black;
 }
 
-.smallBtn {
-  font-size: 14px;
+button.smallBtn {
   padding: 4px 12px;
+  background: #f9f9f9;
 }
 
 .tableCard {

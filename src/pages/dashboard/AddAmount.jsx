@@ -87,12 +87,12 @@ const AddAmount = () => {
           </div>
           {!isLoading && (
             <div className="d-flex justify-content-end align-items-center gap-2">
-              <button type="button" className="button" data-bs-dismiss="modal">
+              <button type="button" data-bs-dismiss="modal">
                 Fermer
               </button>
               <button
                 type="submit"
-                className="button primary"
+                className="primary"
                 disabled={!amount || isLoading}
               >
                 Sauvegarder

@@ -45,7 +45,7 @@ const Users = () => {
           <button
             data-bs-toggle="modal"
             data-bs-target="#addUser"
-            className="button primary sm"
+            className="secondary"
           >
             <i className="fa-solid fa-plus"></i>
           </button>

@@ -41,7 +41,7 @@ const Sites = () => {
         {/*   <button
           data-bs-toggle="modal"
           data-bs-target="#addSite"
-          className="button primary sm"
+          className="secondary"
           disabled={true}
         >
           <i className="fa-solid fa-plus"></i>

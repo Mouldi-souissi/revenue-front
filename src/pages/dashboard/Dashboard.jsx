@@ -141,7 +141,7 @@ const Dashboard = () => {
                 <div className="d-flex gap-2">
                   {account.type === ACCOUNT_TYPES.primary && (
                     <button
-                      className="button primary sm"
+                      className="secondary"
                       data-bs-toggle="modal"
                       data-bs-target="#withdraw"
                       onClick={() => selectAccount(account)}
@@ -150,7 +150,7 @@ const Dashboard = () => {
                     </button>
                   )}
                   <button
-                    className="button primary sm"
+                    className="secondary"
                     data-bs-toggle="modal"
                     data-bs-target="#addAmount"
                     onClick={() => selectAccount(account)}

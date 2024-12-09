@@ -97,7 +97,7 @@ const Wins = () => {
             </div>
           </div>
         </div>
-        <button className="button primary sm" onClick={handleAddWinModal}>
+        <button className="secondary" onClick={handleAddWinModal}>
           <i className="fa-solid fa-plus"></i>
         </button>
       </div>

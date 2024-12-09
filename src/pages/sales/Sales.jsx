@@ -97,7 +97,7 @@ const Sales = () => {
             </div>
           </div>
         </div>
-        <button className="button primary sm" onClick={handleAddSaleModal}>
+        <button className="secondary" onClick={handleAddSaleModal}>
           <i className="fa-solid fa-plus"></i>
         </button>
       </div>
