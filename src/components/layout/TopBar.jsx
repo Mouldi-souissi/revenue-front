@@ -1,8 +1,10 @@
 import store_user from "../../stores/store_user";
+import store_ui from "../../stores/store_ui";
+
 import userIcon from "/user.svg";
 
 const TopBar = () => {
-  const toggleSideBar = store_user((state) => state.toggleSideBar);
+  const toggleSideBar = store_ui((state) => state.toggleSideBar);
   const logout = store_user((state) => state.logout);
   const username = store_user((state) => state.username);
 

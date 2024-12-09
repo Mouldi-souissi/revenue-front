@@ -17,6 +17,7 @@ const Users = () => {
   const getUsers = store_user((state) => state.getUsers);
   const shop = store_user((state) => state.shop);
   const users = store_user((state) => state.users);
+  const userId = store_user((state) => state.userId);
 
   const init = () => {
     setLoading(true);
@@ -26,6 +27,14 @@ const Users = () => {
   useEffect(() => {
     init();
   }, []);
+
+  const checkUser = (user) => {
+    if (user._id === userId) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <Wrapper>
@@ -89,6 +98,7 @@ const Users = () => {
                       data-bs-toggle="modal"
                       data-bs-target="#deleteUser"
                       onClick={() => setUser(user)}
+                      disabled={checkUser(user)}
                     >
                       <i className="fa-solid fa-trash text-danger"></i>
                     </button>

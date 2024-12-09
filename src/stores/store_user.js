@@ -3,7 +3,8 @@ import decode from "jwt-decode";
 import axios from "axios";
 import { API_URL } from "../constants";
 import { navigate } from "wouter/use-browser-location";
-import { USER_ROLES, ADMIN_ROUTES, USER_ROUTES } from "../constants";
+import { USER_ROLES } from "../constants";
+import { ADMIN_ROUTES, USER_ROUTES } from "../routes/routes";
 
 axios.interceptors.response.use(
   (response) => response, // Simply return the response for successful requests
@@ -18,35 +19,19 @@ axios.interceptors.response.use(
 );
 
 const store_user = create((set, get) => ({
-  isSidebarHidden: false,
-  activeTab: "/",
-  username: "User",
-  userType: "admin",
-  shop: "aouina",
+  activeRoute: "",
+  username: "",
+  userId: "",
+  role: "",
+  shop: "",
   routes: [],
   isAuthenticated: false,
   users: [],
   loginError: "",
 
-  toggleSideBar: () => {
-    set((state) => ({ isSidebarHidden: !state.isSidebarHidden }));
-  },
-
-  switchTab: (tab) => {
-    set({ activeTab: tab });
-    sessionStorage.setItem("activeTab", tab);
-  },
-
-  getUsers: async () => {
-    try {
-      const res = await axios.get(`${API_URL}/user`, {
-        headers: { token: sessionStorage.getItem("token") },
-      });
-
-      set({ users: res.data });
-    } catch (err) {
-      console.log(err);
-    }
+  switchRoute: (route) => {
+    set({ activeRoute: route });
+    sessionStorage.setItem("activeRoute", route);
   },
 
   login: async (email, password) => {
@@ -74,10 +59,11 @@ const store_user = create((set, get) => ({
 
       set({
         username: decodedToken.name,
-        userType: decodedToken.type,
+        role: decodedToken.type,
         shop: decodedToken.shop,
-        activeTab: "/",
+        activeRoute: "/",
         isAuthenticated: true,
+        userId: decodedToken.id,
       });
 
       navigate("/", { replace: true });
@@ -91,18 +77,11 @@ const store_user = create((set, get) => ({
       }
     }
   },
-  logout: () => {
-    window.sessionStorage.removeItem("token");
-    set({
-      isAuthenticated: false,
-    });
-    navigate("/login", { replace: true });
-  },
 
   checkAuth: () => {
     try {
       const token = sessionStorage.getItem("token") || null;
-      const activeTab = sessionStorage.getItem("activeTab") || "/";
+      const activeRoute = sessionStorage.getItem("activeRoute") || "/";
 
       if (token) {
         const decodedToken = decode(token) || null;
@@ -121,18 +100,39 @@ const store_user = create((set, get) => ({
 
         set({
           username: decodedToken.name,
-          userType: decodedToken.type,
+          role: decodedToken.type,
           shop: decodedToken.shop,
-          activeTab: activeTab,
+          activeRoute: activeRoute,
           isAuthenticated: true,
+          userId: decodedToken.id,
         });
 
-        navigate(activeTab, { replace: true });
+        navigate(activeRoute, { replace: true });
       } else {
         navigate("/login", { replace: true });
       }
     } catch (err) {
       navigate("/login", { replace: true });
+      console.log(err);
+    }
+  },
+
+  logout: () => {
+    window.sessionStorage.removeItem("token");
+    set({
+      isAuthenticated: false,
+    });
+    navigate("/login", { replace: true });
+  },
+
+  getUsers: async () => {
+    try {
+      const res = await axios.get(`${API_URL}/user`, {
+        headers: { token: sessionStorage.getItem("token") },
+      });
+
+      set({ users: res.data });
+    } catch (err) {
       console.log(err);
     }
   },

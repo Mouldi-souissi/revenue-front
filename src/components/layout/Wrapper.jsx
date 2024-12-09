@@ -1,10 +1,10 @@
 import React from "react";
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
-import store_user from "../../stores/store_user";
+import store_ui from "../../stores/store_ui";
 
 const Wrapper = (props) => {
-  const isSidebarHidden = store_user((store) => store.isSidebarHidden);
+  const isSidebarHidden = store_ui((store) => store.isSidebarHidden);
   return (
     <div className="mainPage">
       <Sidebar />

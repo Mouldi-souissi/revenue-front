@@ -409,7 +409,7 @@ button.secondary:hover {
 }
 
 button:disabled {
-  opacity: 0.9;
+  opacity: 0.7;
   cursor: not-allowed;
 }
 

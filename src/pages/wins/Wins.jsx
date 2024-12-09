@@ -29,7 +29,7 @@ const Wins = () => {
   const selectAccount = store_account((state) => state.selectAccount);
 
   const username = store_user((state) => state.username);
-  const userType = store_user((state) => state.userType);
+  const role = store_user((state) => state.role);
 
   const total = wins.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
@@ -46,7 +46,7 @@ const Wins = () => {
   }, []);
 
   const checkUser = (user) => {
-    if (userType === USER_ROLES.ADMIN) {
+    if (role === USER_ROLES.ADMIN) {
       return true;
     } else {
       if (username === user) {

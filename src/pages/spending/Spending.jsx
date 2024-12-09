@@ -19,7 +19,7 @@ const Spending = () => {
   );
 
   const username = store_user((state) => state.username);
-  const userType = store_user((state) => state.userType);
+  const role = store_user((state) => state.role);
 
   const getAccounts = store_account((state) => state.getAccounts);
   const accounts = store_account((state) => state.accounts);
@@ -41,7 +41,7 @@ const Spending = () => {
   }, []);
 
   const checkUser = (user) => {
-    if (userType === USER_ROLES.ADMIN) {
+    if (role === USER_ROLES.ADMIN) {
       return true;
     } else {
       if (username === user) {

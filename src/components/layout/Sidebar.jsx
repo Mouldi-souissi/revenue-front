@@ -1,12 +1,13 @@
 import store_user from "../../stores/store_user";
+import store_ui from "../../stores/store_ui";
 import { Link } from "wouter";
 import IconSVG from "../UI/IconSVG";
 import { getIconColor } from "../../helpers/getIconColor";
 
 const Sidebar = () => {
-  const isSidebarHidden = store_user((state) => state.isSidebarHidden);
-  const switchTab = store_user((state) => state.switchTab);
-  const activeTab = store_user((state) => state.activeTab);
+  const isSidebarHidden = store_ui((state) => state.isSidebarHidden);
+  const switchRoute = store_user((state) => state.switchRoute);
+  const activeRoute = store_user((state) => state.activeRoute);
   const routes = store_user((state) => state.routes);
   const shop = store_user((state) => state.shop);
 
@@ -20,8 +21,8 @@ const Sidebar = () => {
         {routes.map((route, i) => (
           <li key={i}>
             <Link
-              className={`navlink ${activeTab === route.link ? "active" : ""}`}
-              onClick={() => switchTab(route.link)}
+              className={`navlink ${activeRoute === route.link ? "active" : ""}`}
+              onClick={() => switchRoute(route.link)}
               to={route.link}
             >
               <span className="icon">

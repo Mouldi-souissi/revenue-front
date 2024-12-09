@@ -73,7 +73,7 @@ const Dashboard = () => {
   const getAccounts = store_account((state) => state.getAccounts);
   const accounts = store_account((state) => state.accounts);
 
-  const userType = store_user((state) => state.userType);
+  const role = store_user((state) => state.role);
   const getUsers = store_user((state) => state.getUsers);
   const shop = store_user((state) => state.shop);
   const users = store_user((state) => state.users);
@@ -103,7 +103,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     init();
-  }, [userType]);
+  }, [role]);
 
   const handlePeriod = async (e) => {
     try {
@@ -137,7 +137,7 @@ const Dashboard = () => {
           <div className="dashboard_card" key={account._id}>
             <div className="d-flex justify-content-between align-items-center">
               <div className="card_title">{account.name}</div>
-              {userType === USER_ROLES.ADMIN && (
+              {role === USER_ROLES.ADMIN && (
                 <div className="d-flex gap-2">
                   {account.type === ACCOUNT_TYPES.primary && (
                     <button
@@ -256,7 +256,7 @@ const Dashboard = () => {
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Date</th>
-              {userType === USER_ROLES.ADMIN && <th scope="col">Actions</th>}
+              {role === USER_ROLES.ADMIN && <th scope="col">Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -285,7 +285,7 @@ const Dashboard = () => {
                 <td className="date">{toTunisTime(move.date)}</td>
 
                 <td>
-                  {userType === USER_ROLES.ADMIN && (
+                  {role === USER_ROLES.ADMIN && (
                     <button
                       className="smallBtn"
                       data-bs-toggle="modal"
