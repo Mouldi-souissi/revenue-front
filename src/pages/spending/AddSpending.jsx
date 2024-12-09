@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import store_move from "../../stores/store_move";
-import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
+import { MOVE_TYPES, MOVE_SUBTYPES, ACCOUNT_TYPES } from "../../constants";
 import { formatInput } from "../../helpers/input";
 import MoveValidator from "../../payloadValidators/moveValidator";
 import store_account from "../../stores/store_account";
@@ -26,7 +26,7 @@ const AddSpending = () => {
       setLoading(true);
 
       const primaryAccount = accounts.find(
-        (account) => account.type === "primary",
+        (account) => account.type === ACCOUNT_TYPES.primary,
       );
 
       if (!primaryAccount) return;

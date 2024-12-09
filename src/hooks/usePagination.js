@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-export const usePagination = () => {
+export const usePagination = (itemsPerPage = 10) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  // const itemsPerPage = 10;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 

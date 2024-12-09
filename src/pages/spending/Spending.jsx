@@ -6,8 +6,8 @@ import store_user from "../../stores/store_user";
 import store_move from "../../stores/store_move";
 import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
 import { formatNumber } from "../../helpers/currency";
-import { MOVE_SUBTYPES } from "../../constants";
 import store_account from "../../stores/store_account";
+import { MOVE_SUBTYPES, PERIOD_VALUES, USER_ROLES } from "../../constants";
 
 const Spending = () => {
   const [isLoading, setLoading] = useState(false);
@@ -26,16 +26,22 @@ const Spending = () => {
 
   const total = spending.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
-  useEffect(() => {
+  const init = () => {
     setLoading(true);
-    getMoves("daily", MOVE_SUBTYPES.spending).finally(() => setLoading(false));
+    getMoves(PERIOD_VALUES.daily, MOVE_SUBTYPES.spending).finally(() =>
+      setLoading(false),
+    );
     if (!accounts.length) {
       getAccounts();
     }
+  };
+
+  useEffect(() => {
+    init();
   }, []);
 
   const checkUser = (user) => {
-    if (userType === "admin") {
+    if (userType === USER_ROLES.ADMIN) {
       return true;
     } else {
       if (username === user) {
@@ -50,7 +56,14 @@ const Spending = () => {
     <Wrapper>
       <div className="d-flex align-items-start justify-content-between gap-2 p-3">
         <div>
-          <div className="d-flex gap-5 align-items-center">
+          <div className="d-flex gap-2 align-items-center">
+            <button
+              className="button transparent"
+              onClick={init}
+              disabled={isLoading}
+            >
+              <i className="fa-solid fa-rotate-right"></i>
+            </button>
             <div className="title">
               Dépenses <span className="small">(Aujourd'hui)</span>
             </div>

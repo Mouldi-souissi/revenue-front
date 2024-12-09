@@ -74,3 +74,8 @@ export const PERIOD_VALUES = {
   weekly: "weekly",
   monthly: "monthly",
 };
+
+export const ACCOUNT_TYPES = {
+  primary: "primary",
+  secondary: "secondary",
+};

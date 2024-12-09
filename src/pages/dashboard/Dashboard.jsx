@@ -12,7 +12,12 @@ import { usePagination } from "../../hooks/usePagination";
 import { useMovesFilter } from "../../hooks/useMovesFilter";
 import RevenueCards from "../shared/RevenueCards";
 import { formatNumber, formatCurrency } from "../../helpers/currency";
-import { MOVE_SUBTYPES, PERIOD_VALUES } from "../../constants";
+import {
+  MOVE_SUBTYPES,
+  PERIOD_VALUES,
+  ACCOUNT_TYPES,
+  USER_ROLES,
+} from "../../constants";
 
 const handleSubtypeIcon = (subtype) => {
   const icons = {
@@ -161,7 +166,7 @@ const periodOptions = [
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(false);
-  const [period, setPeriod] = useState("daily");
+  const [period, setPeriod] = useState(PERIOD_VALUES.daily);
 
   const [move, setMove] = useState("");
 
@@ -193,13 +198,17 @@ const Dashboard = () => {
 
   let paginatedMoves = filteredMoves.slice(startIndex, endIndex);
 
-  useEffect(() => {
+  const init = () => {
     setLoading(true);
-    getMoves().finally(() => setLoading(false));
+    getMoves(period).finally(() => setLoading(false));
     getAccounts();
     getUsers();
     setCurrentPage(1);
     setUserFilter("all");
+  };
+
+  useEffect(() => {
+    init();
   }, [userType]);
 
   const handlePeriod = async (e) => {
@@ -234,9 +243,9 @@ const Dashboard = () => {
           <div className="dashboard_card" key={account._id}>
             <div className="d-flex justify-content-between align-items-center">
               <div className="card_title">{account.name}</div>
-              {userType === "admin" && (
+              {userType === USER_ROLES.ADMIN && (
                 <div className="d-flex gap-2">
-                  {account.type === "primary" && (
+                  {account.type === ACCOUNT_TYPES.primary && (
                     <button
                       className="button primary sm"
                       data-bs-toggle="modal"
@@ -283,10 +292,18 @@ const Dashboard = () => {
       </div>
 
       <div className="my-3">
-        <div className="d-flex gap-5 align-items-center justify-content-center mb-4">
+        <div className="d-flex gap-2 align-items-center justify-content-center mb-4">
+          <button
+            className="button transparent"
+            onClick={init}
+            disabled={isLoading}
+          >
+            <i className="fa-solid fa-rotate-right"></i>
+          </button>
           <div className="title text-center">Les opérations</div>
           {isLoading && <div className="loader"></div>}
         </div>
+
         <div className="row g-3 mx-lg-5 mx-sm-none">
           <div className="col-lg-6">
             <div className="input-group w-100">
@@ -345,7 +362,7 @@ const Dashboard = () => {
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Date</th>
-              {userType === "admin" && <th scope="col">Actions</th>}
+              {userType === USER_ROLES.ADMIN && <th scope="col">Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -369,7 +386,7 @@ const Dashboard = () => {
                 <td className="date">{toTunisTime(move.date)}</td>
 
                 <td>
-                  {userType === "admin" && (
+                  {userType === USER_ROLES.ADMIN && (
                     <button
                       className="smallBtn"
                       data-bs-toggle="modal"

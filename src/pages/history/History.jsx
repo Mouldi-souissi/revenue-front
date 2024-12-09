@@ -9,6 +9,8 @@ import {
 } from "../../helpers/timeAndDate";
 import store_move from "../../stores/store_move";
 import { formatNumber } from "../../helpers/currency";
+import { usePagination } from "../../hooks/usePagination";
+import Pagination from "../../components/UI/Pagination";
 
 const handleSubtypeIcon = (subtype) => {
   const icons = {
@@ -132,12 +134,23 @@ const History = () => {
   const getHistory = store_move((store) => store.getHistory);
   const history = store_move((store) => store.history);
 
+  const {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    startIndex,
+    endIndex,
+    onPageChange,
+  } = usePagination(10);
+
+  let paginated = history.slice(startIndex, endIndex);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     getHistory(
       new Date(start).toISOString(),
-      new Date(end).toISOString()
+      new Date(end).toISOString(),
     ).finally(() => {
       toggleVisibility(true);
       setLoading(false);
@@ -147,7 +160,14 @@ const History = () => {
   return (
     <Wrapper>
       <div className="d-flex align-items-start justify-content-between gap-2 p-3">
-        <div className="d-flex gap-5 align-items-center">
+        <div className="d-flex gap-2 align-items-center">
+          <button
+            className="button transparent"
+            onClick={handleSubmit}
+            disabled={isLoading}
+          >
+            <i className="fa-solid fa-rotate-right"></i>
+          </button>
           <div className="title">Historique</div>
           {isLoading && <div className="loader"></div>}
         </div>
@@ -200,7 +220,7 @@ const History = () => {
       </div>
       {isVisible && (
         <div className="my-3">
-          {history.map((h) => (
+          {paginated.map((h) => (
             <div className="card p-4 mt-3" key={h._id}>
               <div className="row justify-content-center g-3">
                 <div className="col-lg-4">
@@ -269,6 +289,15 @@ const History = () => {
               </div>
             </div>
           ))}
+
+          <div className="d-flex align-items-center justify-content-center my-3">
+            <Pagination
+              totalItems={history.length}
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+              onPageChange={onPageChange}
+            />
+          </div>
         </div>
       )}
     </Wrapper>

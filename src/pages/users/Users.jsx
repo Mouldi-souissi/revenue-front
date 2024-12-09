@@ -18,26 +18,38 @@ const Users = () => {
   const shop = store_user((state) => state.shop);
   const users = store_user((state) => state.users);
 
-  useEffect(() => {
+  const init = () => {
     setLoading(true);
     getUsers().finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    init();
   }, []);
 
   return (
     <Wrapper>
-      <div className=" d-flex align-items-center justify-content-between gap-2 p-3">
-        <div className="d-flex gap-5 align-items-center">
+      <div className="d-flex align-items-center justify-content-between gap-2 p-3">
+        <div className="d-flex gap-2 align-items-center">
+          <button
+            className="button transparent"
+            onClick={init}
+            disabled={isLoading}
+          >
+            <i className="fa-solid fa-rotate-right"></i>
+          </button>
           <div className="title">Utilisateurs</div>
           {isLoading && <div className="loader"></div>}
         </div>
-
-        <button
-          data-bs-toggle="modal"
-          data-bs-target="#addUser"
-          className="button primary sm"
-        >
-          <i className="fa-solid fa-plus"></i>
-        </button>
+        <div className="d-flex gap-2">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#addUser"
+            className="button primary sm"
+          >
+            <i className="fa-solid fa-plus"></i>
+          </button>
+        </div>
       </div>
       <div className="table-responsive mt-3">
         <table>

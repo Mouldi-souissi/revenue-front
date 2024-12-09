@@ -47,7 +47,14 @@ const Revenue = () => {
   return (
     <Wrapper>
       <div className="d-flex align-items-start justify-content-between gap-2 p-3">
-        <div className="d-flex gap-5 align-items-center">
+        <div className="d-flex gap-2 align-items-center">
+          <button
+            className="button transparent"
+            onClick={handleSubmit}
+            disabled={isLoading}
+          >
+            <i className="fa-solid fa-rotate-right"></i>
+          </button>
           <div className="title">Recette</div>
           {isLoading && <div className="loader"></div>}
         </div>

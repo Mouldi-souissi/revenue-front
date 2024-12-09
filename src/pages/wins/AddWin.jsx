@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
-import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
+import { MOVE_TYPES, MOVE_SUBTYPES, ACCOUNT_TYPES } from "../../constants";
 import { formatInput } from "../../helpers/input";
 import MoveValidator from "../../payloadValidators/moveValidator";
 
@@ -83,7 +83,7 @@ const AddWin = () => {
                 value={selectedAccount._id}
               >
                 {accounts
-                  .filter((account) => account.type !== "primary")
+                  .filter((account) => account.type !== ACCOUNT_TYPES.primary)
                   .map((account) => (
                     <option key={account._id} value={account._id}>
                       {account.name}

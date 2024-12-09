@@ -270,6 +270,8 @@ table tr:last-child td:last-child {
   height: 12px;
   border-radius: 50%;
   display: block;
+  margin-left: 50px;
+  margin-right: 50px;
 
   color: var(--green);
   animation: animloader 2s linear infinite;
@@ -392,7 +394,7 @@ table tr:last-child td:last-child {
 }
 
 .button:disabled {
-  opacity: 0.8;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 

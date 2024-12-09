@@ -14,23 +14,35 @@ const Sites = () => {
   const accounts = store_account((state) => state.accounts);
   const getAccounts = store_account((state) => state.getAccounts);
 
-  useEffect(() => {
+  const init = () => {
     setLoading(true);
     getAccounts().finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    init();
   }, []);
 
   return (
     <Wrapper className="container">
       <div className="d-flex align-items-center justify-content-between gap-2 p-3">
-        <div className="d-flex gap-5 align-items-center">
+        <div className="d-flex gap-2 align-items-center">
+          <button
+            className="button transparent"
+            onClick={init}
+            disabled={isLoading}
+          >
+            <i className="fa-solid fa-rotate-right"></i>
+          </button>
           <div className="title">Comptes</div>
           {isLoading && <div className="loader"></div>}
         </div>
 
-        {/*       <button
+        {/*   <button
           data-bs-toggle="modal"
           data-bs-target="#addSite"
           className="button primary sm"
+          disabled={true}
         >
           <i className="fa-solid fa-plus"></i>
         </button>*/}
