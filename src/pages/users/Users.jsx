@@ -58,7 +58,6 @@ const Users = () => {
               <th scope="col">Nom</th>
               <th scope="col">Email</th>
               <th scope="col">Type</th>
-              <th scope="col">Shop</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -74,7 +73,6 @@ const Users = () => {
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.type}</td>
-                  <td>{user.shop}</td>
                   <td>
                     <button
                       className="smallBtn me-1"

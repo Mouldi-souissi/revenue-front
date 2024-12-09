@@ -42,7 +42,12 @@ const DeleteMove = ({ move }) => {
               ref={refClose}
             ></button>
           </div>
-          <div className="modal-body my-3">Veillez confirmer la supression</div>
+          <div className="modal-body my-3">
+            <div> Veuillez confirmer la suppression de l'opération:</div>
+            <div className="text-black text-center">
+              {move?.subType} {move?.amount}
+            </div>
+          </div>
           <div className="d-flex align-items-center justify-content-center mb-3">
             {isLoading && <div className="loader"></div>}
           </div>

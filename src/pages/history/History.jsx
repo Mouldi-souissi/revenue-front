@@ -41,6 +41,7 @@ const History = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setCurrentPage(1);
     setLoading(true);
     getHistory(
       new Date(start).toISOString(),
@@ -113,90 +114,92 @@ const History = () => {
         </form>
       </div>
       {isVisible && (
-        <div className="my-3">
-          {paginated.map((h) => (
-            <div className="card p-4 mt-3" key={h._id}>
-              <div className="row justify-content-center g-3">
-                <div className="col-lg-4">
-                  <div className={`${h.isUndo ? "red" : "green"}`}>
-                    {h.isUndo ? "Opération supprimée" : "Opération ajoutée"}
-                  </div>
+        <>
+          <div className="my-3">
+            {paginated.map((h) => (
+              <div className="card p-4 mt-3" key={h._id}>
+                <div className="row justify-content-center g-3">
+                  <div className="col-lg-4">
+                    <div className={`${h.isUndo ? "red" : "green"}`}>
+                      {h.isUndo ? "Opération supprimée" : "Opération ajoutée"}
+                    </div>
 
-                  <div className="d-flex align-items-center gap-2 mt-2">
-                    <div>Categorie:</div>
-                    <div>
-                      <span>{h.moveSubType}</span>
-                      <span className="ms-2">
-                        <IconSVG
-                          name={h.moveSubType}
-                          size={20}
-                          color={getIconColor(h.moveSubType)}
-                        />
-                      </span>
+                    <div className="d-flex align-items-center gap-2 mt-2">
+                      <div>Catégorie:</div>
+                      <div>
+                        <span>{h.moveSubType}</span>
+                        <span className="ms-2">
+                          <IconSVG
+                            name={h.moveSubType}
+                            size={20}
+                            color={getIconColor(h.moveSubType)}
+                          />
+                        </span>
+                      </div>
+                    </div>
+                    <div className="d-flex align-items-center gap-2">
+                      <div>Montant:</div>
+                      <div>
+                        {formatNumber(h.amount)}
+                        <span className="small ms-1">TND</span>
+                      </div>
+                    </div>
+                    <div className="d-flex align-items-center gap-2">
+                      <div>Utilisateur:</div>
+                      <div>{h.user}</div>
+                    </div>
+
+                    <div className="d-flex align-items-center gap-2">
+                      <div>Date:</div>
+                      <div>{toTunisTime(h.date)}</div>
                     </div>
                   </div>
-                  <div className="d-flex align-items-center gap-2">
-                    <div>Montant:</div>
-                    <div>
-                      {formatNumber(h.amount)}
-                      <span className="small ms-1">TND</span>
+                  <div className="col-lg-4">
+                    <div className="card p-2 bg-light">
+                      <div className="mb-2">Etat des comptes (avant)</div>
+                      {h.accountsBefore.map((account) => (
+                        <div key={account._id}>
+                          <div className="d-flex align-items-center gap-2">
+                            <div>{account.name}</div>
+                            <div>
+                              {account.deposit}
+                              <span className="small ms-1">TND</span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <div className="d-flex align-items-center gap-2">
-                    <div>Utilisateur:</div>
-                    <div>{h.user}</div>
-                  </div>
-
-                  <div className="d-flex align-items-center gap-2">
-                    <div>Date:</div>
-                    <div>{toTunisTime(h.date)}</div>
-                  </div>
-                </div>
-                <div className="col-lg-4">
-                  <div className="card p-2 bg-light">
-                    <div className="mb-2">Etat des comptes (avant)</div>
-                    {h.accountsBefore.map((account) => (
-                      <div key={account._id}>
-                        <div className="d-flex align-items-center gap-2">
-                          <div>{account.name}</div>
-                          <div>
-                            {account.deposit}
-                            <span className="small ms-1">TND</span>
+                  <div className="col-lg-4">
+                    <div className="card p-2 bg-light">
+                      <div className="mb-2">Etat des comptes (après)</div>
+                      {h.accountsAfter.map((account) => (
+                        <div key={account._id}>
+                          <div className="d-flex align-items-center gap-2">
+                            <div>{account.name}</div>
+                            <div>
+                              {account.deposit}
+                              <span className="small ms-1">TND</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="col-lg-4">
-                  <div className="card p-2 bg-light">
-                    <div className="mb-2">Etat des comptes (après)</div>
-                    {h.accountsAfter.map((account) => (
-                      <div key={account._id}>
-                        <div className="d-flex align-items-center gap-2">
-                          <div>{account.name}</div>
-                          <div>
-                            {account.deposit}
-                            <span className="small ms-1">TND</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+          <div className="d-flex align-items-center justify-content-center my-3">
+            <Pagination
+              totalItems={history.length}
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+              onPageChange={onPageChange}
+            />
+          </div>
+        </>
       )}
-      <div className="d-flex align-items-center justify-content-center my-3">
-        <Pagination
-          totalItems={history.length}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
-          onPageChange={onPageChange}
-        />
-      </div>
     </Wrapper>
   );
 };

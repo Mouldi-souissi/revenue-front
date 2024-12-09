@@ -45,7 +45,7 @@ const AddSale = () => {
 
       if (amount <= 0) {
         setErrorAmount(
-          "La vente ne peut pas etre negative! veillez entrer les gains d'abord",
+          "La vente ne peut pas etre negative! Veuillez saisir les gains d'abord",
         );
         return;
       } else {

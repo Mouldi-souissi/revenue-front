@@ -252,7 +252,7 @@ const Dashboard = () => {
             <tr>
               <th scope="col">Compte</th>
               <th scope="col">Type</th>
-              <th scope="col">Categorie</th>
+              <th scope="col">Catégorie</th>
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Date</th>

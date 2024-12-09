@@ -23,7 +23,7 @@ const DeleteAccount = ({ account }) => {
             ></button>
           </div>
           <div className="modal-body my-3">
-            {`Veillez confirmer la supression du compte ${account?.name}`}
+            {`Veuillez confirmer la suppression du compte ${account?.name}`}
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">
             <button
