@@ -1,6 +1,7 @@
 import create from "zustand";
 import axios from "axios";
 import { API_URL } from "../constants";
+import { getHeaders } from "../helpers/getHeaders";
 
 const defaultAccount = {
   _id: "",
@@ -22,9 +23,7 @@ const store_account = create((set, get) => ({
 
   getAccounts: async () => {
     try {
-      const res = await axios.get(`${API_URL}/account`, {
-        headers: { token: sessionStorage.getItem("token") },
-      });
+      const res = await axios.get(`${API_URL}/accounts`, getHeaders());
       set({
         accounts: res.data,
       });
@@ -36,9 +35,11 @@ const store_account = create((set, get) => ({
 
   addAccount: async (account) => {
     try {
-      const res = await axios.post(`${API_URL}/account`, account, {
-        headers: { token: sessionStorage.getItem("token") },
-      });
+      const res = await axios.post(
+        `${API_URL}/accounts`,
+        account,
+        getHeaders(),
+      );
 
       set((state) => ({ accounts: [...state.accounts, res.data] }));
     } catch (err) {
@@ -48,9 +49,7 @@ const store_account = create((set, get) => ({
 
   deleteAccount: async (id) => {
     try {
-      const res = await axios.delete(`${API_URL}/account/${id}`, {
-        headers: { token: sessionStorage.getItem("token") },
-      });
+      const res = await axios.delete(`${API_URL}/accounts/${id}`, getHeaders());
       set((state) => ({
         accounts: state.accounts.filter((site) => site._id !== res.data._id),
       }));
@@ -62,11 +61,9 @@ const store_account = create((set, get) => ({
   editAccount: async (account) => {
     try {
       const res = await axios.put(
-        `${API_URL}/account/${account._id}`,
+        `${API_URL}/accounts/${account._id}`,
         account,
-        {
-          headers: { token: sessionStorage.getItem("token") },
-        },
+        getHeaders(),
       );
       set((state) => ({
         accounts: [

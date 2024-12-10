@@ -5,11 +5,15 @@ import { API_URL } from "../constants";
 import { navigate } from "wouter/use-browser-location";
 import { USER_ROLES } from "../constants";
 import { ADMIN_ROUTES, USER_ROUTES } from "../routes/routes";
+import { getHeaders } from "../helpers/getHeaders";
 
 axios.interceptors.response.use(
   (response) => response, // Simply return the response for successful requests
   (error) => {
-    if (error.response && error.response.status === 401) {
+    if (
+      (error.response && error.response.status === 401) ||
+      (error.response && error.response.status === 403)
+    ) {
       sessionStorage.removeItem("token");
       navigate("/login", { replace: true });
     }
@@ -37,7 +41,7 @@ const store_user = create((set, get) => ({
   login: async (email, password) => {
     try {
       set({ loginError: "" });
-      const res = await axios.post(`${API_URL}/user/login`, {
+      const res = await axios.post(`${API_URL}/users/login`, {
         email,
         password,
       });
@@ -45,25 +49,27 @@ const store_user = create((set, get) => ({
       sessionStorage.setItem("token", res.data);
       const decodedToken = decode(res.data);
 
-      if (decodedToken.type === USER_ROLES.ADMIN) {
+      const { type, name, shop, shopId, _id } = decodedToken;
+
+      if (type === USER_ROLES.ADMIN) {
         set({
           routes: ADMIN_ROUTES,
         });
       }
 
-      if (decodedToken.type === USER_ROLES.USER) {
+      if (type === USER_ROLES.USER) {
         set({
           routes: USER_ROUTES,
         });
       }
 
       set({
-        username: decodedToken.name,
-        role: decodedToken.type,
-        shop: decodedToken.shop,
+        username: name,
+        role: type,
+        shop: shop,
         activeRoute: "/",
         isAuthenticated: true,
-        userId: decodedToken.id,
+        userId: _id,
       });
 
       navigate("/", { replace: true });
@@ -86,25 +92,27 @@ const store_user = create((set, get) => ({
       if (token) {
         const decodedToken = decode(token) || null;
 
-        if (decodedToken.type === USER_ROLES.ADMIN) {
+        const { type, name, shop, shopId, _id } = decodedToken;
+
+        if (type === USER_ROLES.ADMIN) {
           set({
             routes: ADMIN_ROUTES,
           });
         }
 
-        if (decodedToken.type === USER_ROLES.USER) {
+        if (type === USER_ROLES.USER) {
           set({
             routes: USER_ROUTES,
           });
         }
 
         set({
-          username: decodedToken.name,
-          role: decodedToken.type,
-          shop: decodedToken.shop,
-          activeRoute: activeRoute,
+          username: name,
+          role: type,
+          shop: shop,
+          activeRoute: "/",
           isAuthenticated: true,
-          userId: decodedToken.id,
+          userId: _id,
         });
 
         navigate(activeRoute, { replace: true });
@@ -127,9 +135,7 @@ const store_user = create((set, get) => ({
 
   getUsers: async () => {
     try {
-      const res = await axios.get(`${API_URL}/user`, {
-        headers: { token: sessionStorage.getItem("token") },
-      });
+      const res = await axios.get(`${API_URL}/users`, getHeaders());
 
       set({ users: res.data });
     } catch (err) {
@@ -139,9 +145,11 @@ const store_user = create((set, get) => ({
 
   addUser: async (userData) => {
     try {
-      const res = await axios.post(`${API_URL}/user/register`, userData, {
-        headers: { token: sessionStorage.getItem("token") },
-      });
+      const res = await axios.post(
+        `${API_URL}/users/register`,
+        userData,
+        getHeaders(),
+      );
       set((state) => ({ users: [...state.users, res.data] }));
     } catch (err) {
       console.log(err);
@@ -150,9 +158,7 @@ const store_user = create((set, get) => ({
 
   deleteUser: async (id) => {
     try {
-      const res = await axios.delete(`${API_URL}/user/${id}`, {
-        headers: { token: sessionStorage.getItem("token") },
-      });
+      const res = await axios.delete(`${API_URL}/users/${id}`, getHeaders());
       set((state) => ({
         users: state.users.filter((user) => user._id !== res.data._id),
       }));
@@ -164,11 +170,9 @@ const store_user = create((set, get) => ({
   editUser: async (user) => {
     try {
       const res = await axios.put(
-        `${API_URL}/user/${user._id}`,
+        `${API_URL}/users/${user._id}`,
         { name: user.name, type: user.type },
-        {
-          headers: { token: sessionStorage.getItem("token") },
-        },
+        getHeaders(),
       );
 
       set((state) => ({
