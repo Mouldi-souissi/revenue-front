@@ -6,7 +6,7 @@ const store_shop = create((set, get) => ({
   shops: [],
   getAllshops: async () => {
     try {
-      const res = await axios.get(`${API_URL}/shop`);
+      const res = await axios.get(`${API_URL}/shops`);
 
       set({ shops: res.data });
     } catch (error) {
