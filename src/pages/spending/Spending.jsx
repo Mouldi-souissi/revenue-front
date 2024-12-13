@@ -8,6 +8,8 @@ import { toTunisTime, compareDates } from "../../helpers/timeAndDate";
 import { formatNumber } from "../../helpers/currency";
 import store_account from "../../stores/store_account";
 import { MOVE_SUBTYPES, PERIOD_VALUES, USER_ROLES } from "../../constants";
+import { usePagination } from "../../hooks/usePagination";
+import Pagination from "../../components/UI/Pagination";
 
 const Spending = () => {
   const [isLoading, setLoading] = useState(false);
@@ -28,6 +30,7 @@ const Spending = () => {
 
   const init = () => {
     setLoading(true);
+    setCurrentPage(1);
     getMoves(PERIOD_VALUES.daily, MOVE_SUBTYPES.spending).finally(() =>
       setLoading(false),
     );
@@ -39,6 +42,17 @@ const Spending = () => {
   useEffect(() => {
     init();
   }, []);
+
+  const {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    startIndex,
+    endIndex,
+    onPageChange,
+  } = usePagination(10);
+
+  let paginated = spending.slice(startIndex, endIndex);
 
   const checkUser = (user) => {
     if (role === USER_ROLES.ADMIN) {
@@ -102,7 +116,7 @@ const Spending = () => {
             </tr>
           </thead>
           <tbody>
-            {spending.map((spendingDoc) => (
+            {paginated.map((spendingDoc) => (
               <tr key={spendingDoc._id}>
                 <td>{spendingDoc.description}</td>
                 <td>
@@ -127,7 +141,7 @@ const Spending = () => {
                 </td>
               </tr>
             ))}
-            {!spending.length && (
+            {!paginated.length && (
               <tr>
                 <td colSpan="7" className="text-center">
                   pas de donnée
@@ -136,6 +150,15 @@ const Spending = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="d-flex align-items-center justify-content-center my-3">
+        <Pagination
+          totalItems={spending.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
       </div>
 
       <AddSpending />

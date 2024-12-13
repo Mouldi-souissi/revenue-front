@@ -13,6 +13,8 @@ import {
   USER_ROLES,
   ACCOUNT_TYPES,
 } from "../../constants";
+import { usePagination } from "../../hooks/usePagination";
+import Pagination from "../../components/UI/Pagination";
 
 const Wins = () => {
   const [isLoading, setLoading] = useState(false);
@@ -35,6 +37,7 @@ const Wins = () => {
 
   const init = () => {
     setLoading(true);
+    setCurrentPage(1);
     getMoves(PERIOD_VALUES.daily, MOVE_SUBTYPES.win).finally(() =>
       setLoading(false),
     );
@@ -44,6 +47,17 @@ const Wins = () => {
   useEffect(() => {
     init();
   }, []);
+
+  const {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    startIndex,
+    endIndex,
+    onPageChange,
+  } = usePagination(10);
+
+  let paginated = wins.slice(startIndex, endIndex);
 
   const checkUser = (user) => {
     if (role === USER_ROLES.ADMIN) {
@@ -113,7 +127,7 @@ const Wins = () => {
             </tr>
           </thead>
           <tbody>
-            {wins.map((win) => (
+            {paginated.map((win) => (
               <tr key={win._id}>
                 <td>{win.account}</td>
                 <td>
@@ -138,7 +152,7 @@ const Wins = () => {
                 </td>
               </tr>
             ))}
-            {!wins.length && (
+            {!paginated.length && (
               <tr>
                 <td colSpan="7" className="text-center">
                   pas de donnée
@@ -147,6 +161,15 @@ const Wins = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="d-flex align-items-center justify-content-center my-3">
+        <Pagination
+          totalItems={wins.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
       </div>
 
       <button

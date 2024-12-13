@@ -389,7 +389,8 @@ button:hover {
 
 button:focus,
 button:focus-visible {
-  outline: 1px auto -webkit-focus-ring-color;
+  outline: 0px;
+  border-color: var(--green);
 }
 
 button.primary {
@@ -406,6 +407,11 @@ button.secondary {
 button.secondary:hover {
   background: var(--green);
   color: white;
+}
+
+button.secondary:focus,
+button.secondary:focus-visible {
+  border-color: grey;
 }
 
 button:disabled {
