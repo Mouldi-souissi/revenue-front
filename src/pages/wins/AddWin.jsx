@@ -51,8 +51,8 @@ const AddWin = () => {
 
       await addMove(payload);
       setAmount("");
-      refClose.current.click();
       resetAccount();
+      refClose.current.click();
     } catch (error) {
       console.log(error);
     } finally {

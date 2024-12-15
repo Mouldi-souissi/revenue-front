@@ -68,8 +68,8 @@ const AddSale = () => {
 
         await addMove(payload);
         setDepositEnd("");
-        refClose.current.click();
         resetAccount();
+        refClose.current.click();
       }
     } catch (error) {
       console.log(error);
