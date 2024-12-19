@@ -20,6 +20,7 @@ import {
 } from "../../constants";
 import IconSVG from "../../components/UI/IconSVG";
 import { getIconColor } from "../../helpers/getIconColor";
+import { exportToCSV } from "../../helpers/exportCSV";
 
 const calulateRevenue = (moves, userFilter) => {
   let revenue = 0;
@@ -130,6 +131,27 @@ const Dashboard = () => {
     userFilter,
   );
 
+  const handleExport = () => {
+    let data = [];
+
+    for (let row of filteredMoves) {
+      const formated = {
+        Compte: row.account,
+        Type: row.type,
+        Catégorie: row.subType,
+        Montant: row.amount,
+        Utilisateur: row.user,
+        Date: toTunisTime(row.date),
+      };
+
+      data.push(formated);
+    }
+
+    const filename = `Les opérations - ${toTunisTime(new Date())}`;
+
+    exportToCSV(data, filename);
+  };
+
   return (
     <Wrapper>
       <div className="dashboard_cards mb-4">
@@ -196,6 +218,14 @@ const Dashboard = () => {
           </button>
           <div className="title text-center">Les opérations</div>
           {isLoading && <div className="loader"></div>}
+          <button
+            className="button transparent"
+            onClick={handleExport}
+            disabled={isLoading || !filteredMoves.length}
+          >
+            <i className="fa-solid fa-file-arrow-down me-2"></i>
+            <span className="small">Télécharger</span>
+          </button>
         </div>
 
         <div className="row g-3 mx-lg-5 mx-sm-none">
