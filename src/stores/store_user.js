@@ -22,6 +22,19 @@ axios.interceptors.response.use(
   },
 );
 
+const getRoutes = (role) => {
+  let routes = [];
+  if (role === USER_ROLES.ADMIN) {
+    routes = ADMIN_ROUTES;
+  }
+
+  if (role === USER_ROLES.USER) {
+    routes = USER_ROUTES;
+  }
+
+  return routes;
+};
+
 const store_user = create((set, get) => ({
   activeRoute: "",
   username: "",
@@ -46,30 +59,26 @@ const store_user = create((set, get) => ({
         password,
       });
 
+      if (!res.data) {
+        set({ loginError: "Il y a eu un problème technique." });
+        return;
+      }
+
       sessionStorage.setItem("token", res.data);
       const decodedToken = decode(res.data);
 
-      const { type, name, shop, shopId, _id } = decodedToken;
+      const { type, name, shop, id } = decodedToken;
 
-      if (type === USER_ROLES.ADMIN) {
-        set({
-          routes: ADMIN_ROUTES,
-        });
-      }
-
-      if (type === USER_ROLES.USER) {
-        set({
-          routes: USER_ROUTES,
-        });
-      }
+      const routes = getRoutes(type);
 
       set({
+        routes,
+        userId: id,
         username: name,
         role: type,
         shop: shop,
         activeRoute: "/",
         isAuthenticated: true,
-        userId: _id,
       });
 
       navigate("/", { replace: true });
@@ -92,27 +101,18 @@ const store_user = create((set, get) => ({
       if (token) {
         const decodedToken = decode(token) || null;
 
-        const { type, name, shop, shopId, _id } = decodedToken;
+        const { type, name, shop, id } = decodedToken;
 
-        if (type === USER_ROLES.ADMIN) {
-          set({
-            routes: ADMIN_ROUTES,
-          });
-        }
-
-        if (type === USER_ROLES.USER) {
-          set({
-            routes: USER_ROUTES,
-          });
-        }
+        const routes = getRoutes(type);
 
         set({
+          routes,
+          userId: id,
           username: name,
           role: type,
           shop: shop,
           activeRoute: "/",
           isAuthenticated: true,
-          userId: _id,
         });
 
         navigate(activeRoute, { replace: true });
