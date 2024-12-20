@@ -314,8 +314,8 @@ const Dashboard = () => {
                 <td>{move.user}</td>
                 <td className="date">{toTunisTime(move.date)}</td>
 
-                <td>
-                  {role === USER_ROLES.ADMIN && (
+                {role === USER_ROLES.ADMIN && (
+                  <td>
                     <button
                       className="smallBtn"
                       data-bs-toggle="modal"
@@ -324,8 +324,8 @@ const Dashboard = () => {
                     >
                       <i className="fa-solid fa-trash  text-danger"></i>
                     </button>
-                  )}
-                </td>
+                  </td>
+                )}
               </tr>
             ))}
             {!paginatedMoves.length && (
