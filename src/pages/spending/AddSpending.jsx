@@ -50,7 +50,6 @@ const AddSpending = () => {
       await addMove(payload);
       setAmount("");
       setDescription("");
-      resetAccount();
       refClose.current.click();
     } catch (error) {
       console.log(error);
