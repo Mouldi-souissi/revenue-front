@@ -67,14 +67,14 @@ const store_user = create((set, get) => ({
       sessionStorage.setItem("token", res.data);
       const decodedToken = decode(res.data);
 
-      const { type, name, shop, id } = decodedToken.userData;
+      const { type, name, shop, _id } = decodedToken.userData;
       // const { type, name, shop, id } = decodedToken;
 
       const routes = getRoutes(type);
 
       set({
         routes,
-        userId: id,
+        userId: _id,
         username: name,
         role: type,
         shop: shop,
@@ -102,14 +102,14 @@ const store_user = create((set, get) => ({
       if (token) {
         const decodedToken = decode(token) || null;
 
-        const { type, name, shop, id } = decodedToken.userData;
+        const { type, name, shop, _id } = decodedToken.userData;
         // const { type, name, shop, id } = decodedToken;
 
         const routes = getRoutes(type);
 
         set({
           routes,
-          userId: id,
+          userId: _id,
           username: name,
           role: type,
           shop: shop,

@@ -2,7 +2,12 @@ import { useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 
 const AddAccount = () => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState({
+    rate: 1,
+    name: "",
+    deposit: "",
+    type: "secondary",
+  });
   const addAccount = store_account((state) => state.addAccount);
   const refClose = useRef();
 
@@ -12,7 +17,11 @@ const AddAccount = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addAccount(data);
+    addAccount({
+      ...data,
+      rate: Number(data.rate),
+      deposit: Number(data.deposit),
+    });
     refClose.current.click();
   };
 
@@ -45,6 +54,7 @@ const AddAccount = () => {
                 placeholder="Nom"
                 name="name"
                 onChange={handleInput}
+                value={data.name}
                 required
                 autoComplete="off"
               />
@@ -54,11 +64,12 @@ const AddAccount = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Lien du logo"
-                name="img"
+                placeholder="Taux de change"
+                name="rate"
+                value={data.rate}
                 onChange={handleInput}
               />
-              <label>Lien de logo</label>
+              <label>Taux de change</label>
             </div>
             <div className="form-floating mb-3">
               <input
@@ -67,6 +78,7 @@ const AddAccount = () => {
                 placeholder="Solde"
                 name="deposit"
                 onChange={handleInput}
+                value={data.deposit}
                 required
                 autoComplete="off"
               />

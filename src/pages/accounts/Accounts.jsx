@@ -38,7 +38,7 @@ const Sites = () => {
           {isLoading && <div className="loader"></div>}
         </div>
 
-        {/*   <button
+        {/*      <button
           data-bs-toggle="modal"
           data-bs-target="#addSite"
           className="secondary"
@@ -55,7 +55,7 @@ const Sites = () => {
               <th scope="col">Taux</th>
               <th scope="col">Solde</th>
               <th scope="col">Modifié le</th>
-              {/* <th scope="col">Actions</th> */}
+              {/*<th scope="col">Actions</th>*/}
             </tr>
           </thead>
           <tbody>
@@ -76,7 +76,7 @@ const Sites = () => {
                     </div>
                   </td>
                   <td>{toTunisTime(account.lastUpdated)}</td>
-                  {/*    <td>
+                  {/*          <td>
                     <button
                       className="smallBtn me-1"
                       data-bs-toggle="modal"
@@ -85,7 +85,7 @@ const Sites = () => {
                     >
                       <i className="fa-solid fa-gear"></i>
                     </button>
-                    {account.name !== "Fond" && (
+                    {account.type !== "primary" && (
                       <button
                         className="smallBtn"
                         data-bs-toggle="modal"

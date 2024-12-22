@@ -5,7 +5,6 @@ const EditAccount = ({ account }) => {
   const [data, setData] = useState({
     name: "",
     rate: "",
-    img: "",
     deposit: "",
   });
   const editAccount = store_account((state) => state.editAccount);
@@ -17,7 +16,11 @@ const EditAccount = ({ account }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    editAccount(data);
+    editAccount({
+      ...data,
+      rate: Number(data.rate),
+      deposit: Number(data.deposit),
+    });
     refClose.current.click();
   };
 
@@ -43,7 +46,7 @@ const EditAccount = ({ account }) => {
             ></button>
           </div>
           <div className="modal-body my-3">
-            {data.name !== "Fond" && (
+            {data.type !== "primary" && (
               <div className="form-floating mb-3">
                 <input
                   type="text"
@@ -57,17 +60,6 @@ const EditAccount = ({ account }) => {
               </div>
             )}
 
-            <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Lien du logo"
-                name="img"
-                onChange={handleInput}
-                value={data.img}
-              />
-              <label>Lien de logo</label>
-            </div>
             <div className="form-floating mb-3">
               <input
                 type="text"

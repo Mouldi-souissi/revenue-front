@@ -24,6 +24,13 @@ const store_account = create((set, get) => ({
   getAccounts: async () => {
     try {
       const res = await axios.get(`${API_URL}/accounts`, getHeaders());
+
+      if (!res.data) {
+        set({
+          accounts: [],
+        });
+        return;
+      }
       set({
         accounts: res.data,
       });
@@ -41,6 +48,8 @@ const store_account = create((set, get) => ({
         getHeaders(),
       );
 
+      if (!res.data) return;
+
       set((state) => ({ accounts: [...state.accounts, res.data] }));
     } catch (err) {
       console.log(err);
@@ -51,7 +60,7 @@ const store_account = create((set, get) => ({
     try {
       const res = await axios.delete(`${API_URL}/accounts/${id}`, getHeaders());
       set((state) => ({
-        accounts: state.accounts.filter((site) => site._id !== res.data._id),
+        accounts: state.accounts.filter((site) => site._id !== id),
       }));
     } catch (err) {
       console.log(err);
@@ -65,10 +74,12 @@ const store_account = create((set, get) => ({
         account,
         getHeaders(),
       );
+
+      if (!res.data) return;
       set((state) => ({
         accounts: [
-          ...state.accounts.filter((doc) => doc._id !== res.data._id),
-          res.data,
+          ...state.accounts.filter((doc) => doc._id !== account._id),
+          account,
         ],
       }));
     } catch (err) {
