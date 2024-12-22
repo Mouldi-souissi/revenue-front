@@ -26,6 +26,16 @@ const store_move = create((set, get) => ({
         getHeaders(),
       );
 
+      if (!res.data) {
+        set({
+          wins: [],
+          spending: [],
+          sales: [],
+          moves: [],
+        });
+        return;
+      }
+
       if (subType === MOVE_SUBTYPES.win) {
         set({ wins: res.data });
       }
@@ -35,7 +45,6 @@ const store_move = create((set, get) => ({
       if (subType === MOVE_SUBTYPES.sale) {
         set({ sales: res.data });
       }
-
       set({ moves: res.data });
     } catch (err) {
       console.log(err);

@@ -11,7 +11,7 @@ class MoveValidator {
   ) {
     this.type = type;
     this.subType = subType;
-    this.amount = amount;
+    this.amount = Number(amount);
     this.account = account;
     this.accountId = accountId;
     this.description = description;
