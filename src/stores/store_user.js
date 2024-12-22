@@ -139,6 +139,11 @@ const store_user = create((set, get) => ({
     try {
       const res = await axios.get(`${API_URL}/users`, getHeaders());
 
+      if (!res.data) {
+        set({ users: [] });
+        return;
+      }
+
       set({ users: res.data });
     } catch (err) {
       console.log(err);
@@ -162,7 +167,7 @@ const store_user = create((set, get) => ({
     try {
       const res = await axios.delete(`${API_URL}/users/${id}`, getHeaders());
       set((state) => ({
-        users: state.users.filter((user) => user._id !== res.data._id),
+        users: state.users.filter((user) => user._id !== id),
       }));
     } catch (err) {
       console.log(error);
@@ -178,10 +183,7 @@ const store_user = create((set, get) => ({
       );
 
       set((state) => ({
-        users: [
-          ...state.users.filter((user) => user._id !== res.data._id),
-          res.data,
-        ],
+        users: [...state.users.filter((u) => u._id !== user._id), user],
       }));
     } catch (err) {
       console.log(err);
