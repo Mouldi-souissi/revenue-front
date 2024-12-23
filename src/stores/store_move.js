@@ -79,28 +79,28 @@ const store_move = create((set, get) => ({
     }
   },
 
-  deleteMove: async (id) => {
+  deleteMove: async (id, subType) => {
     try {
       const res = await axios.delete(`${API_URL}/moves/${id}`, getHeaders());
 
-      if (res.data.subType === MOVE_SUBTYPES.win) {
+      if (subType === MOVE_SUBTYPES.win) {
         set((state) => ({
-          wins: state.wins.filter((doc) => doc._id !== res.data._id),
+          wins: state.wins.filter((doc) => doc._id !== id),
         }));
       }
-      if (res.data.subType === MOVE_SUBTYPES.spending) {
+      if (subType === MOVE_SUBTYPES.spending) {
         set((state) => ({
-          spending: state.spending.filter((doc) => doc._id !== res.data._id),
+          spending: state.spending.filter((doc) => doc._id !== id),
         }));
       }
-      if (res.data.subType === MOVE_SUBTYPES.sale) {
+      if (subType === MOVE_SUBTYPES.sale) {
         set((state) => ({
-          sales: state.sales.filter((doc) => doc._id !== res.data._id),
+          sales: state.sales.filter((doc) => doc._id !== id),
         }));
       }
 
       set((state) => ({
-        moves: state.moves.filter((doc) => doc._id !== res.data._id),
+        moves: state.moves.filter((doc) => doc._id !== id),
       }));
     } catch (err) {
       console.log(err);
@@ -113,6 +113,10 @@ const store_move = create((set, get) => ({
         `${API_URL}/moves/revenue/${start}/${end}/${user}`,
         getHeaders(),
       );
+      if (!res.data) {
+        set({ revenue: defaultRevenue });
+        return;
+      }
       set({ revenue: res.data });
     } catch (err) {
       console.log(err);
@@ -125,6 +129,10 @@ const store_move = create((set, get) => ({
         `${API_URL}/history/${start}/${end}`,
         getHeaders(),
       );
+      if (!res.data) {
+        set({ history: [] });
+        return;
+      }
       set({ history: res.data });
     } catch (err) {
       console.log(err);

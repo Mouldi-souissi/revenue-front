@@ -8,6 +8,11 @@ const store_shop = create((set, get) => ({
     try {
       const res = await axios.get(`${API_URL}/shops`);
 
+      if (!res.data) {
+        set({ shops: [] });
+        return;
+      }
+
       set({ shops: res.data });
     } catch (error) {
       console.log(error);

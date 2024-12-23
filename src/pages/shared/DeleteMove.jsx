@@ -13,7 +13,7 @@ const DeleteMove = ({ move }) => {
     try {
       if (move._id) {
         setLoading(true);
-        await deleteMove(move._id);
+        await deleteMove(move._id, move.subType);
         await getAccounts();
         refClose.current.click();
       }

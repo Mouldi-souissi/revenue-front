@@ -157,8 +157,8 @@ const History = () => {
                   <div className="col-lg-4">
                     <div className="card p-2 bg-light">
                       <div className="mb-2">Etat des comptes (avant)</div>
-                      {h.accountsBefore.map((account) => (
-                        <div key={account._id}>
+                      {h.accountsBefore.map((account, index) => (
+                        <div key={index}>
                           <div className="d-flex align-items-center gap-2">
                             <div>{account.name}</div>
                             <div>
@@ -173,8 +173,8 @@ const History = () => {
                   <div className="col-lg-4">
                     <div className="card p-2 bg-light">
                       <div className="mb-2">Etat des comptes (après)</div>
-                      {h.accountsAfter.map((account) => (
-                        <div key={account._id}>
+                      {h.accountsAfter.map((account, index) => (
+                        <div key={index}>
                           <div className="d-flex align-items-center gap-2">
                             <div>{account.name}</div>
                             <div>
