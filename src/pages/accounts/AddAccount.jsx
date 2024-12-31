@@ -1,13 +1,22 @@
 import { useRef, useState } from "react";
 import store_account from "../../stores/store_account";
+import { formatFloat } from "../../helpers/input";
 
 const AddAccount = () => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState({
+    rate: 1,
+    name: "",
+    deposit: "",
+  });
   const addAccount = store_account((state) => state.addAccount);
   const refClose = useRef();
 
   const handleInput = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    if (e.target.name == "rate") {
+      setData({ ...data, rate: formatFloat(e.target.value) });
+    } else {
+      setData({ ...data, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -45,6 +54,7 @@ const AddAccount = () => {
                 placeholder="Nom"
                 name="name"
                 onChange={handleInput}
+                value={data.name}
                 required
                 autoComplete="off"
               />
@@ -54,11 +64,14 @@ const AddAccount = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Lien du logo"
-                name="img"
+                placeholder="Taux"
+                name="rate"
                 onChange={handleInput}
+                value={data.rate}
+                autoComplete="off"
+                required
               />
-              <label>Lien de logo</label>
+              <label>Taux</label>
             </div>
             <div className="form-floating mb-3">
               <input
@@ -67,6 +80,7 @@ const AddAccount = () => {
                 placeholder="Solde"
                 name="deposit"
                 onChange={handleInput}
+                value={data.deposit}
                 required
                 autoComplete="off"
               />

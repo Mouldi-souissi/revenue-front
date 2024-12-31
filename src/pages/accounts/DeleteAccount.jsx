@@ -38,7 +38,6 @@ const DeleteAccount = ({ account }) => {
               type="button"
               className="button primary"
               onClick={handleDelete}
-              disabled={true}
             >
               Supprimer
             </button>

@@ -1,18 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import store_account from "../../stores/store_account";
+import { formatFloat } from "../../helpers/input";
 
 const EditAccount = ({ account }) => {
   const [data, setData] = useState({
     name: "",
     rate: "",
-    img: "",
     deposit: "",
   });
   const editAccount = store_account((state) => state.editAccount);
   const refClose = useRef();
 
   const handleInput = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    if (e.target.name == "rate") {
+      setData({ ...data, rate: formatFloat(e.target.value) });
+    } else {
+      setData({ ...data, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -43,31 +47,20 @@ const EditAccount = ({ account }) => {
             ></button>
           </div>
           <div className="modal-body my-3">
-            {data.name !== "Fond" && (
-              <div className="form-floating mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Nom"
-                  name="name"
-                  onChange={handleInput}
-                  value={data.name}
-                />
-                <label>Nom</label>
-              </div>
-            )}
-
             <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Lien du logo"
-                name="img"
+                placeholder="Nom"
+                name="name"
                 onChange={handleInput}
-                value={data.img}
+                value={data.name}
+                autoComplete="off"
+                required
               />
-              <label>Lien de logo</label>
+              <label>Nom</label>
             </div>
+
             <div className="form-floating mb-3">
               <input
                 type="text"
@@ -77,11 +70,11 @@ const EditAccount = ({ account }) => {
                 onChange={handleInput}
                 value={data.rate}
                 autoComplete="off"
-                disabled={true}
+                required
               />
               <label>Taux de change</label>
             </div>
-            <div className="form-floating mb-3">
+            {/*      <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control"
@@ -94,7 +87,7 @@ const EditAccount = ({ account }) => {
                 disabled={true}
               />
               <label>Solde</label>
-            </div>
+            </div>*/}
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">
             <button

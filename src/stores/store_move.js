@@ -121,6 +121,21 @@ const store_move = create((set, get) => ({
       console.log(err);
     }
   },
+
+  reset: async (data) => {
+    try {
+      const res = await axios.post(
+        `${API_URL}/moves/resetShop`,
+        data,
+        getHeaders(),
+      );
+
+      set({ moves: [] });
+      return true;
+    } catch (err) {
+      console.log(err);
+    }
+  },
 }));
 
 export default store_move;

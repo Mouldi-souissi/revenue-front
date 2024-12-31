@@ -5,3 +5,11 @@ export const formatInput = (value) => {
     return "";
   }
 };
+
+export const formatFloat = (value) => {
+  if (/^\d*\.?\d*$/.test(value)) {
+    value;
+  } else {
+    return "";
+  }
+};

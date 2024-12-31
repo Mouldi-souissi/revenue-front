@@ -6,6 +6,7 @@ import EditAccount from "./EditAccount";
 import Wrapper from "../../components/layout/Wrapper";
 import { toTunisTime } from "../../helpers/timeAndDate";
 import { formatNumber } from "../../helpers/currency";
+import { ACCOUNT_TYPES } from "../../constants";
 
 const Sites = () => {
   const [account, setAccount] = useState("");
@@ -38,14 +39,13 @@ const Sites = () => {
           {isLoading && <div className="loader"></div>}
         </div>
 
-        {/*   <button
+        <button
           data-bs-toggle="modal"
           data-bs-target="#addSite"
           className="secondary"
-          disabled={true}
         >
           <i className="fa-solid fa-plus"></i>
-        </button>*/}
+        </button>
       </div>
       <div className="table-responsive mt-3">
         <table>
@@ -55,7 +55,7 @@ const Sites = () => {
               <th scope="col">Taux</th>
               <th scope="col">Solde</th>
               <th scope="col">Modifié le</th>
-              {/* <th scope="col">Actions</th> */}
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -76,16 +76,18 @@ const Sites = () => {
                     </div>
                   </td>
                   <td>{toTunisTime(account.lastUpdated)}</td>
-                  {/*    <td>
-                    <button
-                      className="smallBtn me-1"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editAccount"
-                      onClick={() => setAccount(account)}
-                    >
-                      <i className="fa-solid fa-gear"></i>
-                    </button>
-                    {account.name !== "Fond" && (
+                  <td>
+                    {account.type !== ACCOUNT_TYPES.primary && (
+                      <button
+                        className="smallBtn me-1"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editAccount"
+                        onClick={() => setAccount(account)}
+                      >
+                        <i className="fa-solid fa-gear"></i>
+                      </button>
+                    )}
+                    {account.type !== ACCOUNT_TYPES.primary && (
                       <button
                         className="smallBtn"
                         data-bs-toggle="modal"
@@ -95,7 +97,7 @@ const Sites = () => {
                         <i className="fa-solid fa-trash text-danger"></i>
                       </button>
                     )}
-                  </td>*/}
+                  </td>
                 </tr>
               ))}
             {!accounts.length && (

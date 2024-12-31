@@ -21,6 +21,7 @@ import {
 import IconSVG from "../../components/UI/IconSVG";
 import { getIconColor } from "../../helpers/getIconColor";
 import { exportToCSV } from "../../helpers/exportCSV";
+import Reset from "./Reset";
 
 const calulateRevenue = (moves, userFilter) => {
   let revenue = 0;
@@ -69,6 +70,7 @@ const Dashboard = () => {
   const moves = store_move((state) => state.moves).sort((a, b) =>
     compareDates(a.date, b.date),
   );
+  const reset = store_move((state) => state.reset);
 
   const selectAccount = store_account((state) => state.selectAccount);
   const getAccounts = store_account((state) => state.getAccounts);
@@ -154,6 +156,19 @@ const Dashboard = () => {
 
   return (
     <Wrapper>
+      {role === USER_ROLES.ADMIN && (
+        <div className="d-flex justify-content-end mb-3">
+          <button
+            className="text-danger transparent"
+            data-bs-toggle="modal"
+            data-bs-target="#reset"
+          >
+            <i className="fa-solid fa-power-off me-2"></i>
+            <span className="small">Réinitialiser le système</span>
+          </button>
+        </div>
+      )}
+
       <div className="dashboard_cards mb-4">
         {accounts.map((account) => (
           <div className="dashboard_card" key={account._id}>
@@ -351,6 +366,7 @@ const Dashboard = () => {
       <DeleteMove move={move} />
       <AddAmount />
       <WithDraw />
+      <Reset />
     </Wrapper>
   );
 };
