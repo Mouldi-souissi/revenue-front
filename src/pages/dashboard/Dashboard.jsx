@@ -156,7 +156,7 @@ const Dashboard = () => {
 
   return (
     <Wrapper>
-      {role === USER_ROLES.ADMIN && (
+      {/*     {role === USER_ROLES.ADMIN && (
         <div className="d-flex justify-content-end mb-3">
           <button
             className="text-danger transparent"
@@ -167,7 +167,7 @@ const Dashboard = () => {
             <span className="small">Réinitialiser le système</span>
           </button>
         </div>
-      )}
+      )}*/}
 
       <div className="dashboard_cards mb-4">
         {accounts.map((account) => (
