@@ -8,7 +8,7 @@ export const formatInput = (value) => {
 
 export const formatFloat = (value) => {
   if (/^\d*\.?\d*$/.test(value)) {
-    value;
+    return value;
   } else {
     return "";
   }

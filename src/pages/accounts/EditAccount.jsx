@@ -19,15 +19,25 @@ const EditAccount = ({ account }) => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    editAccount(data);
-    refClose.current.click();
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      await editAccount(data._id, { rate: data.rate, name: data.name });
+      refClose.current.click();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
     if (account) {
-      setData(account);
+      setData({
+        name: account.name,
+        _id: account._id,
+        deposit: account.deposit,
+        rate: account.rate,
+      });
     }
   }, [account]);
 

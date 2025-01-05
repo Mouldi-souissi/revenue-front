@@ -58,10 +58,10 @@ const store_account = create((set, get) => ({
     }
   },
 
-  editAccount: async (account) => {
+  editAccount: async (id, account) => {
     try {
       const res = await axios.put(
-        `${API_URL}/accounts/${account._id}`,
+        `${API_URL}/accounts/${id}`,
         account,
         getHeaders(),
       );
