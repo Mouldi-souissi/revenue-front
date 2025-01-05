@@ -156,7 +156,7 @@ const Dashboard = () => {
 
   return (
     <Wrapper>
-      {/*     {role === USER_ROLES.ADMIN && (
+      {/*   {role === USER_ROLES.ADMIN && (
         <div className="d-flex justify-content-end mb-3">
           <button
             className="text-danger transparent"
@@ -303,6 +303,8 @@ const Dashboard = () => {
               <th scope="col">Montant</th>
               <th scope="col">Utilisateur</th>
               <th scope="col">Date</th>
+              <th scope="col">Description</th>
+
               {role === USER_ROLES.ADMIN && <th scope="col">Actions</th>}
             </tr>
           </thead>
@@ -330,6 +332,7 @@ const Dashboard = () => {
                 </td>
                 <td>{move.user}</td>
                 <td className="date">{toTunisTime(move.date)}</td>
+                <td>{move.description}</td>
 
                 {role === USER_ROLES.ADMIN && (
                   <td>
@@ -347,7 +350,7 @@ const Dashboard = () => {
             ))}
             {!paginatedMoves.length && (
               <tr>
-                <td colSpan="7" className="text-center">
+                <td colSpan="8" className="text-center">
                   pas de donnée
                 </td>
               </tr>
