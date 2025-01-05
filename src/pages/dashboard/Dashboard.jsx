@@ -223,7 +223,7 @@ const Dashboard = () => {
       </div>
 
       <div className="my-3">
-        <div className="d-flex gap-2 align-items-center justify-content-center mb-4">
+        <div className="d-flex gap-2 align-items-center justify-content-center mb-2">
           <button
             className="button transparent"
             onClick={init}
@@ -233,6 +233,8 @@ const Dashboard = () => {
           </button>
           <div className="title text-center">Les opérations</div>
           {isLoading && <div className="loader"></div>}
+        </div>
+        <div className="d-flex justify-content-center mb-4">
           <button
             className="button transparent"
             onClick={handleExport}

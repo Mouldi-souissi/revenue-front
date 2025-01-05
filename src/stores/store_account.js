@@ -71,6 +71,7 @@ const store_account = create((set, get) => ({
           res.data,
         ],
       }));
+      return true;
     } catch (err) {
       console.log(err);
     }

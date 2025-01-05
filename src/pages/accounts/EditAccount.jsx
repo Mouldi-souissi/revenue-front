@@ -6,7 +6,6 @@ const EditAccount = ({ account }) => {
   const [data, setData] = useState({
     name: "",
     rate: "",
-    deposit: "",
   });
   const editAccount = store_account((state) => state.editAccount);
   const refClose = useRef();
@@ -22,8 +21,12 @@ const EditAccount = ({ account }) => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-
-      await editAccount(data._id, { rate: data.rate, name: data.name });
+      const success = await editAccount(data._id, {
+        rate: data.rate,
+        name: data.name,
+      });
+      if (!success) return;
+      setData({ name: "", rate: "" });
       refClose.current.click();
     } catch (err) {
       console.log(err);
@@ -35,7 +38,6 @@ const EditAccount = ({ account }) => {
       setData({
         name: account.name,
         _id: account._id,
-        deposit: account.deposit,
         rate: account.rate,
       });
     }
@@ -84,20 +86,6 @@ const EditAccount = ({ account }) => {
               />
               <label>Taux de change</label>
             </div>
-            {/*      <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Solde"
-                name="deposit"
-                onChange={handleInput}
-                value={data.deposit}
-                required
-                autoComplete="off"
-                disabled={true}
-              />
-              <label>Solde</label>
-            </div>*/}
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">
             <button
