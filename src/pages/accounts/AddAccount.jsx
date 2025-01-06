@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import { formatFloat } from "../../helpers/input";
+import { Notyf } from "notyf";
+const notyf = new Notyf();
 
 const AddAccount = () => {
   const [data, setData] = useState({
-    rate: 1,
+    rate: 1.2,
     name: "",
     deposit: "",
   });
@@ -19,10 +21,20 @@ const AddAccount = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addAccount(data);
-    refClose.current.click();
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const success = await addAccount(data);
+      if (!success) {
+        notyf.error("Opération échouée");
+      } else {
+        notyf.success("Opération réussie");
+        setData({ rate: 1.2, name: "", deposit: "" });
+        refClose.current.click();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

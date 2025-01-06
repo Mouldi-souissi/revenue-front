@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import store_user from "../../stores/store_user";
+import { Notyf } from "notyf";
+const notyf = new Notyf();
 
 const EditUser = ({ user }) => {
   const [data, setData] = useState({ name: "", type: "" });
@@ -10,10 +12,21 @@ const EditUser = ({ user }) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    editUser(data);
-    refClose.current.click();
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const success = await editUser(data);
+
+      if (!success) {
+        notyf.error("Opération échouée");
+      } else {
+        notyf.success("Opération réussie");
+        setData({ name: "", type: "" });
+        refClose.current.click();
+      }
+    } catch {
+      console.log(err);
+    }
   };
 
   useEffect(() => {

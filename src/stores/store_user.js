@@ -44,7 +44,6 @@ const store_user = create((set, get) => ({
   routes: [],
   isAuthenticated: false,
   users: [],
-  loginError: "",
 
   switchRoute: (route) => {
     set({ activeRoute: route });
@@ -53,15 +52,13 @@ const store_user = create((set, get) => ({
 
   login: async (email, password) => {
     try {
-      set({ loginError: "" });
       const res = await axios.post(`${API_URL}/users/login`, {
         email,
         password,
       });
 
       if (!res.data) {
-        set({ loginError: "Il y a eu un problème technique." });
-        return;
+        return false;
       }
 
       sessionStorage.setItem("token", res.data);
@@ -82,14 +79,10 @@ const store_user = create((set, get) => ({
       });
 
       navigate("/", { replace: true });
+
+      return true;
     } catch (err) {
       console.log(err);
-
-      if (err.response.data == "invalid credentials") {
-        set({ loginError: "Email et/ou mot de passe incorrect(s)." });
-      } else {
-        set({ loginError: "Il y a eu un problème technique." });
-      }
     }
   },
 
@@ -151,6 +144,7 @@ const store_user = create((set, get) => ({
         getHeaders(),
       );
       set((state) => ({ users: [...state.users, res.data] }));
+      return true;
     } catch (err) {
       console.log(err);
     }
@@ -162,6 +156,7 @@ const store_user = create((set, get) => ({
       set((state) => ({
         users: state.users.filter((user) => user._id !== res.data._id),
       }));
+      return true;
     } catch (err) {
       console.log(error);
     }
@@ -181,6 +176,7 @@ const store_user = create((set, get) => ({
           res.data,
         ],
       }));
+      return true;
     } catch (err) {
       console.log(err);
     }

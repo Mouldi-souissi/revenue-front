@@ -65,6 +65,7 @@ const store_move = create((set, get) => ({
       set((state) => ({
         moves: [...state.moves, res.data],
       }));
+      return true;
     } catch (err) {
       console.log(err);
     }
@@ -93,6 +94,8 @@ const store_move = create((set, get) => ({
       set((state) => ({
         moves: state.moves.filter((doc) => doc._id !== res.data._id),
       }));
+
+      return true;
     } catch (err) {
       console.log(err);
     }

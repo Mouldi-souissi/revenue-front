@@ -85,7 +85,7 @@ const Users = () => {
                   <td>
                     <button
                       className="smallBtn me-1"
-                      disabled={true}
+                      // disabled={true}
                       data-bs-toggle="modal"
                       data-bs-target="#editUser"
                       onClick={() => setUser(user)}

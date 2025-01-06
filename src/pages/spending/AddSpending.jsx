@@ -4,6 +4,8 @@ import { MOVE_TYPES, MOVE_SUBTYPES, ACCOUNT_TYPES } from "../../constants";
 import { formatInput } from "../../helpers/input";
 import MoveValidator from "../../payloadValidators/moveValidator";
 import store_account from "../../stores/store_account";
+import { Notyf } from "notyf";
+const notyf = new Notyf();
 
 const AddSpending = () => {
   const [isLoading, setLoading] = useState(false);
@@ -29,7 +31,10 @@ const AddSpending = () => {
         (account) => account.type === ACCOUNT_TYPES.primary,
       );
 
-      if (!primaryAccount) return;
+      if (!primaryAccount) {
+        notyf.error("Opération échouée");
+        return;
+      }
 
       const payload = new MoveValidator(
         MOVE_TYPES.out,
@@ -43,16 +48,23 @@ const AddSpending = () => {
       const { isValid, error } = payload.isValid();
 
       if (!isValid) {
+        notyf.error("Opération échouée");
         console.log({ error });
         return;
       }
 
-      await addMove(payload);
-      setAmount("");
-      setDescription("");
-      refClose.current.click();
+      const success = await addMove(payload);
+      if (!success) {
+        notyf.error("Opération échouée");
+      } else {
+        notyf.success("Opération réussie");
+        setAmount("");
+        setDescription("");
+        refClose.current.click();
+      }
     } catch (error) {
       console.log(error);
+      notyf.error("Opération échouée");
     } finally {
       setLoading(false);
     }

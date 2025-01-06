@@ -1,9 +1,16 @@
 import { useRef, useState, useEffect } from "react";
 import store_user from "../../stores/store_user";
 import store_shop from "../../stores/store_shop";
+import { Notyf } from "notyf";
+const notyf = new Notyf();
 
 const AddUser = () => {
-  const [data, setData] = useState({ type: "utilisateur" });
+  const [data, setData] = useState({
+    type: "utilisateur",
+    name: "",
+    email: "",
+    password: "",
+  });
   const addUser = store_user((state) => state.addUser);
   const refClose = useRef();
 
@@ -12,9 +19,20 @@ const AddUser = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    await addUser(data);
-    refClose.current.click();
+    try {
+      e.preventDefault();
+
+      const success = await addUser(data);
+      if (!success) {
+        notyf.error("Opération échouée");
+      } else {
+        notyf.success("Opération réussie");
+        setData({ type: "utilisateur", name: "", email: "", password: "" });
+        refClose.current.click();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="modal fade" id="addUser" tabIndex="-1" aria-hidden="true">
@@ -39,6 +57,7 @@ const AddUser = () => {
                   placeholder="Nom"
                   name="name"
                   onChange={handleInput}
+                  value={data.name}
                   required
                   autoComplete="off"
                 />
@@ -51,6 +70,7 @@ const AddUser = () => {
                   placeholder="Email"
                   name="email"
                   onChange={handleInput}
+                  value={data.email}
                   required
                 />
                 <label>Email</label>
@@ -62,6 +82,7 @@ const AddUser = () => {
                   placeholder="Mot de passe"
                   name="password"
                   onChange={handleInput}
+                  value={data.password}
                   required
                   autoComplete="off"
                 />

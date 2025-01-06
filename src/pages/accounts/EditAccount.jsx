@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import { formatFloat } from "../../helpers/input";
+import { Notyf } from "notyf";
+const notyf = new Notyf();
 
 const EditAccount = ({ account }) => {
   const [data, setData] = useState({
@@ -25,9 +27,13 @@ const EditAccount = ({ account }) => {
         rate: data.rate,
         name: data.name,
       });
-      if (!success) return;
-      setData({ name: "", rate: "" });
-      refClose.current.click();
+      if (!success) {
+        notyf.error("Opération échouée");
+      } else {
+        notyf.success("Opération réussie");
+        setData({ name: "", rate: "" });
+        refClose.current.click();
+      }
     } catch (err) {
       console.log(err);
     }

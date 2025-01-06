@@ -1,13 +1,25 @@
 import { useRef } from "react";
 import store_user from "../../stores/store_user";
+import { Notyf } from "notyf";
+const notyf = new Notyf();
 
 const DeleteUser = ({ user }) => {
   const deleteUser = store_user((state) => state.deleteUser);
   const refClose = useRef();
 
-  const handleDelete = () => {
-    deleteUser(user._id);
-    refClose.current.click();
+  const handleDelete = async () => {
+    try {
+      const success = await deleteUser(user._id);
+
+      if (!success) {
+        notyf.error("Opération échouée");
+      } else {
+        notyf.success("Opération réussie");
+        refClose.current.click();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

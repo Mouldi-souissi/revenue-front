@@ -42,6 +42,7 @@ const store_account = create((set, get) => ({
       );
 
       set((state) => ({ accounts: [...state.accounts, res.data] }));
+      return true;
     } catch (err) {
       console.log(err);
     }
@@ -53,6 +54,7 @@ const store_account = create((set, get) => ({
       set((state) => ({
         accounts: state.accounts.filter((site) => site._id !== res.data._id),
       }));
+      return true;
     } catch (err) {
       console.log(err);
     }

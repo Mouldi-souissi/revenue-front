@@ -4,6 +4,8 @@ import store_account from "../../stores/store_account";
 import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
 import MoveValidator from "../../payloadValidators/moveValidator";
 import { formatInput } from "../../helpers/input";
+import { Notyf } from "notyf";
+const notyf = new Notyf();
 
 const WithDraw = () => {
   const [isLoading, setLoading] = useState(false);
@@ -37,16 +39,22 @@ const WithDraw = () => {
       const { isValid, error } = payload.isValid();
 
       if (!isValid) {
+        notyf.error("Opération échouée");
         console.log({ error });
         return;
       }
 
-      await addMove(payload);
-      await getAccounts();
+      const success = await addMove(payload);
 
-      setAmount("");
-      refClose.current.click();
-      resetAccount();
+      if (!success) {
+        notyf.error("Opération échouée");
+      } else {
+        await getAccounts();
+        notyf.success("Opération réussie");
+        setAmount("");
+        resetAccount();
+        refClose.current.click();
+      }
     } catch (error) {
       console.log(error);
     } finally {

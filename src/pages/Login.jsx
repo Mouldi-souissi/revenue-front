@@ -3,6 +3,8 @@ import cash from "/cash.webp";
 import { useLocation } from "wouter";
 import store_shop from "../stores/store_shop";
 import store_user from "../stores/store_user";
+import { Notyf } from "notyf";
+const notyf = new Notyf();
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "" });
@@ -21,7 +23,12 @@ const Login = () => {
     try {
       e.preventDefault();
       setLoading(true);
-      await login(data.email, data.password);
+      const success = await login(data.email, data.password);
+      if (!success) {
+        notyf.error("Connexion échouée");
+      } else {
+        notyf.success("Connexion réussie");
+      }
     } catch (error) {
       console.log(error);
     } finally {

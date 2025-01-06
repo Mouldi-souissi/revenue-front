@@ -4,11 +4,12 @@ import store_move from "../../stores/store_move";
 import { MOVE_TYPES, MOVE_SUBTYPES, ACCOUNT_TYPES } from "../../constants";
 import { formatInput } from "../../helpers/input";
 import MoveValidator from "../../payloadValidators/moveValidator";
+import { Notyf } from "notyf";
+const notyf = new Notyf();
 
 const AddSale = () => {
   const [isLoading, setLoading] = useState(false);
   const [depositEnd, setDepositEnd] = useState("");
-  const [errorAmount, setErrorAmount] = useState("");
   const refClose = useRef();
 
   const addMove = store_move((state) => state.addMove);
@@ -44,35 +45,41 @@ const AddSale = () => {
         (Number(account.deposit) - Number(depositEnd)) * Number(account.rate);
 
       if (amount <= 0) {
-        setErrorAmount(
+        notyf.error(
           "La vente ne peut pas etre negative! Veuillez saisir les gains d'abord",
         );
         return;
+      }
+      const payload = new MoveValidator(
+        MOVE_TYPES.in,
+        MOVE_SUBTYPES.sale,
+        Number(amount).toFixed(0),
+        selectedAccount.name,
+        selectedAccount._id,
+      );
+
+      const { isValid, error } = payload.isValid();
+
+      if (!isValid) {
+        notyf.error("Opération échouée");
+
+        console.log({ error });
+        return;
+      }
+
+      const success = await addMove(payload);
+
+      if (!success) {
+        notyf.error("Opération échouée");
       } else {
-        setErrorAmount("");
-
-        const payload = new MoveValidator(
-          MOVE_TYPES.in,
-          MOVE_SUBTYPES.sale,
-          Number(amount).toFixed(0),
-          selectedAccount.name,
-          selectedAccount._id,
-        );
-
-        const { isValid, error } = payload.isValid();
-
-        if (!isValid) {
-          console.log({ error });
-          return;
-        }
-
-        await addMove(payload);
+        notyf.success("Opération réussie");
         setDepositEnd("");
         resetAccount();
         refClose.current.click();
       }
     } catch (error) {
       console.log(error);
+      notyf.error("Opération échouée");
     } finally {
       setLoading(false);
     }
@@ -93,9 +100,6 @@ const AddSale = () => {
             ></button>
           </div>
           <div className="modal-body my-3">
-            {errorAmount && (
-              <small className="text-danger my-3">{errorAmount}</small>
-            )}
             <div className="form-floating mb-3">
               <select
                 className="form-select"

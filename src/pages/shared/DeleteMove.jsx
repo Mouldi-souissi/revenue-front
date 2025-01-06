@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import store_move from "../../stores/store_move";
 import store_account from "../../stores/store_account";
+import { Notyf } from "notyf";
+const notyf = new Notyf();
 
 const DeleteMove = ({ move }) => {
   const deleteMove = store_move((state) => state.deleteMove);
@@ -13,14 +15,20 @@ const DeleteMove = ({ move }) => {
     try {
       if (move._id) {
         setLoading(true);
-        await deleteMove(move._id);
-        await getAccounts();
-        refClose.current.click();
+        const isSuccess = await deleteMove(move._id);
+
+        if (!isSuccess) {
+          setLoading(false);
+          notyf.error("Opération échouée");
+          return;
+        } else {
+          notyf.success("Opération réussie");
+          await getAccounts();
+          refClose.current.click();
+        }
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
     }
   };
   return (
