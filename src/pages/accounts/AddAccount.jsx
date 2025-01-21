@@ -69,8 +69,9 @@ const AddAccount = () => {
                 value={data.name}
                 required
                 autoComplete="off"
+                id="add-name"
               />
-              <label>Nom</label>
+              <label htmlFor="add-name">Nom</label>
             </div>
             <div className="form-floating mb-3">
               <input
@@ -82,8 +83,9 @@ const AddAccount = () => {
                 value={data.rate}
                 autoComplete="off"
                 required
+                id="add-rate"
               />
-              <label>Taux</label>
+              <label htmlFor="add-rate">Taux</label>
             </div>
             <div className="form-floating mb-3">
               <input
@@ -95,8 +97,9 @@ const AddAccount = () => {
                 value={data.deposit}
                 required
                 autoComplete="off"
+                id="add-deposit"
               />
-              <label>Solde</label>
+              <label htmlFor="add-deposit">Solde</label>
             </div>
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">

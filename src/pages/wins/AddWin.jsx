@@ -92,6 +92,7 @@ const AddWin = () => {
                 name="account"
                 onChange={(e) => setSelectedAccount(e.target.value)}
                 value={selectedAccount._id}
+                id="win-account"
               >
                 {accounts
                   .filter((account) => account.type !== ACCOUNT_TYPES.primary)
@@ -101,7 +102,7 @@ const AddWin = () => {
                     </option>
                   ))}
               </select>
-              <label>Type</label>
+              <label htmlFor="win-account">Type</label>
             </div>
             <div className="form-floating ">
               <input
@@ -113,8 +114,9 @@ const AddWin = () => {
                 value={amount}
                 required
                 autoComplete="off"
+                id="win-amount"
               />
-              <label>Montant</label>
+              <label htmlFor="win-amount">Montant</label>
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mb-3">

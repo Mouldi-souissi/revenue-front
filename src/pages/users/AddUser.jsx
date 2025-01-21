@@ -1,6 +1,5 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import store_user from "../../stores/store_user";
-import store_shop from "../../stores/store_shop";
 import { Notyf } from "notyf";
 const notyf = new Notyf();
 
@@ -37,7 +36,7 @@ const AddUser = () => {
   return (
     <div className="modal fade" id="addUser" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete="off">
           <div className="modal-content p-3 p-3">
             <div className="d-flex justify-content-between align-items-center">
               <div className="text-black">Ajouter un nouveau utilisateur</div>
@@ -60,8 +59,9 @@ const AddUser = () => {
                   value={data.name}
                   required
                   autoComplete="off"
+                  id="add-name"
                 />
-                <label>Nom</label>
+                <label htmlFor="add-name">Nom</label>
               </div>
               <div className="form-floating mb-3">
                 <input
@@ -72,8 +72,10 @@ const AddUser = () => {
                   onChange={handleInput}
                   value={data.email}
                   required
+                  autoComplete="off"
+                  id="add-email"
                 />
-                <label>Email</label>
+                <label htmlFor="add-email">Email</label>
               </div>
               <div className="form-floating mb-3">
                 <input
@@ -85,8 +87,9 @@ const AddUser = () => {
                   value={data.password}
                   required
                   autoComplete="off"
+                  id="add-password"
                 />
-                <label>Mot de passe</label>
+                <label htmlFor="add-password">Mot de passe</label>
               </div>
 
               <div className="form-floating mb-3">
@@ -95,11 +98,12 @@ const AddUser = () => {
                   name="type"
                   onChange={handleInput}
                   value={data.type}
+                  id="add-type"
                 >
                   <option value="utilisateur">Simple utilisateur</option>
                   <option value="admin">Admin</option>
                 </select>
-                <label>Type</label>
+                <label htmlFor="add-type">Type</label>
               </div>
             </div>
             <div className="d-flex justify-content-end align-items-center gap-2">

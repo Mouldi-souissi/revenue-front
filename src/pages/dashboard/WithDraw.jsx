@@ -79,6 +79,7 @@ const WithDraw = () => {
           <div className="modal-body my-3">
             <div className="form-floating mb-3">
               <input
+                id="withdraw-amount"
                 type="text"
                 className="form-control"
                 placeholder="Montant"
@@ -87,7 +88,7 @@ const WithDraw = () => {
                 value={amount}
                 autoComplete="off"
               />
-              <label>Montant</label>
+              <label htmlFor="withdraw-amount">Montant</label>
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mb-3">

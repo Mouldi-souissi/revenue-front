@@ -65,7 +65,7 @@ const Revenue = () => {
           onSubmit={handleSubmit}
         >
           <div className="col-lg-3 mb-3">
-            <label className="">Date de début</label>
+            <label htmlFor="revenue-start">Date de début</label>
             <input
               type="datetime-local"
               className="form-control"
@@ -75,11 +75,12 @@ const Revenue = () => {
               required
               max={end}
               min={thirtydays}
+              id="revenue-start"
             />
           </div>
 
           <div className="col-lg-3 mb-3">
-            <label className="">Date de fin</label>
+            <label htmlFor="revenue-end">Date de fin</label>
             <input
               type="datetime-local"
               className="form-control"
@@ -89,16 +90,17 @@ const Revenue = () => {
               required
               min={start}
               max={end}
+              id="revenue-end"
             />
           </div>
 
           <div className="col-lg-3 mb-3">
-            <label>Utilisateur</label>
-
+            <label htmlFor="revenue-user">Utilisateur</label>
             <select
               className="form-select"
               value={user}
               onChange={(e) => setUser(e.target.value)}
+              id="revenue-user"
             >
               <option value="all">Tous</option>
               {users.map((user) => (

@@ -11,7 +11,7 @@ const defaultRevenue = {
   revenue: 0,
 };
 
-const store_move = create((set, get) => ({
+const store_move = create((set) => ({
   moves: [],
   spending: [],
   wins: [],
@@ -127,11 +127,7 @@ const store_move = create((set, get) => ({
 
   reset: async (data) => {
     try {
-      const res = await axios.post(
-        `${API_URL}/moves/resetShop`,
-        data,
-        getHeaders(),
-      );
+      await axios.post(`${API_URL}/moves/resetShop`, data, getHeaders());
 
       set({ moves: [] });
       return true;

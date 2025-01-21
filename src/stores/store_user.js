@@ -35,7 +35,7 @@ const getRoutes = (role) => {
   return routes;
 };
 
-const store_user = create((set, get) => ({
+const store_user = create((set) => ({
   activeRoute: "",
   username: "",
   userId: "",
@@ -158,7 +158,7 @@ const store_user = create((set, get) => ({
       }));
       return true;
     } catch (err) {
-      console.log(error);
+      console.log(err);
     }
   },
 

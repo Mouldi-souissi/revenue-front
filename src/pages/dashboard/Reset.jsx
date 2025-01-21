@@ -60,6 +60,7 @@ const Reset = () => {
           <div className="modal-body my-3">
             <div className="form-floating mb-3">
               <input
+                id="password"
                 type="password"
                 className="form-control"
                 placeholder="Montant"
@@ -69,7 +70,7 @@ const Reset = () => {
                 autoComplete="off"
                 required
               />
-              <label>Code</label>
+              <label htmlFor="password">Code</label>
             </div>
           </div>
           {error && (

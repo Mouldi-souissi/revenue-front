@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect } from "wouter";
+import { Route, Switch } from "wouter";
 import PrivateRoute from "./PrivateRoute";
 import { USER_ROLES } from "../constants";
 
@@ -13,7 +13,7 @@ import Wins from "../pages/wins/Wins";
 import Revenue from "../pages/revenue/Revenue";
 import History from "../pages/history/History";
 
-const Router = (props) => {
+const Router = () => {
   return (
     <Switch>
       {/*private routes*/}

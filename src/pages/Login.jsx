@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import cash from "/cash.webp";
-import { useLocation } from "wouter";
-import store_shop from "../stores/store_shop";
 import store_user from "../stores/store_user";
 import { Notyf } from "notyf";
 const notyf = new Notyf();
@@ -12,7 +10,6 @@ const Login = () => {
   const login = store_user((state) => state.login);
   const loginError = store_user((store) => store.loginError);
 
-  const [location, setLocation] = useLocation();
   const [isLoading, setLoading] = useState(false);
 
   const handleInput = (e) => {

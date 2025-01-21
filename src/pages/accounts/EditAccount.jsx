@@ -75,8 +75,9 @@ const EditAccount = ({ account }) => {
                 value={data.name}
                 autoComplete="off"
                 required
+                id="edit-name"
               />
-              <label>Nom</label>
+              <label htmlFor="edit-name">Nom</label>
             </div>
 
             <div className="form-floating mb-3">
@@ -89,8 +90,9 @@ const EditAccount = ({ account }) => {
                 value={data.rate}
                 autoComplete="off"
                 required
+                id="edit-rate"
               />
-              <label>Taux de change</label>
+              <label htmlFor="edit-rate">Taux de change</label>
             </div>
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">

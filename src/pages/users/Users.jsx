@@ -15,7 +15,6 @@ const Users = () => {
   const [user, setUser] = useState(defaultUser);
 
   const getUsers = store_user((state) => state.getUsers);
-  const shop = store_user((state) => state.shop);
   const users = store_user((state) => state.users);
   const userId = store_user((state) => state.userId);
 

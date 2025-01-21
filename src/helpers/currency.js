@@ -11,7 +11,7 @@ export const formatCurrency = (
 ) => {
   return Number(amount).toLocaleString("fr", {
     style: "currency",
-    currency: "TND",
-    minimumFractionDigits: 0,
+    currency,
+    minimumFractionDigits,
   });
 };

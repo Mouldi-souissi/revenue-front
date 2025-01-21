@@ -24,7 +24,7 @@ const EditUser = ({ user }) => {
         setData({ name: "", type: "" });
         refClose.current.click();
       }
-    } catch {
+    } catch (err) {
       console.log(err);
     }
   };
@@ -64,8 +64,10 @@ const EditUser = ({ user }) => {
                 onChange={handleInput}
                 value={data.name}
                 required
+                autoComplete="off"
+                id="edit-name"
               />
-              <label>Nom</label>
+              <label htmlFor="edit-name">Nom</label>
             </div>
             <div className="form-floating mb-3">
               <select
@@ -73,11 +75,12 @@ const EditUser = ({ user }) => {
                 name="type"
                 onChange={handleInput}
                 value={data.type}
+                id="edit-type"
               >
                 <option value="utilisateur">Utilisateur</option>
                 <option value="admin">Admin</option>
               </select>
-              <label>Type</label>
+              <label htmlFor="edit-type">Type</label>
             </div>
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">

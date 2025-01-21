@@ -73,7 +73,7 @@ const History = () => {
           onSubmit={handleSubmit}
         >
           <div className="col-lg-4 mb-3">
-            <label className="">Date de début</label>
+            <label htmlFor="history-start">Date de début</label>
             <input
               type="datetime-local"
               className="form-control"
@@ -83,11 +83,12 @@ const History = () => {
               required
               max={end}
               min={thirtydays}
+              id="history-start"
             />
           </div>
 
           <div className="col-lg-4 mb-3">
-            <label className="">Date de fin</label>
+            <label htmlFor="history-end">Date de fin</label>
             <input
               type="datetime-local"
               className="form-control"
@@ -97,6 +98,7 @@ const History = () => {
               required
               min={start}
               max={end}
+              id="history-end"
             />
           </div>
 

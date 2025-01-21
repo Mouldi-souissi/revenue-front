@@ -70,7 +70,7 @@ const Dashboard = () => {
   const moves = store_move((state) => state.moves).sort((a, b) =>
     compareDates(a.date, b.date),
   );
-  const reset = store_move((state) => state.reset);
+  // const reset = store_move((state) => state.reset);
 
   const selectAccount = store_account((state) => state.selectAccount);
   const getAccounts = store_account((state) => state.getAccounts);
@@ -78,7 +78,6 @@ const Dashboard = () => {
 
   const role = store_user((state) => state.role);
   const getUsers = store_user((state) => state.getUsers);
-  const shop = store_user((state) => state.shop);
   const users = store_user((state) => state.users);
 
   // filter hook
@@ -255,6 +254,8 @@ const Dashboard = () => {
                 className="form-select"
                 value={period}
                 onChange={handlePeriod}
+                id="period"
+                name="period"
               >
                 {periodOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -274,6 +275,8 @@ const Dashboard = () => {
                 className="form-select"
                 value={userFilter}
                 onChange={handleFilter}
+                id="user"
+                name="user"
               >
                 <option value="all">Tous</option>
                 {users.map((user) => (

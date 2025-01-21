@@ -9,7 +9,7 @@ const defaultAccount = {
   amount: "",
 };
 
-const store_account = create((set, get) => ({
+const store_account = create((set) => ({
   accounts: [],
   selectedAccount: defaultAccount,
 

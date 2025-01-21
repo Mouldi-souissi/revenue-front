@@ -103,8 +103,9 @@ const AddSpending = () => {
                 value={description}
                 required
                 autoComplete="off"
+                id="spending-description"
               />
-              <label>Description</label>
+              <label htmlFor="spending-description">Description</label>
             </div>
             <div className="form-floating">
               <input
@@ -116,8 +117,9 @@ const AddSpending = () => {
                 value={amount}
                 required
                 autoComplete="off"
+                id="spending-amount"
               />
-              <label>Montant</label>
+              <label htmlFor="spending-amount">Montant</label>
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mb-3">

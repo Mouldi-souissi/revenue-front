@@ -2,7 +2,7 @@ import create from "zustand";
 import axios from "axios";
 import { API_URL } from "../constants";
 
-const store_shop = create((set, get) => ({
+const store_shop = create((set) => ({
   shops: [],
   getAllshops: async () => {
     try {

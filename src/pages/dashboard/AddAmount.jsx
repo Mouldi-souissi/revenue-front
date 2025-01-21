@@ -36,7 +36,7 @@ const AddAmount = () => {
         selectedAccount._id,
       );
 
-      const { isValid, error } = payload.isValid();
+      const { isValid } = payload.isValid();
 
       if (!isValid) {
         notyf.error("Opération échouée");
@@ -64,7 +64,12 @@ const AddAmount = () => {
   return (
     <div className="modal fade" id="addAmount" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
-        <form className="modal-content p-3" onSubmit={handleSubmit}>
+        <form
+          className="modal-content p-3"
+          onSubmit={handleSubmit}
+          name="deposit"
+          autoComplete="off"
+        >
           <div className="d-flex justify-content-between align-items-center">
             <div className="text-black">Alimenter {selectedAccount.name}</div>
             <button
@@ -78,6 +83,7 @@ const AddAmount = () => {
           <div className="modal-body my-3">
             <div className="form-floating mb-3">
               <input
+                id="deposit-amount"
                 type="text"
                 className="form-control"
                 placeholder="Montant"
@@ -85,8 +91,9 @@ const AddAmount = () => {
                 onChange={handleInput}
                 value={amount}
                 autoComplete="off"
+                required
               />
-              <label>Montant</label>
+              <label htmlFor="deposit-amount">Montant</label>
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mb-3">

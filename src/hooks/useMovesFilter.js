@@ -1,9 +1,7 @@
 import { useState } from "react";
-// import { useLocation, useSearch } from "wouter";
 
 export const useMovesFilter = (moves) => {
   const [userFilter, setUserFilter] = useState("all");
-  const [subTypeFilter, setSubTypeFilter] = useState("all");
 
   let filteredMoves = [];
 
