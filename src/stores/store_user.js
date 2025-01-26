@@ -104,7 +104,7 @@ const store_user = create((set) => ({
           username: name,
           role: type,
           shop: shop,
-          activeRoute: "/",
+          activeRoute,
           isAuthenticated: true,
         });
 
