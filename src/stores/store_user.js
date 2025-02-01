@@ -1,22 +1,20 @@
 import create from "zustand";
-import decode from "jwt-decode";
-import httpClient from "../api/httpClient";
+import { decodeToken } from "../helpers/decodeToken";
 import { navigate } from "wouter/use-browser-location";
 import { USER_ROLES } from "../constants";
 import { ADMIN_ROUTES, USER_ROUTES } from "../routes/routes";
-import { getHeaders } from "../api/getHeaders";
+import { login, getUsers, addUser, deleteUser, editUser } from "../api/user";
 
 const getRoutes = (role) => {
-  let routes = [];
   if (role === USER_ROLES.ADMIN) {
-    routes = ADMIN_ROUTES;
+    return ADMIN_ROUTES;
   }
 
   if (role === USER_ROLES.USER) {
-    routes = USER_ROUTES;
+    return USER_ROUTES;
   }
 
-  return routes;
+  return USER_ROUTES;
 };
 
 const store_user = create((set) => ({
@@ -36,17 +34,14 @@ const store_user = create((set) => ({
 
   login: async (email, password) => {
     try {
-      const res = await httpClient.post(`/users/login`, {
-        email,
-        password,
-      });
+      const res = await login(email, password);
 
       if (!res.data) {
         return false;
       }
 
       sessionStorage.setItem("token", res.data);
-      const decodedToken = decode(res.data);
+      const decodedToken = decodeToken(res.data);
 
       const { type, name, shop, id } = decodedToken;
 
@@ -73,11 +68,10 @@ const store_user = create((set) => ({
   checkAuth: () => {
     try {
       const token = sessionStorage.getItem("token") || null;
+      const decodedToken = decodeToken(token);
       const activeRoute = sessionStorage.getItem("activeRoute") || "/";
 
-      if (token) {
-        const decodedToken = decode(token) || null;
-
+      if (token && decodedToken) {
         const { type, name, shop, id } = decodedToken;
 
         const routes = getRoutes(type);
@@ -112,7 +106,7 @@ const store_user = create((set) => ({
 
   getUsers: async () => {
     try {
-      const res = await httpClient.get(`/users`, getHeaders());
+      const res = await getUsers();
 
       set({ users: res.data });
     } catch (err) {
@@ -122,11 +116,7 @@ const store_user = create((set) => ({
 
   addUser: async (userData) => {
     try {
-      const res = await httpClient.post(
-        `/users/register`,
-        userData,
-        getHeaders(),
-      );
+      const res = await addUser(userData);
       set((state) => ({ users: [...state.users, res.data] }));
       return true;
     } catch (err) {
@@ -136,7 +126,7 @@ const store_user = create((set) => ({
 
   deleteUser: async (id) => {
     try {
-      const res = await httpClient.delete(`/users/${id}`, getHeaders());
+      const res = await deleteUser(id);
       set((state) => ({
         users: state.users.filter((user) => user._id !== res.data._id),
       }));
@@ -148,11 +138,7 @@ const store_user = create((set) => ({
 
   editUser: async (user) => {
     try {
-      const res = await httpClient.put(
-        `/users/${user._id}`,
-        { name: user.name, type: user.type },
-        getHeaders(),
-      );
+      const res = await editUser(user);
 
       set((state) => ({
         users: [

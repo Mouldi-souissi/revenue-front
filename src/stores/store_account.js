@@ -1,6 +1,10 @@
 import create from "zustand";
-import httpClient from "../api/httpClient";
-import { getHeaders } from "../api/getHeaders";
+import {
+  getAccounts,
+  addAccount,
+  deleteAccount,
+  editAccount,
+} from "../api/account";
 
 const defaultAccount = {
   _id: "",
@@ -22,7 +26,7 @@ const store_account = create((set) => ({
 
   getAccounts: async () => {
     try {
-      const res = await httpClient.get(`/accounts`, getHeaders());
+      const res = await getAccounts();
       set({
         accounts: res.data,
       });
@@ -34,7 +38,7 @@ const store_account = create((set) => ({
 
   addAccount: async (account) => {
     try {
-      const res = await httpClient.post(`/accounts`, account, getHeaders());
+      const res = await addAccount(account);
 
       set((state) => ({ accounts: [...state.accounts, res.data] }));
       return true;
@@ -45,7 +49,7 @@ const store_account = create((set) => ({
 
   deleteAccount: async (id) => {
     try {
-      const res = await httpClient.delete(`/accounts/${id}`, getHeaders());
+      const res = await deleteAccount(id);
       set((state) => ({
         accounts: state.accounts.filter((site) => site._id !== res.data._id),
       }));
@@ -57,11 +61,7 @@ const store_account = create((set) => ({
 
   editAccount: async (id, account) => {
     try {
-      const res = await httpClient.put(
-        `/accounts/${id}`,
-        account,
-        getHeaders(),
-      );
+      const res = await editAccount(id, account);
       set((state) => ({
         accounts: [
           ...state.accounts.filter((doc) => doc._id !== res.data._id),

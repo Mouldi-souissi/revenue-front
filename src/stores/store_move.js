@@ -1,7 +1,13 @@
 import create from "zustand";
-import httpClient from "../api/httpClient";
 import { MOVE_SUBTYPES } from "../constants";
-import { getHeaders } from "../api/getHeaders";
+import {
+  getMoves,
+  addMove,
+  deleteMove,
+  getRevenue,
+  getHistory,
+  reset,
+} from "../api/move";
 
 const defaultRevenue = {
   totalSales: 0,
@@ -20,10 +26,7 @@ const store_move = create((set) => ({
 
   getMoves: async (period = "daily", subType = "all") => {
     try {
-      const res = await httpClient.get(
-        `/moves/${period}/${subType}`,
-        getHeaders(),
-      );
+      const res = await getMoves(period, subType);
 
       if (subType === MOVE_SUBTYPES.win) {
         set({ wins: res.data });
@@ -43,7 +46,7 @@ const store_move = create((set) => ({
 
   addMove: async (move) => {
     try {
-      const res = await httpClient.post(`/moves`, move, getHeaders());
+      const res = await addMove(move);
 
       if (res.data.subType === MOVE_SUBTYPES.win) {
         set((state) => ({
@@ -72,7 +75,7 @@ const store_move = create((set) => ({
 
   deleteMove: async (id) => {
     try {
-      const res = await httpClient.delete(`/moves/${id}`, getHeaders());
+      const res = await deleteMove(id);
 
       if (res.data.subType === MOVE_SUBTYPES.win) {
         set((state) => ({
@@ -102,10 +105,7 @@ const store_move = create((set) => ({
 
   getRevenue: async (start, end, user = "all") => {
     try {
-      const res = await httpClient.get(
-        `/moves/revenue/${start}/${end}/${user}`,
-        getHeaders(),
-      );
+      const res = await getRevenue(start, end, user);
       set({ revenue: res.data });
     } catch (err) {
       console.log(err);
@@ -114,10 +114,7 @@ const store_move = create((set) => ({
 
   getHistory: async (start, end) => {
     try {
-      const res = await httpClient.get(
-        `/history/${start}/${end}`,
-        getHeaders(),
-      );
+      const res = await getHistory(start, end);
       set({ history: res.data });
     } catch (err) {
       console.log(err);
@@ -126,7 +123,7 @@ const store_move = create((set) => ({
 
   reset: async (data) => {
     try {
-      await httpClient.post(`/moves/resetShop`, data, getHeaders());
+      await reset(data);
 
       set({ moves: [] });
       return true;
