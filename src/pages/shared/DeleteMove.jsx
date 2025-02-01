@@ -22,6 +22,7 @@ const DeleteMove = ({ move }) => {
           notyf.error("Opération échouée");
           return;
         } else {
+          setLoading(false);
           notyf.success("Opération réussie");
           await getAccounts();
           refClose.current.click();
@@ -29,6 +30,8 @@ const DeleteMove = ({ move }) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   return (

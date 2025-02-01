@@ -1,7 +1,6 @@
 import create from "zustand";
-import axios from "axios";
-import { API_URL } from "../constants";
-import { getHeaders } from "../helpers/getHeaders";
+import httpClient from "../api/httpClient";
+import { getHeaders } from "../api/getHeaders";
 
 const defaultAccount = {
   _id: "",
@@ -23,7 +22,7 @@ const store_account = create((set) => ({
 
   getAccounts: async () => {
     try {
-      const res = await axios.get(`${API_URL}/accounts`, getHeaders());
+      const res = await httpClient.get(`/accounts`, getHeaders());
       set({
         accounts: res.data,
       });
@@ -35,11 +34,7 @@ const store_account = create((set) => ({
 
   addAccount: async (account) => {
     try {
-      const res = await axios.post(
-        `${API_URL}/accounts`,
-        account,
-        getHeaders(),
-      );
+      const res = await httpClient.post(`/accounts`, account, getHeaders());
 
       set((state) => ({ accounts: [...state.accounts, res.data] }));
       return true;
@@ -50,7 +45,7 @@ const store_account = create((set) => ({
 
   deleteAccount: async (id) => {
     try {
-      const res = await axios.delete(`${API_URL}/accounts/${id}`, getHeaders());
+      const res = await httpClient.delete(`/accounts/${id}`, getHeaders());
       set((state) => ({
         accounts: state.accounts.filter((site) => site._id !== res.data._id),
       }));
@@ -62,8 +57,8 @@ const store_account = create((set) => ({
 
   editAccount: async (id, account) => {
     try {
-      const res = await axios.put(
-        `${API_URL}/accounts/${id}`,
+      const res = await httpClient.put(
+        `/accounts/${id}`,
         account,
         getHeaders(),
       );

@@ -1,12 +1,11 @@
 import create from "zustand";
-import axios from "axios";
-import { API_URL } from "../constants";
+import httpClient from "../api/httpClient";
 
 const store_shop = create((set) => ({
   shops: [],
   getAllshops: async () => {
     try {
-      const res = await axios.get(`${API_URL}/shops`);
+      const res = await httpClient.get(`/shops`);
 
       set({ shops: res.data });
     } catch (error) {

@@ -1,26 +1,10 @@
 import create from "zustand";
 import decode from "jwt-decode";
-import axios from "axios";
-import { API_URL } from "../constants";
+import httpClient from "../api/httpClient";
 import { navigate } from "wouter/use-browser-location";
 import { USER_ROLES } from "../constants";
 import { ADMIN_ROUTES, USER_ROUTES } from "../routes/routes";
-import { getHeaders } from "../helpers/getHeaders";
-
-axios.interceptors.response.use(
-  (response) => response, // Simply return the response for successful requests
-  (error) => {
-    if (
-      (error.response && error.response.status === 401) ||
-      (error.response && error.response.status === 403)
-    ) {
-      sessionStorage.removeItem("token");
-      navigate("/login", { replace: true });
-    }
-
-    return Promise.reject(error); // Reject the promise to indicate an error
-  },
-);
+import { getHeaders } from "../api/getHeaders";
 
 const getRoutes = (role) => {
   let routes = [];
@@ -52,7 +36,7 @@ const store_user = create((set) => ({
 
   login: async (email, password) => {
     try {
-      const res = await axios.post(`${API_URL}/users/login`, {
+      const res = await httpClient.post(`/users/login`, {
         email,
         password,
       });
@@ -104,7 +88,7 @@ const store_user = create((set) => ({
           username: name,
           role: type,
           shop: shop,
-          activeRoute: "/",
+          activeRoute: activeRoute,
           isAuthenticated: true,
         });
 
@@ -128,7 +112,7 @@ const store_user = create((set) => ({
 
   getUsers: async () => {
     try {
-      const res = await axios.get(`${API_URL}/users`, getHeaders());
+      const res = await httpClient.get(`/users`, getHeaders());
 
       set({ users: res.data });
     } catch (err) {
@@ -138,8 +122,8 @@ const store_user = create((set) => ({
 
   addUser: async (userData) => {
     try {
-      const res = await axios.post(
-        `${API_URL}/users/register`,
+      const res = await httpClient.post(
+        `/users/register`,
         userData,
         getHeaders(),
       );
@@ -152,7 +136,7 @@ const store_user = create((set) => ({
 
   deleteUser: async (id) => {
     try {
-      const res = await axios.delete(`${API_URL}/users/${id}`, getHeaders());
+      const res = await httpClient.delete(`/users/${id}`, getHeaders());
       set((state) => ({
         users: state.users.filter((user) => user._id !== res.data._id),
       }));
@@ -164,8 +148,8 @@ const store_user = create((set) => ({
 
   editUser: async (user) => {
     try {
-      const res = await axios.put(
-        `${API_URL}/users/${user._id}`,
+      const res = await httpClient.put(
+        `/users/${user._id}`,
         { name: user.name, type: user.type },
         getHeaders(),
       );

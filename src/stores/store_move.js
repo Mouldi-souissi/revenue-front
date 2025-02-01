@@ -1,8 +1,7 @@
 import create from "zustand";
-import axios from "axios";
-import { API_URL } from "../constants";
+import httpClient from "../api/httpClient";
 import { MOVE_SUBTYPES } from "../constants";
-import { getHeaders } from "../helpers/getHeaders";
+import { getHeaders } from "../api/getHeaders";
 
 const defaultRevenue = {
   totalSales: 0,
@@ -21,8 +20,8 @@ const store_move = create((set) => ({
 
   getMoves: async (period = "daily", subType = "all") => {
     try {
-      const res = await axios.get(
-        `${API_URL}/moves/${period}/${subType}`,
+      const res = await httpClient.get(
+        `/moves/${period}/${subType}`,
         getHeaders(),
       );
 
@@ -44,7 +43,7 @@ const store_move = create((set) => ({
 
   addMove: async (move) => {
     try {
-      const res = await axios.post(`${API_URL}/moves`, move, getHeaders());
+      const res = await httpClient.post(`/moves`, move, getHeaders());
 
       if (res.data.subType === MOVE_SUBTYPES.win) {
         set((state) => ({
@@ -73,7 +72,7 @@ const store_move = create((set) => ({
 
   deleteMove: async (id) => {
     try {
-      const res = await axios.delete(`${API_URL}/moves/${id}`, getHeaders());
+      const res = await httpClient.delete(`/moves/${id}`, getHeaders());
 
       if (res.data.subType === MOVE_SUBTYPES.win) {
         set((state) => ({
@@ -103,8 +102,8 @@ const store_move = create((set) => ({
 
   getRevenue: async (start, end, user = "all") => {
     try {
-      const res = await axios.get(
-        `${API_URL}/moves/revenue/${start}/${end}/${user}`,
+      const res = await httpClient.get(
+        `/moves/revenue/${start}/${end}/${user}`,
         getHeaders(),
       );
       set({ revenue: res.data });
@@ -115,8 +114,8 @@ const store_move = create((set) => ({
 
   getHistory: async (start, end) => {
     try {
-      const res = await axios.get(
-        `${API_URL}/history/${start}/${end}`,
+      const res = await httpClient.get(
+        `/history/${start}/${end}`,
         getHeaders(),
       );
       set({ history: res.data });
@@ -127,7 +126,7 @@ const store_move = create((set) => ({
 
   reset: async (data) => {
     try {
-      await axios.post(`${API_URL}/moves/resetShop`, data, getHeaders());
+      await httpClient.post(`/moves/resetShop`, data, getHeaders());
 
       set({ moves: [] });
       return true;
