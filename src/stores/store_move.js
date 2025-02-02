@@ -26,19 +26,19 @@ const store_move = create((set) => ({
 
   getMoves: async (period = "daily", subType = "all") => {
     try {
-      const res = await getMoves(period, subType);
+      const data = await getMoves(period, subType);
 
       if (subType === MOVE_SUBTYPES.win) {
-        set({ wins: res.data });
+        set({ wins: data });
       }
       if (subType === MOVE_SUBTYPES.spending) {
-        set({ spending: res.data });
+        set({ spending: data });
       }
       if (subType === MOVE_SUBTYPES.sale) {
-        set({ sales: res.data });
+        set({ sales: data });
       }
 
-      set({ moves: res.data });
+      set({ moves: data });
     } catch (err) {
       console.log(err);
     }
@@ -46,26 +46,26 @@ const store_move = create((set) => ({
 
   addMove: async (move) => {
     try {
-      const res = await addMove(move);
+      const data = await addMove(move);
 
-      if (res.data.subType === MOVE_SUBTYPES.win) {
+      if (data.subType === MOVE_SUBTYPES.win) {
         set((state) => ({
-          wins: [...state.wins, res.data],
+          wins: [...state.wins, data],
         }));
       }
-      if (res.data.subType === MOVE_SUBTYPES.spending) {
+      if (data.subType === MOVE_SUBTYPES.spending) {
         set((state) => ({
-          spending: [...state.spending, res.data],
+          spending: [...state.spending, data],
         }));
       }
-      if (res.data.subType === MOVE_SUBTYPES.sale) {
+      if (data.subType === MOVE_SUBTYPES.sale) {
         set((state) => ({
-          sales: [...state.sales, res.data],
+          sales: [...state.sales, data],
         }));
       }
 
       set((state) => ({
-        moves: [...state.moves, res.data],
+        moves: [...state.moves, data],
       }));
       return true;
     } catch (err) {
@@ -75,26 +75,26 @@ const store_move = create((set) => ({
 
   deleteMove: async (id) => {
     try {
-      const res = await deleteMove(id);
+      const data = await deleteMove(id);
 
-      if (res.data.subType === MOVE_SUBTYPES.win) {
+      if (data.subType === MOVE_SUBTYPES.win) {
         set((state) => ({
-          wins: state.wins.filter((doc) => doc._id !== res.data._id),
+          wins: state.wins.filter((doc) => doc._id !== data._id),
         }));
       }
-      if (res.data.subType === MOVE_SUBTYPES.spending) {
+      if (data.subType === MOVE_SUBTYPES.spending) {
         set((state) => ({
-          spending: state.spending.filter((doc) => doc._id !== res.data._id),
+          spending: state.spending.filter((doc) => doc._id !== data._id),
         }));
       }
-      if (res.data.subType === MOVE_SUBTYPES.sale) {
+      if (data.subType === MOVE_SUBTYPES.sale) {
         set((state) => ({
-          sales: state.sales.filter((doc) => doc._id !== res.data._id),
+          sales: state.sales.filter((doc) => doc._id !== data._id),
         }));
       }
 
       set((state) => ({
-        moves: state.moves.filter((doc) => doc._id !== res.data._id),
+        moves: state.moves.filter((doc) => doc._id !== data._id),
       }));
 
       return true;
@@ -105,8 +105,8 @@ const store_move = create((set) => ({
 
   getRevenue: async (start, end, user = "all") => {
     try {
-      const res = await getRevenue(start, end, user);
-      set({ revenue: res.data });
+      const data = await getRevenue(start, end, user);
+      set({ revenue: data });
     } catch (err) {
       console.log(err);
     }
@@ -114,8 +114,8 @@ const store_move = create((set) => ({
 
   getHistory: async (start, end) => {
     try {
-      const res = await getHistory(start, end);
-      set({ history: res.data });
+      const data = await getHistory(start, end);
+      set({ history: data });
     } catch (err) {
       console.log(err);
     }

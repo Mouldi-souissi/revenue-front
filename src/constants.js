@@ -1,6 +1,3 @@
-export const API_URL = "https://revenue-api.vercel.app/api";
-// export const API_URL = "http://localhost:5000/api";
-
 export const USER_ROLES = {
   ADMIN: "admin",
   USER: "utilisateur",

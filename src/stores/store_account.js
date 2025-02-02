@@ -26,11 +26,11 @@ const store_account = create((set) => ({
 
   getAccounts: async () => {
     try {
-      const res = await getAccounts();
+      const data = await getAccounts();
       set({
-        accounts: res.data,
+        accounts: data,
       });
-      return res.data;
+      return data;
     } catch (error) {
       console.log(error);
     }
@@ -38,9 +38,9 @@ const store_account = create((set) => ({
 
   addAccount: async (account) => {
     try {
-      const res = await addAccount(account);
+      const data = await addAccount(account);
 
-      set((state) => ({ accounts: [...state.accounts, res.data] }));
+      set((state) => ({ accounts: [...state.accounts, data] }));
       return true;
     } catch (err) {
       console.log(err);
@@ -49,9 +49,9 @@ const store_account = create((set) => ({
 
   deleteAccount: async (id) => {
     try {
-      const res = await deleteAccount(id);
+      const data = await deleteAccount(id);
       set((state) => ({
-        accounts: state.accounts.filter((site) => site._id !== res.data._id),
+        accounts: state.accounts.filter((site) => site._id !== data._id),
       }));
       return true;
     } catch (err) {
@@ -61,11 +61,11 @@ const store_account = create((set) => ({
 
   editAccount: async (id, account) => {
     try {
-      const res = await editAccount(id, account);
+      const data = await editAccount(id, account);
       set((state) => ({
         accounts: [
-          ...state.accounts.filter((doc) => doc._id !== res.data._id),
-          res.data,
+          ...state.accounts.filter((doc) => doc._id !== data._id),
+          data,
         ],
       }));
       return true;

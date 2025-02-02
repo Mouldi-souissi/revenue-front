@@ -34,14 +34,14 @@ const store_user = create((set) => ({
 
   login: async (email, password) => {
     try {
-      const res = await login(email, password);
+      const data = await login(email, password);
 
-      if (!res.data) {
+      if (!data) {
         return false;
       }
 
-      sessionStorage.setItem("token", res.data);
-      const decodedToken = decodeToken(res.data);
+      sessionStorage.setItem("token", data);
+      const decodedToken = decodeToken(data);
 
       const { type, name, shop, id } = decodedToken;
 
@@ -106,9 +106,9 @@ const store_user = create((set) => ({
 
   getUsers: async () => {
     try {
-      const res = await getUsers();
+      const data = await getUsers();
 
-      set({ users: res.data });
+      set({ users: data });
     } catch (err) {
       console.log(err);
     }
@@ -116,8 +116,8 @@ const store_user = create((set) => ({
 
   addUser: async (userData) => {
     try {
-      const res = await addUser(userData);
-      set((state) => ({ users: [...state.users, res.data] }));
+      const data = await addUser(userData);
+      set((state) => ({ users: [...state.users, data] }));
       return true;
     } catch (err) {
       console.log(err);
@@ -126,9 +126,9 @@ const store_user = create((set) => ({
 
   deleteUser: async (id) => {
     try {
-      const res = await deleteUser(id);
+      const data = await deleteUser(id);
       set((state) => ({
-        users: state.users.filter((user) => user._id !== res.data._id),
+        users: state.users.filter((user) => user._id !== data._id),
       }));
       return true;
     } catch (err) {
@@ -138,13 +138,10 @@ const store_user = create((set) => ({
 
   editUser: async (user) => {
     try {
-      const res = await editUser(user);
+      const data = await editUser(user);
 
       set((state) => ({
-        users: [
-          ...state.users.filter((user) => user._id !== res.data._id),
-          res.data,
-        ],
+        users: [...state.users.filter((user) => user._id !== data._id), data],
       }));
       return true;
     } catch (err) {
