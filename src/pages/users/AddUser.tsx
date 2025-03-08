@@ -1,23 +1,31 @@
-import { useRef, useState } from "react";
+import { useRef, useState, ChangeEvent, FormEvent } from "react";
 import store_user from "../../stores/store_user";
 import { Notyf } from "notyf";
+import { User } from "../../models/User";
+
+const defaultUser: User = {
+  _id: "",
+  name: "",
+  email: "",
+  type: "utilisateur",
+};
+
 const notyf = new Notyf();
 
-const AddUser = () => {
-  const [data, setData] = useState({
-    type: "utilisateur",
-    name: "",
-    email: "",
-    password: "",
-  });
-  const addUser = store_user((state) => state.addUser);
-  const refClose = useRef();
+const AddUser = (): JSX.Element => {
+  const [data, setData] = useState<User>(defaultUser);
 
-  const handleInput = (e) => {
+  const addUser = store_user((state) => state.addUser);
+
+  const refClose = useRef<HTMLButtonElement>(null);
+
+  const handleInput = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ): void => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     try {
       e.preventDefault();
 
@@ -26,15 +34,16 @@ const AddUser = () => {
         notyf.error("Opération échouée");
       } else {
         notyf.success("Opération réussie");
-        setData({ type: "utilisateur", name: "", email: "", password: "" });
-        refClose.current.click();
+        setData(defaultUser);
+        refClose.current?.click(); // Safe navigation with ?
       }
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
-    <div className="modal fade" id="addUser" tabIndex="-1" aria-hidden="true">
+    <div className="modal fade" id="addUser" tabIndex={-1} aria-hidden="true">
       <div className="modal-dialog">
         <form onSubmit={handleSubmit} autoComplete="off">
           <div className="modal-content p-3 p-3">

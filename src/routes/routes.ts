@@ -1,4 +1,6 @@
-export const ADMIN_ROUTES = [
+import { Route } from "../models/Route";
+
+export const ADMIN_ROUTES: Route[] = [
   { link: "/", text: "Tableau de bord", icon: "dashboard" },
   { link: "/users", text: "Utilisateurs", icon: "users" },
   {
@@ -33,7 +35,7 @@ export const ADMIN_ROUTES = [
   },
 ];
 
-export const USER_ROUTES = [
+export const USER_ROUTES: Route[] = [
   { link: "/", text: "Tableau de bord", icon: "dashboard" },
   {
     link: "/sales",

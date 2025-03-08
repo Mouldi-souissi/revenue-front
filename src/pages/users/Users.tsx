@@ -4,21 +4,24 @@ import AddUser from "./AddUser";
 import DeleteUser from "./DeleteUser";
 import store_user from "../../stores/store_user";
 import Wrapper from "../../components/layout/Wrapper";
+import { User } from "../../models/User";
 
-const defaultUser = {
+const defaultUser: User = {
+  _id: "",
   name: "",
-  type: "",
+  email: "",
+  type: "utilisateur",
 };
 
-const Users = () => {
-  const [isLoading, setLoading] = useState(false);
-  const [user, setUser] = useState(defaultUser);
+const Users = (): JSX.Element => {
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [user, setUser] = useState<User>(defaultUser);
 
   const getUsers = store_user((state) => state.getUsers);
-  const users = store_user((state) => state.users);
-  const userId = store_user((state) => state.userId);
+  const users = store_user((state) => state.users) as User[];
+  const userId = store_user((state) => state.userId) as string;
 
-  const init = () => {
+  const init = (): void => {
     setLoading(true);
     getUsers().finally(() => setLoading(false));
   };
@@ -27,12 +30,8 @@ const Users = () => {
     init();
   }, []);
 
-  const checkUser = (user) => {
-    if (user._id === userId) {
-      return true;
-    } else {
-      return false;
-    }
+  const checkUser = (user: User): boolean => {
+    return user._id === userId;
   };
 
   return (
@@ -71,12 +70,12 @@ const Users = () => {
           </thead>
           <tbody>
             {users
-              .sort((a, b) => {
+              .sort((a: User, b: User) => {
                 if (a._id < b._id) return 1;
                 if (a._id > b._id) return -1;
                 return 0;
               })
-              .map((user) => (
+              .map((user: User) => (
                 <tr key={user._id}>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
@@ -91,7 +90,6 @@ const Users = () => {
                     >
                       <i className="fa-solid fa-gear"></i>
                     </button>
-
                     <button
                       className="smallBtn"
                       data-bs-toggle="modal"
@@ -106,7 +104,7 @@ const Users = () => {
               ))}
             {!users.length && (
               <tr>
-                <td colSpan="7" className="text-center">
+                <td colSpan={4} className="text-center">
                   pas de donnée
                 </td>
               </tr>

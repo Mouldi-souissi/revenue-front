@@ -1,21 +1,27 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import store_user from "../../stores/store_user";
 import { Notyf } from "notyf";
+import { User } from "../../models/User";
+
+type props = {
+  user: User;
+};
+
 const notyf = new Notyf();
 
-const DeleteUser = ({ user }) => {
+const DeleteUser = ({ user }: props): JSX.Element => {
   const deleteUser = store_user((state) => state.deleteUser);
-  const refClose = useRef();
+  const refClose = useRef<HTMLButtonElement>(null);
 
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     try {
-      const success = await deleteUser(user._id);
+      const success = await deleteUser(user._id as string);
 
       if (!success) {
         notyf.error("Opération échouée");
       } else {
         notyf.success("Opération réussie");
-        refClose.current.click();
+        refClose.current?.click();
       }
     } catch (err) {
       console.log(err);
@@ -26,7 +32,7 @@ const DeleteUser = ({ user }) => {
     <div
       className="modal fade"
       id="deleteUser"
-      tabIndex="-1"
+      tabIndex={-1}
       aria-labelledby="deleteUserLabel"
       aria-hidden="true"
     >

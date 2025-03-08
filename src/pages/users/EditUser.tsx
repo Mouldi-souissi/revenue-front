@@ -1,18 +1,32 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, ChangeEvent, FormEvent } from "react";
 import store_user from "../../stores/store_user";
 import { Notyf } from "notyf";
 const notyf = new Notyf();
+import { User } from "../../models/User";
 
-const EditUser = ({ user }) => {
-  const [data, setData] = useState({ name: "", type: "" });
+type props = {
+  user: User;
+};
+
+const defaultUser: User = {
+  _id: "",
+  name: "",
+  email: "",
+  type: "utilisateur",
+};
+
+const EditUser = ({ user }: props): JSX.Element => {
+  const [data, setData] = useState<User>(defaultUser);
   const editUser = store_user((state) => state.editUser);
-  const refClose = useRef();
+  const refClose = useRef<HTMLButtonElement>(null);
 
-  const handleInput = (e) => {
+  const handleInput = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ): void => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     try {
       e.preventDefault();
       const success = await editUser(data);
@@ -21,8 +35,8 @@ const EditUser = ({ user }) => {
         notyf.error("Opération échouée");
       } else {
         notyf.success("Opération réussie");
-        setData({ name: "", type: "" });
-        refClose.current.click();
+        setData(defaultUser);
+        refClose.current?.click();
       }
     } catch (err) {
       console.log(err);
@@ -30,7 +44,7 @@ const EditUser = ({ user }) => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && user._id) {
       setData(user);
     }
   }, [user]);
@@ -39,7 +53,7 @@ const EditUser = ({ user }) => {
     <div
       className="modal fade"
       id="editUser"
-      tabIndex="-1"
+      tabIndex={-1}
       aria-labelledby="editUserLabel"
       aria-hidden="true"
     >
