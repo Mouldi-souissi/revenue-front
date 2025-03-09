@@ -5,14 +5,28 @@ import {
   deleteAccount,
   editAccount,
 } from "../api/account";
+import { Account } from "../models/Account";
 
-const defaultAccount = {
+const defaultAccount: Account = {
   _id: "",
   name: "",
-  amount: "",
+  deposit: 0,
 };
 
-const store_account = create((set) => ({
+interface AccountState {
+  accounts: Account[];
+  selectedAccount: Account;
+
+  // actions
+  selectAccount: (account: Account) => void;
+  resetAccount: () => void;
+  getAccounts: () => Promise<Account[] | undefined>;
+  addAccount: (account: Account) => Promise<Boolean | undefined>;
+  deleteAccount: (id: string) => Promise<Boolean | undefined>;
+  editAccount: (id: string, account: Account) => Promise<Boolean | undefined>;
+}
+
+const store_account = create<AccountState>((set) => ({
   accounts: [],
   selectedAccount: defaultAccount,
 

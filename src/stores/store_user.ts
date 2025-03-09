@@ -136,7 +136,7 @@ const store_user = create<UserState>((set) => ({
 
   addUser: async (userData: User): Promise<boolean | undefined> => {
     try {
-      const data = (await addUser(userData)) as User;
+      const data = await addUser(userData);
       set((state) => ({ users: [...state.users, data] }));
       return true;
     } catch (err) {
@@ -147,7 +147,7 @@ const store_user = create<UserState>((set) => ({
 
   deleteUser: async (id: string): Promise<boolean | undefined> => {
     try {
-      const data = (await deleteUser(id)) as User;
+      const data = await deleteUser(id);
       set((state) => ({
         users: state.users.filter((user) => user._id !== data._id),
       }));
@@ -160,7 +160,7 @@ const store_user = create<UserState>((set) => ({
 
   editUser: async (user: User): Promise<boolean | undefined> => {
     try {
-      const data = (await editUser(user)) as User;
+      const data = await editUser(user);
       set((state) => ({
         users: [...state.users.filter((u) => u._id !== data._id), data],
       }));

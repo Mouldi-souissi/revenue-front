@@ -11,9 +11,19 @@ import { MOVE_SUBTYPES, PERIOD_VALUES, USER_ROLES } from "../../constants";
 import { usePagination } from "../../hooks/usePagination";
 import Pagination from "../../components/UI/Pagination";
 
+import { Move } from "../../models/Move";
+
+const defaultMove: Move = {
+  type: "",
+  amount: 0,
+  subType: "",
+  account: "",
+  user: "",
+};
+
 const Spending = () => {
-  const [isLoading, setLoading] = useState(false);
-  const [spendingDoc, setSpendingDoc] = useState("");
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [spendingDoc, setSpendingDoc] = useState<Move>(defaultMove);
 
   const getMoves = store_move((state) => state.getMoves);
   const spending = store_move((state) => state.spending).sort((a, b) =>
@@ -28,7 +38,7 @@ const Spending = () => {
 
   const total = spending.reduce((acc, curr) => (acc += Number(curr.amount)), 0);
 
-  const init = () => {
+  const init = async (): Promise<void> => {
     setLoading(true);
     setCurrentPage(1);
     getMoves(PERIOD_VALUES.daily, MOVE_SUBTYPES.spending).finally(() =>
@@ -54,7 +64,7 @@ const Spending = () => {
 
   let paginated = spending.slice(startIndex, endIndex);
 
-  const checkUser = (user) => {
+  const checkUser = (user: string): boolean => {
     if (role === USER_ROLES.ADMIN) {
       return true;
     } else {
@@ -143,7 +153,7 @@ const Spending = () => {
             ))}
             {!paginated.length && (
               <tr>
-                <td colSpan="7" className="text-center">
+                <td colSpan={7} className="text-center">
                   pas de donnée
                 </td>
               </tr>

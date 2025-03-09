@@ -1,5 +1,5 @@
 import create from "zustand";
-import { MOVE_SUBTYPES } from "../constants";
+import { MOVE_SUBTYPES, MoveSubType, Period } from "../constants";
 import {
   getMoves,
   addMove,
@@ -9,14 +9,33 @@ import {
   reset,
 } from "../api/move";
 
-const defaultRevenue = {
+import { Move, Revenue } from "../models/Move";
+
+interface MoveState {
+  moves: Move[];
+  spending: Move[];
+  wins: Move[];
+  sales: Move[];
+  revenue: Revenue;
+  history: any[];
+
+  // actions
+  getMoves: (period?: Period, subType?: MoveSubType) => Promise<void>;
+  addMove: (move: Move) => Promise<boolean>;
+  deleteMove: (id: string) => Promise<boolean>;
+  getRevenue: (start: string, end: string, user?: string) => Promise<void>;
+  getHistory: (start: string, end: string) => Promise<void>;
+  reset: (password: string) => Promise<boolean>;
+}
+
+const defaultRevenue: Revenue = {
   totalSales: 0,
   totalWins: 0,
   totalSpending: 0,
   revenue: 0,
 };
 
-const store_move = create((set) => ({
+const store_move = create<MoveState>((set) => ({
   moves: [],
   spending: [],
   wins: [],
@@ -27,7 +46,6 @@ const store_move = create((set) => ({
   getMoves: async (period = "daily", subType = "all") => {
     try {
       const data = await getMoves(period, subType);
-
       if (subType === MOVE_SUBTYPES.win) {
         set({ wins: data });
       }
@@ -37,7 +55,6 @@ const store_move = create((set) => ({
       if (subType === MOVE_SUBTYPES.sale) {
         set({ sales: data });
       }
-
       set({ moves: data });
     } catch (err) {
       console.log(err);
@@ -47,7 +64,6 @@ const store_move = create((set) => ({
   addMove: async (move) => {
     try {
       const data = await addMove(move);
-
       if (data.subType === MOVE_SUBTYPES.win) {
         set((state) => ({
           wins: [...state.wins, data],
@@ -63,20 +79,19 @@ const store_move = create((set) => ({
           sales: [...state.sales, data],
         }));
       }
-
       set((state) => ({
         moves: [...state.moves, data],
       }));
       return true;
     } catch (err) {
       console.log(err);
+      return false;
     }
   },
 
   deleteMove: async (id) => {
     try {
       const data = await deleteMove(id);
-
       if (data.subType === MOVE_SUBTYPES.win) {
         set((state) => ({
           wins: state.wins.filter((doc) => doc._id !== data._id),
@@ -92,14 +107,13 @@ const store_move = create((set) => ({
           sales: state.sales.filter((doc) => doc._id !== data._id),
         }));
       }
-
       set((state) => ({
         moves: state.moves.filter((doc) => doc._id !== data._id),
       }));
-
       return true;
     } catch (err) {
       console.log(err);
+      return false;
     }
   },
 
@@ -124,11 +138,11 @@ const store_move = create((set) => ({
   reset: async (data) => {
     try {
       await reset(data);
-
       set({ moves: [] });
       return true;
     } catch (err) {
       console.log(err);
+      return false;
     }
   },
 }));

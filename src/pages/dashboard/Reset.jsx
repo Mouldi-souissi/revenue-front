@@ -23,7 +23,7 @@ const Reset = () => {
       setLoading(true);
       setError("");
 
-      const success = await reset({ password });
+      const success = await reset(password);
       if (!success) {
         setError("mot de passe incorrect");
         return;

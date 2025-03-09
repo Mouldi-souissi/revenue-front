@@ -70,7 +70,7 @@ const Users = (): JSX.Element => {
           </thead>
           <tbody>
             {users
-              .sort((a: User, b: User) => {
+              .sort((a, b) => {
                 if (a._id < b._id) return 1;
                 if (a._id > b._id) return -1;
                 return 0;

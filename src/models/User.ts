@@ -1,9 +1,11 @@
+import { UserRole } from "../constants";
+
 export type User = {
   _id?: string;
-  name: string;
-  email: string;
+  name?: string;
+  email?: string;
   password?: string;
-  type: "utilisateur" | "admin";
+  type?: UserRole;
   shop?: string;
   shopId?: string;
 };
