@@ -1,9 +1,9 @@
 import create from "zustand";
 
-interface UI_State {
+type UI_State = {
   isSidebarHidden: boolean;
   toggleSideBar: () => void;
-}
+};
 
 const store_ui = create<UI_State>((set) => ({
   isSidebarHidden: false,

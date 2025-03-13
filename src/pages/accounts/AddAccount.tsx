@@ -1,9 +1,8 @@
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import { formatFloat } from "../../helpers/input";
-import { Notyf } from "notyf";
 import { AccountPayload } from "../../models/Account";
-const notyf = new Notyf();
+import notification from "../../libs/notification";
 
 const defaultPayload: AccountPayload = {
   rate: "1.2",
@@ -32,9 +31,9 @@ const AddAccount = () => {
       e.preventDefault();
       const success = await addAccount(data);
       if (!success) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
       } else {
-        notyf.success("Opération réussie");
+        notification.success("Opération réussie");
         setData(defaultPayload);
         refClose.current?.click();
       }

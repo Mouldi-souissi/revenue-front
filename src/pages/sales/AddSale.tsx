@@ -4,8 +4,7 @@ import store_move from "../../stores/store_move";
 import { MOVE_TYPES, MOVE_SUBTYPES, ACCOUNT_TYPES } from "../../constants";
 import { formatInput } from "../../helpers/input";
 import MoveBuilder from "../../payloadValidators/MoveBuilder";
-import { Notyf } from "notyf";
-const notyf = new Notyf();
+import notification from "../../libs/notification";
 
 const AddSale = () => {
   const [isLoading, setLoading] = useState(false);
@@ -41,7 +40,7 @@ const AddSale = () => {
       const accounts_state = await getAccounts();
 
       if (!accounts_state || !accounts.length) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
         return;
       }
 
@@ -50,7 +49,7 @@ const AddSale = () => {
       );
 
       if (!account) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
         return;
       }
 
@@ -58,7 +57,7 @@ const AddSale = () => {
         (Number(account.deposit) - Number(depositEnd)) * Number(account.rate);
 
       if (amount <= 0) {
-        notyf.error(
+        notification.error(
           "La vente ne peut pas etre negative! Veuillez saisir les gains d'abord",
         );
         return;
@@ -74,7 +73,7 @@ const AddSale = () => {
       const { isValid, error } = payload.isValid();
 
       if (!isValid) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
 
         console.log({ error });
         return;
@@ -83,16 +82,16 @@ const AddSale = () => {
       const success = await addMove(payload.getMove());
 
       if (!success) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
       } else {
-        notyf.success("Opération réussie");
+        notification.success("Opération réussie");
         setDepositEnd("");
         resetAccount();
         refClose.current?.click();
       }
     } catch (error) {
       console.log(error);
-      notyf.error("Opération échouée");
+      notification.error("Opération échouée");
     } finally {
       setLoading(false);
     }

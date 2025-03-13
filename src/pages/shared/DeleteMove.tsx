@@ -1,9 +1,8 @@
 import { useRef, useState } from "react";
 import store_move from "../../stores/store_move";
 import store_account from "../../stores/store_account";
-import { Notyf } from "notyf";
-const notyf = new Notyf();
 import { Move } from "../../models/Move";
+import notification from "../../libs/notification";
 
 type props = {
   move: Move;
@@ -24,11 +23,11 @@ const DeleteMove = ({ move }: props) => {
 
         if (!isSuccess) {
           setLoading(false);
-          notyf.error("Opération échouée");
+          notification.error("Opération échouée");
           return;
         } else {
           setLoading(false);
-          notyf.success("Opération réussie");
+          notification.success("Opération réussie");
           await getAccounts();
           refClose.current?.click();
         }

@@ -1,8 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import cash from "/cash.webp";
 import store_user from "../stores/store_user";
-import { Notyf } from "notyf";
-const notyf = new Notyf();
+import notification from "../libs/notification";
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "" });
@@ -19,9 +18,9 @@ const Login = () => {
       setLoading(true);
       const success = await login(data.email, data.password);
       if (!success) {
-        notyf.error("Connexion échouée");
+        notification.error("Connexion échouée");
       } else {
-        notyf.success("Connexion réussie");
+        notification.success("Connexion réussie");
       }
     } catch (error) {
       console.log(error);

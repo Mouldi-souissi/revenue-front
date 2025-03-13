@@ -7,7 +7,7 @@ import {
 } from "../api/account";
 import { Account, AccountPayload, defaultAccount } from "../models/Account";
 
-interface AccountState {
+type AccountState = {
   accounts: Account[];
   selectedAccount: Account;
 
@@ -18,7 +18,7 @@ interface AccountState {
   addAccount: (account: AccountPayload) => Promise<boolean | undefined>;
   deleteAccount: (id: string) => Promise<boolean | undefined>;
   editAccount: (id: string, account: Account) => Promise<boolean | undefined>;
-}
+};
 
 const store_account = create<AccountState>((set) => ({
   accounts: [],

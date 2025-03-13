@@ -1,8 +1,7 @@
 import { useRef } from "react";
 import store_account from "../../stores/store_account";
-import { Notyf } from "notyf";
 import { Account } from "../../models/Account";
-const notyf = new Notyf();
+import notification from "../../libs/notification";
 
 type props = {
   account: Account;
@@ -16,9 +15,9 @@ const DeleteAccount = ({ account }: props) => {
     try {
       const success = await deleteAccount(account._id);
       if (!success) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
       } else {
-        notyf.success("Opération réussie");
+        notification.success("Opération réussie");
         refClose.current?.click();
       }
     } catch (err) {

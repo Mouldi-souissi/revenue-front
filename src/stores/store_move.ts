@@ -12,7 +12,7 @@ import {
 import { Move, MovePayload, Revenue } from "../models/Move";
 import { History } from "../models/History";
 
-interface MoveState {
+type MoveState = {
   moves: Move[];
   spending: Move[];
   wins: Move[];
@@ -27,7 +27,7 @@ interface MoveState {
   getRevenue: (start: string, end: string, user?: string) => Promise<void>;
   getHistory: (start: string, end: string) => Promise<void>;
   reset: (password: string) => Promise<boolean>;
-}
+};
 
 const defaultRevenue: Revenue = {
   totalSales: 0,

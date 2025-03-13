@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState, ChangeEvent, FormEvent } from "react";
 import store_user from "../../stores/store_user";
-import { Notyf } from "notyf";
-const notyf = new Notyf();
 import { User, UserEditPayload } from "../../models/User";
+import notification from "../../libs/notification";
 
 type props = {
   user: User;
@@ -34,9 +33,9 @@ const EditUser = ({ user }: props) => {
       });
 
       if (!success) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
       } else {
-        notyf.success("Opération réussie");
+        notification.success("Opération réussie");
         setData(defaultUser);
         refClose.current?.click();
       }

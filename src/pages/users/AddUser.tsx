@@ -1,7 +1,7 @@
 import { useRef, useState, ChangeEvent, FormEvent } from "react";
 import store_user from "../../stores/store_user";
-import { Notyf } from "notyf";
 import { UserPayload } from "../../models/User";
+import notification from "../../libs/notification";
 
 const defaultUser: UserPayload = {
   name: "",
@@ -9,8 +9,6 @@ const defaultUser: UserPayload = {
   type: "utilisateur",
   password: "",
 };
-
-const notyf = new Notyf();
 
 const AddUser = () => {
   const [data, setData] = useState<UserPayload>(defaultUser);
@@ -31,9 +29,9 @@ const AddUser = () => {
 
       const success = await addUser(data);
       if (!success) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
       } else {
-        notyf.success("Opération réussie");
+        notification.success("Opération réussie");
         setData(defaultUser);
         refClose.current?.click(); // Safe navigation with ?
       }

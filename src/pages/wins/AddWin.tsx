@@ -4,8 +4,7 @@ import store_move from "../../stores/store_move";
 import { MOVE_TYPES, MOVE_SUBTYPES, ACCOUNT_TYPES } from "../../constants";
 import { formatInput } from "../../helpers/input";
 import MoveBuilder from "../../payloadValidators/MoveBuilder";
-import { Notyf } from "notyf";
-const notyf = new Notyf();
+import notification from "../../libs/notification";
 
 const AddWin = () => {
   const [isLoading, setLoading] = useState(false);
@@ -49,7 +48,7 @@ const AddWin = () => {
       const { isValid, error } = payload.isValid();
 
       if (!isValid) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
         console.log({ error });
         return;
       }
@@ -57,16 +56,16 @@ const AddWin = () => {
       const suceess = await addMove(payload.getMove());
 
       if (!suceess) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
       } else {
-        notyf.success("Opération réussie");
+        notification.success("Opération réussie");
 
         setAmount("");
         resetAccount();
         refClose.current?.click();
       }
     } catch (error) {
-      notyf.error("Opération échouée");
+      notification.error("Opération échouée");
       console.log(error);
     } finally {
       setLoading(false);

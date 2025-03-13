@@ -1,9 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import { formatFloat } from "../../helpers/input";
-import { Notyf } from "notyf";
 import { Account, defaultAccount } from "../../models/Account";
-const notyf = new Notyf();
+import notification from "../../libs/notification";
 
 type props = {
   account: Account;
@@ -27,9 +26,9 @@ const EditAccount = ({ account }: props) => {
       e.preventDefault();
       const success = await editAccount(data._id, data);
       if (!success) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
       } else {
-        notyf.success("Opération réussie");
+        notification.success("Opération réussie");
         setData(defaultAccount);
         refClose.current?.click();
       }

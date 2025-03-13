@@ -1,13 +1,11 @@
 import { useRef } from "react";
 import store_user from "../../stores/store_user";
-import { Notyf } from "notyf";
 import { User } from "../../models/User";
+import notification from "../../libs/notification";
 
 type props = {
   user: User;
 };
-
-const notyf = new Notyf();
 
 const DeleteUser = ({ user }: props) => {
   const deleteUser = store_user((state) => state.deleteUser);
@@ -18,9 +16,9 @@ const DeleteUser = ({ user }: props) => {
       const success = await deleteUser(user._id as string);
 
       if (!success) {
-        notyf.error("Opération échouée");
+        notification.error("Opération échouée");
       } else {
-        notyf.success("Opération réussie");
+        notification.success("Opération réussie");
         refClose.current?.click();
       }
     } catch (err) {
