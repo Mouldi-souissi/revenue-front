@@ -20,7 +20,7 @@ const DeleteMove = ({ move }: props) => {
     try {
       if (move._id) {
         setLoading(true);
-        const isSuccess = await deleteMove(move._id);
+        const isSuccess = await deleteMove(move?._id);
 
         if (!isSuccess) {
           setLoading(false);
@@ -61,7 +61,7 @@ const DeleteMove = ({ move }: props) => {
           <div className="modal-body my-3">
             <div> Veuillez confirmer la suppression de l'opération:</div>
             <div className="text-black text-center">
-              {move.subType} {move.amount}
+              {move?.subType} {move?.amount}
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mb-3">
