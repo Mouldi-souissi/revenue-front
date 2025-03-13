@@ -1,18 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import { formatFloat } from "../../helpers/input";
 import { Notyf } from "notyf";
+import { AccountPayload } from "../../models/Account";
 const notyf = new Notyf();
 
-const EditAccount = ({ account }) => {
-  const [data, setData] = useState({
-    name: "",
-    rate: "",
-  });
-  const editAccount = store_account((state) => state.editAccount);
-  const refClose = useRef();
+const defaultPayload: AccountPayload = {
+  rate: "1.2",
+  name: "",
+  deposit: 0,
+  type: "secondary",
+};
 
-  const handleInput = (e) => {
+const AddAccount = () => {
+  const [data, setData] = useState(defaultPayload);
+  const addAccount = store_account((state) => state.addAccount);
+  const refClose = useRef<HTMLButtonElement>(null);
+
+  const handleInput = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     if (e.target.name == "rate") {
       setData({ ...data, rate: formatFloat(e.target.value) });
     } else {
@@ -20,42 +27,35 @@ const EditAccount = ({ account }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      const success = await editAccount(data._id, {
-        rate: data.rate,
-        name: data.name,
-      });
+      const success = await addAccount(data);
       if (!success) {
         notyf.error("Opération échouée");
       } else {
         notyf.success("Opération réussie");
-        setData({ name: "", rate: "" });
-        refClose.current.click();
+        setData(defaultPayload);
+        refClose.current?.click();
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  useEffect(() => {
-    if (account) {
-      setData({
-        name: account.name,
-        _id: account._id,
-        rate: account.rate,
-      });
-    }
-  }, [account]);
-
   return (
-    <div className="modal fade" id="editAccount">
+    <div
+      className="modal fade"
+      id="addSite"
+      tabIndex={-1}
+      aria-labelledby="addSiteLabel"
+      aria-hidden="true"
+    >
       <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content p-3" onSubmit={handleSubmit}>
           <div className="d-flex justify-content-between align-items-center">
-            <h1 className="modal-title fs-5">
-              {`Editer le compte ${account?.name}`}
+            <h1 className="modal-title fs-5" id="addSiteLabel">
+              Ajouter un nouveau compte
             </h1>
             <button
               type="button"
@@ -73,26 +73,39 @@ const EditAccount = ({ account }) => {
                 name="name"
                 onChange={handleInput}
                 value={data.name}
-                autoComplete="off"
                 required
-                id="edit-name"
+                autoComplete="off"
+                id="add-name"
               />
-              <label htmlFor="edit-name">Nom</label>
+              <label htmlFor="add-name">Nom</label>
             </div>
-
             <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Taux de change"
+                placeholder="Taux"
                 name="rate"
                 onChange={handleInput}
                 value={data.rate}
                 autoComplete="off"
                 required
-                id="edit-rate"
+                id="add-rate"
               />
-              <label htmlFor="edit-rate">Taux de change</label>
+              <label htmlFor="add-rate">Taux</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Solde"
+                name="deposit"
+                onChange={handleInput}
+                value={data.deposit}
+                required
+                autoComplete="off"
+                id="add-deposit"
+              />
+              <label htmlFor="add-deposit">Solde</label>
             </div>
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">
@@ -105,7 +118,7 @@ const EditAccount = ({ account }) => {
               Fermer
             </button>
             <button type="submit" className="button primary">
-              Sauvegarder
+              Ajouter
             </button>
           </div>
         </form>
@@ -114,4 +127,4 @@ const EditAccount = ({ account }) => {
   );
 };
 
-export default EditAccount;
+export default AddAccount;

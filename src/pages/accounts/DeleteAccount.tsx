@@ -1,11 +1,16 @@
 import { useRef } from "react";
 import store_account from "../../stores/store_account";
 import { Notyf } from "notyf";
+import { Account } from "../../models/Account";
 const notyf = new Notyf();
 
-const DeleteAccount = ({ account }) => {
+type props = {
+  account: Account;
+};
+
+const DeleteAccount = ({ account }: props) => {
   const deleteAccount = store_account((state) => state.deleteAccount);
-  const refClose = useRef();
+  const refClose = useRef<HTMLButtonElement>(null);
 
   const handleDelete = async () => {
     try {
@@ -14,7 +19,7 @@ const DeleteAccount = ({ account }) => {
         notyf.error("Opération échouée");
       } else {
         notyf.success("Opération réussie");
-        refClose.current.click();
+        refClose.current?.click();
       }
     } catch (err) {
       console.log(err);
@@ -34,7 +39,7 @@ const DeleteAccount = ({ account }) => {
             ></button>
           </div>
           <div className="modal-body my-3">
-            {`Veuillez confirmer la suppression du compte ${account?.name}`}
+            {`Veuillez confirmer la suppression du compte ${account.name}`}
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">
             <button

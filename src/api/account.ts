@@ -1,12 +1,12 @@
 import httpClient from "../libs/httpClient";
 import { getHeaders } from "../helpers/getHeaders";
-import { Account } from "../models/Account";
+import { Account, AccountPayload } from "../models/Account";
 
 const getAccounts = async (): Promise<Account[]> => {
   return httpClient.get<Account[]>("/accounts", getHeaders());
 };
 
-const addAccount = (account: Account): Promise<Account> => {
+const addAccount = (account: AccountPayload): Promise<Account> => {
   return httpClient.post<Account>("/accounts", account, getHeaders());
 };
 

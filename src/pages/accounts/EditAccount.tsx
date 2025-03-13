@@ -1,19 +1,20 @@
-import { useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import { formatFloat } from "../../helpers/input";
 import { Notyf } from "notyf";
+import { Account, defaultAccount } from "../../models/Account";
 const notyf = new Notyf();
 
-const AddAccount = () => {
-  const [data, setData] = useState({
-    rate: 1.2,
-    name: "",
-    deposit: "",
-  });
-  const addAccount = store_account((state) => state.addAccount);
-  const refClose = useRef();
+type props = {
+  account: Account;
+};
 
-  const handleInput = (e) => {
+const EditAccount = ({ account }: props) => {
+  const [data, setData] = useState(defaultAccount);
+  const editAccount = store_account((state) => state.editAccount);
+  const refClose = useRef<HTMLButtonElement>(null);
+
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name == "rate") {
       setData({ ...data, rate: formatFloat(e.target.value) });
     } else {
@@ -21,35 +22,35 @@ const AddAccount = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      const success = await addAccount(data);
+      const success = await editAccount(data._id, data);
       if (!success) {
         notyf.error("Opération échouée");
       } else {
         notyf.success("Opération réussie");
-        setData({ rate: 1.2, name: "", deposit: "" });
-        refClose.current.click();
+        setData(defaultAccount);
+        refClose.current?.click();
       }
     } catch (err) {
       console.log(err);
     }
   };
 
+  useEffect(() => {
+    if (account) {
+      setData(account);
+    }
+  }, [account]);
+
   return (
-    <div
-      className="modal fade"
-      id="addSite"
-      tabIndex="-1"
-      aria-labelledby="addSiteLabel"
-      aria-hidden="true"
-    >
+    <div className="modal fade" id="editAccount">
       <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content p-3" onSubmit={handleSubmit}>
           <div className="d-flex justify-content-between align-items-center">
-            <h1 className="modal-title fs-5" id="addSiteLabel">
-              Ajouter un nouveau compte
+            <h1 className="modal-title fs-5">
+              {`Editer le compte ${account.name}`}
             </h1>
             <button
               type="button"
@@ -67,39 +68,26 @@ const AddAccount = () => {
                 name="name"
                 onChange={handleInput}
                 value={data.name}
-                required
                 autoComplete="off"
-                id="add-name"
+                required
+                id="edit-name"
               />
-              <label htmlFor="add-name">Nom</label>
+              <label htmlFor="edit-name">Nom</label>
             </div>
+
             <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Taux"
+                placeholder="Taux de change"
                 name="rate"
                 onChange={handleInput}
                 value={data.rate}
                 autoComplete="off"
                 required
-                id="add-rate"
+                id="edit-rate"
               />
-              <label htmlFor="add-rate">Taux</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Solde"
-                name="deposit"
-                onChange={handleInput}
-                value={data.deposit}
-                required
-                autoComplete="off"
-                id="add-deposit"
-              />
-              <label htmlFor="add-deposit">Solde</label>
+              <label htmlFor="edit-rate">Taux de change</label>
             </div>
           </div>
           <div className="d-flex justify-content-end align-items-center gap-2">
@@ -112,7 +100,7 @@ const AddAccount = () => {
               Fermer
             </button>
             <button type="submit" className="button primary">
-              Ajouter
+              Sauvegarder
             </button>
           </div>
         </form>
@@ -121,4 +109,4 @@ const AddAccount = () => {
   );
 };
 
-export default AddAccount;
+export default EditAccount;

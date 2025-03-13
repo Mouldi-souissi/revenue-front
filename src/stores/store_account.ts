@@ -5,13 +5,7 @@ import {
   deleteAccount,
   editAccount,
 } from "../api/account";
-import { Account } from "../models/Account";
-
-const defaultAccount: Account = {
-  _id: "",
-  name: "",
-  deposit: 0,
-};
+import { Account, AccountPayload, defaultAccount } from "../models/Account";
 
 interface AccountState {
   accounts: Account[];
@@ -21,9 +15,9 @@ interface AccountState {
   selectAccount: (account: Account) => void;
   resetAccount: () => void;
   getAccounts: () => Promise<Account[] | undefined>;
-  addAccount: (account: Account) => Promise<Boolean | undefined>;
-  deleteAccount: (id: string) => Promise<Boolean | undefined>;
-  editAccount: (id: string, account: Account) => Promise<Boolean | undefined>;
+  addAccount: (account: AccountPayload) => Promise<boolean | undefined>;
+  deleteAccount: (id: string) => Promise<boolean | undefined>;
+  editAccount: (id: string, account: Account) => Promise<boolean | undefined>;
 }
 
 const store_account = create<AccountState>((set) => ({
