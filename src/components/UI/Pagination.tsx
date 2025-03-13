@@ -1,12 +1,18 @@
-import React from "react";
+type props = {
+  totalItems: number;
+  itemsPerPage: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  pageWindow?: number;
+};
 
 const Pagination = ({
   totalItems,
   itemsPerPage,
   currentPage,
   onPageChange,
-  pageWindow = 10, // Default window size is 10
-}) => {
+  pageWindow = 10,
+}: props) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   // Calculate the range of pages to display
@@ -17,7 +23,7 @@ const Pagination = ({
     totalPages,
   );
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     if (page > 0 && page <= totalPages) {
       onPageChange(page);
     }

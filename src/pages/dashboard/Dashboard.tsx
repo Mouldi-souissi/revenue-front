@@ -23,7 +23,7 @@ import IconSVG from "../../components/UI/IconSVG";
 import { getIconColor } from "../../helpers/getIconColor";
 import { exportToCSV } from "../../helpers/exportCSV";
 import Reset from "./Reset";
-import { Move } from "../../models/Move";
+import { defaultMove, Move } from "../../models/Move";
 
 const calulateRevenue = (moves: Move[], userFilter: string) => {
   let revenue = 0;
@@ -66,7 +66,7 @@ const Dashboard = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [period, setPeriod] = useState<Period>(PERIOD_VALUES.daily);
 
-  const [move, setMove] = useState<Move>();
+  const [move, setMove] = useState<Move>(defaultMove);
 
   const getMoves = store_move((state) => state.getMoves);
   const moves = store_move((state) => state.moves).sort((a, b) =>
