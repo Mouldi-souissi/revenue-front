@@ -4,18 +4,7 @@ import AddUser from "./AddUser";
 import DeleteUser from "./DeleteUser";
 import store_user from "../../stores/store_user";
 import Wrapper from "../../components/layout/Wrapper";
-import { User } from "../../models/User";
-import { USER_ROLES } from "../../constants";
-
-const defaultUser: User = {
-  _id: "",
-  name: "",
-  email: "",
-  password: "",
-  type: USER_ROLES.USER,
-  shop: "",
-  shopId: "",
-};
+import { defaultUser, User } from "../../models/User";
 
 const Users = () => {
   const [isLoading, setLoading] = useState<boolean>(false);

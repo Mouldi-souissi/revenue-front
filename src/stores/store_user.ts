@@ -1,7 +1,7 @@
 import create from "zustand";
 import { decodeToken } from "../libs/token";
 import { navigate } from "wouter/use-browser-location";
-import { USER_ROLES } from "../constants";
+import { USER_ROLES, UserRole } from "../constants";
 import { ADMIN_ROUTES, USER_ROUTES } from "../routes/routes";
 import { login, getUsers, addUser, deleteUser, editUser } from "../api/user";
 import { User, UserPayload } from "../models/User";
@@ -12,7 +12,7 @@ type UserState = {
   activeRoute: string;
   username: string;
   userId: string;
-  role: string;
+  role: UserRole;
   shop: string;
   routes: Route[];
   isAuthenticated: boolean;
@@ -43,7 +43,7 @@ const store_user = create<UserState>((set) => ({
   activeRoute: "",
   username: "",
   userId: "",
-  role: "",
+  role: USER_ROLES.USER,
   shop: "",
   routes: [],
   isAuthenticated: false,

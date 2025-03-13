@@ -1,4 +1,4 @@
-import { MoveType, MoveSubType } from "../constants";
+import { MoveType, MoveSubType, MOVE_TYPES, MOVE_SUBTYPES } from "../constants";
 
 export type Move = {
   _id: string;
@@ -25,9 +25,9 @@ export type MovePayload = {
 };
 
 export const defaultMove: Move = {
-  type: "entrée",
+  type: MOVE_TYPES.in,
   amount: 0,
-  subType: "dépense",
+  subType: MOVE_SUBTYPES.deposit,
   account: "",
   user: "",
   shopId: "",

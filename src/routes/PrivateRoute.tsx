@@ -1,12 +1,12 @@
 import { Redirect, Route, RouteProps } from "wouter";
 import store_user from "../stores/store_user";
-import { Role } from "../models/User";
+import { UserRole } from "../constants";
 
 type PrivateRouteProps = RouteProps & {
-  roles: Role[];
+  roles: UserRole[];
 };
 
-const PrivateRoute: React.FC<PrivateRouteProps> = (props) => {
+const PrivateRoute = (props: PrivateRouteProps) => {
   const isAuthenticated = store_user((store) => store.isAuthenticated);
   const role = store_user((store) => store.role);
 

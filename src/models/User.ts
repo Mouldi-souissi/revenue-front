@@ -1,4 +1,4 @@
-import { UserRole } from "../constants";
+import { USER_ROLES, UserRole } from "../constants";
 
 export type User = {
   _id: string;
@@ -20,4 +20,14 @@ export type UserPayload = {
 export type UserEditPayload = {
   name: string;
   type: UserRole;
+};
+
+export const defaultUser: User = {
+  _id: "",
+  name: "",
+  email: "",
+  password: "",
+  type: USER_ROLES.USER,
+  shop: "",
+  shopId: "",
 };

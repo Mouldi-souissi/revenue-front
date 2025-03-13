@@ -58,7 +58,7 @@ const Sales = () => {
     onPageChange,
   } = usePagination(10);
 
-  let paginated = sales.slice(startIndex, endIndex);
+  const paginated = sales.slice(startIndex, endIndex);
 
   const checkUser = (user: string) => {
     if (role === USER_ROLES.ADMIN) {

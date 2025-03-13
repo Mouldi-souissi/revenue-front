@@ -1,4 +1,4 @@
-import { AccountType, MoveType } from "../constants";
+import { ACCOUNT_TYPES, AccountType, MOVE_TYPES, MoveType } from "../constants";
 
 export type LastMove = {
   type: MoveType;
@@ -22,11 +22,11 @@ export const defaultAccount: Account = {
   name: "",
   deposit: 0,
   lastUpdated: "",
-  lastMove: { type: "entrée", amount: 0 },
+  lastMove: { type: MOVE_TYPES.in, amount: 0 },
   rate: "1",
   shop: "",
   shopId: "",
-  type: "primary",
+  type: ACCOUNT_TYPES.secondary,
 };
 
 export type AccountPayload = {
