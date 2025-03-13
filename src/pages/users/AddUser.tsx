@@ -1,19 +1,19 @@
 import { useRef, useState, ChangeEvent, FormEvent } from "react";
 import store_user from "../../stores/store_user";
 import { Notyf } from "notyf";
-import { User } from "../../models/User";
+import { UserPayload } from "../../models/User";
 
-const defaultUser: User = {
-  _id: "",
+const defaultUser: UserPayload = {
   name: "",
   email: "",
   type: "utilisateur",
+  password: "",
 };
 
 const notyf = new Notyf();
 
-const AddUser = (): JSX.Element => {
-  const [data, setData] = useState<User>(defaultUser);
+const AddUser = () => {
+  const [data, setData] = useState<UserPayload>(defaultUser);
 
   const addUser = store_user((state) => state.addUser);
 
@@ -25,7 +25,7 @@ const AddUser = (): JSX.Element => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
 

@@ -1,20 +1,14 @@
 import create from "zustand";
-import { decodeToken } from "../helpers/decodeToken";
+import { decodeToken } from "../libs/token";
 import { navigate } from "wouter/use-browser-location";
 import { USER_ROLES } from "../constants";
 import { ADMIN_ROUTES, USER_ROUTES } from "../routes/routes";
 import { login, getUsers, addUser, deleteUser, editUser } from "../api/user";
-import { User } from "../models/User";
+import { User, UserPayload } from "../models/User";
 import { Route } from "../models/Route";
+import { DecodedToken } from "../models/DecodedToken";
 
-type DecodedToken = {
-  id: string;
-  name: string;
-  type: string;
-  shop: string;
-};
-
-interface UserState {
+type UserState = {
   activeRoute: string;
   username: string;
   userId: string;
@@ -30,10 +24,10 @@ interface UserState {
   checkAuth: () => void;
   logout: () => void;
   getUsers: () => Promise<void>;
-  addUser: (userData: User) => Promise<boolean | undefined>;
+  addUser: (userData: UserPayload) => Promise<boolean | undefined>;
   deleteUser: (id: string) => Promise<boolean | undefined>;
   editUser: (user: User) => Promise<boolean | undefined>;
-}
+};
 
 const getRoutes = (role: string): Route[] => {
   if (role === USER_ROLES.ADMIN) {
@@ -55,20 +49,28 @@ const store_user = create<UserState>((set) => ({
   isAuthenticated: false,
   users: [],
 
-  switchRoute: (route: string): void => {
+  switchRoute: (route) => {
     set({ activeRoute: route });
     sessionStorage.setItem("activeRoute", route);
   },
 
-  login: async (email: string, password: string): Promise<boolean> => {
+  login: async (email, password) => {
     try {
       const data = await login(email, password);
       if (!data) {
         return false;
       }
       sessionStorage.setItem("token", data);
-      const decodedToken = decodeToken(data) as DecodedToken;
+
+      const decodedToken = decodeToken<DecodedToken>(data);
+
+      if (!decodedToken) {
+        console.error("Failed to decode token");
+        return false;
+      }
+
       const { type, name, shop, id } = decodedToken;
+
       const routes = getRoutes(type);
       set({
         routes,
@@ -87,12 +89,10 @@ const store_user = create<UserState>((set) => ({
     }
   },
 
-  checkAuth: (): void => {
+  checkAuth: () => {
     try {
       const token = sessionStorage.getItem("token") || null;
-      const decodedToken = token
-        ? (decodeToken(token) as DecodedToken | null)
-        : null;
+      const decodedToken = decodeToken<DecodedToken>(token);
       const activeRoute = sessionStorage.getItem("activeRoute") || "/";
 
       if (token && decodedToken) {
@@ -117,7 +117,7 @@ const store_user = create<UserState>((set) => ({
     }
   },
 
-  logout: (): void => {
+  logout: () => {
     window.sessionStorage.removeItem("token");
     set({
       isAuthenticated: false,
@@ -125,7 +125,7 @@ const store_user = create<UserState>((set) => ({
     navigate("/login", { replace: true });
   },
 
-  getUsers: async (): Promise<void> => {
+  getUsers: async () => {
     try {
       const data = (await getUsers()) as User[];
       set({ users: data });
@@ -134,7 +134,7 @@ const store_user = create<UserState>((set) => ({
     }
   },
 
-  addUser: async (userData: User): Promise<boolean | undefined> => {
+  addUser: async (userData) => {
     try {
       const data = await addUser(userData);
       set((state) => ({ users: [...state.users, data] }));
@@ -145,7 +145,7 @@ const store_user = create<UserState>((set) => ({
     }
   },
 
-  deleteUser: async (id: string): Promise<boolean | undefined> => {
+  deleteUser: async (id) => {
     try {
       const data = await deleteUser(id);
       set((state) => ({
@@ -158,7 +158,7 @@ const store_user = create<UserState>((set) => ({
     }
   },
 
-  editUser: async (user: User): Promise<boolean | undefined> => {
+  editUser: async (user) => {
     try {
       const data = await editUser(user);
       set((state) => ({

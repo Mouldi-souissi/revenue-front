@@ -1,6 +1,11 @@
 import create from "zustand";
 
-const store_ui = create((set) => ({
+interface UI_State {
+  isSidebarHidden: boolean;
+  toggleSideBar: () => void;
+}
+
+const store_ui = create<UI_State>((set) => ({
   isSidebarHidden: false,
 
   toggleSideBar: () => {

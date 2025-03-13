@@ -5,15 +5,19 @@ import DeleteUser from "./DeleteUser";
 import store_user from "../../stores/store_user";
 import Wrapper from "../../components/layout/Wrapper";
 import { User } from "../../models/User";
+import { USER_ROLES } from "../../constants";
 
 const defaultUser: User = {
   _id: "",
   name: "",
   email: "",
-  type: "utilisateur",
+  password: "",
+  type: USER_ROLES.USER,
+  shop: "",
+  shopId: "",
 };
 
-const Users = (): JSX.Element => {
+const Users = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User>(defaultUser);
 

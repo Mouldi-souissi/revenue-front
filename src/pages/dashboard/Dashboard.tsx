@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import DeleteMove from "../shared/DeleteMove";
 import Pagination from "../../components/UI/Pagination";
 import AddAmount from "./AddAmount";
@@ -17,19 +17,22 @@ import {
   PERIOD_VALUES,
   ACCOUNT_TYPES,
   USER_ROLES,
+  Period,
+  MoveType,
 } from "../../constants";
 import IconSVG from "../../components/UI/IconSVG";
 import { getIconColor } from "../../helpers/getIconColor";
 import { exportToCSV } from "../../helpers/exportCSV";
 import Reset from "./Reset";
+import { Move } from "../../models/Move";
 
-const calulateRevenue = (moves, userFilter) => {
+const calulateRevenue = (moves: Move[], userFilter: string) => {
   let revenue = 0;
   let wins = 0;
   let spending = 0;
   let sales = 0;
 
-  for (let move of moves) {
+  for (const move of moves) {
     if (move.subType === MOVE_SUBTYPES.win) {
       if (userFilter === "all" || userFilter === move.user) {
         wins += Number(move.amount);
@@ -61,10 +64,10 @@ const periodOptions = [
 ];
 
 const Dashboard = () => {
-  const [isLoading, setLoading] = useState(false);
-  const [period, setPeriod] = useState(PERIOD_VALUES.daily);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [period, setPeriod] = useState<Period>(PERIOD_VALUES.daily);
 
-  const [move, setMove] = useState("");
+  const [move, setMove] = useState<Move>();
 
   const getMoves = store_move((state) => state.getMoves);
   const moves = store_move((state) => state.moves).sort((a, b) =>
@@ -92,7 +95,7 @@ const Dashboard = () => {
     onPageChange,
   } = usePagination();
 
-  let paginatedMoves = filteredMoves.slice(startIndex, endIndex);
+  const paginatedMoves = filteredMoves.slice(startIndex, endIndex);
 
   const init = () => {
     setLoading(true);
@@ -107,9 +110,9 @@ const Dashboard = () => {
     init();
   }, [role]);
 
-  const handlePeriod = async (e) => {
+  const handlePeriod = async (e: ChangeEvent<HTMLSelectElement>) => {
     try {
-      const selected = e.target.value;
+      const selected = e.target.value as Period;
       setPeriod(selected);
       setLoading(true);
       await getMoves(selected);
@@ -122,7 +125,7 @@ const Dashboard = () => {
     }
   };
 
-  const handleFilter = (e) => {
+  const handleFilter = (e: ChangeEvent<HTMLSelectElement>) => {
     setUserFilter(e.target.value);
     setCurrentPage(1);
   };
@@ -135,14 +138,14 @@ const Dashboard = () => {
   const handleExport = () => {
     let data = [];
 
-    for (let row of filteredMoves) {
+    for (const row of filteredMoves) {
       const formated = {
         Compte: row.account,
         Type: row.type,
         Catégorie: row.subType,
         Montant: row.amount,
         Utilisateur: row.user,
-        Date: toTunisTime(row.date),
+        Date: row.date && toTunisTime(row.date),
       };
 
       data.push(formated);
@@ -208,12 +211,13 @@ const Dashboard = () => {
                 <div className=" small">Dernière opération : </div>
                 <div
                   className={`small ${
-                    account.lastMove.type === "sortie" ? "red" : "green"
+                    account.lastMove?.type === "sortie" ? "red" : "green"
                   }`}
                 >
-                  {account.lastMove.type === "entrée" && "+"}
-                  {account.lastMove.type === "sortie" && "-"}
-                  {formatCurrency(account.lastMove.amount)}
+                  {account.lastMove?.type === "entrée" && "+"}
+                  {account.lastMove?.type === "sortie" && "-"}
+                  {account.lastMove?.amount &&
+                    formatCurrency(account.lastMove.amount)}
                 </div>
               </div>
             </div>
@@ -334,7 +338,7 @@ const Dashboard = () => {
                   </div>
                 </td>
                 <td>{move.user}</td>
-                <td className="date">{toTunisTime(move.date)}</td>
+                <td className="date">{move.date && toTunisTime(move.date)}</td>
                 <td>{move.description}</td>
 
                 {role === USER_ROLES.ADMIN && (
@@ -353,7 +357,7 @@ const Dashboard = () => {
             ))}
             {!paginatedMoves.length && (
               <tr>
-                <td colSpan="8" className="text-center">
+                <td colSpan={8} className="text-center">
                   pas de donnée
                 </td>
               </tr>

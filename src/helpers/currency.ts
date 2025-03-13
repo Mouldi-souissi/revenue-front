@@ -1,14 +1,17 @@
-export const formatNumber = (input, minimumFractionDigits = 0) => {
+export const formatNumber = (
+  input: number | string,
+  minimumFractionDigits: number = 0,
+): string => {
   return Number(input).toLocaleString("fr", {
     minimumFractionDigits,
   });
 };
 
 export const formatCurrency = (
-  amount,
-  currency = "TND",
-  minimumFractionDigits = 0,
-) => {
+  amount: number,
+  currency: string = "TND",
+  minimumFractionDigits: number = 0,
+): string => {
   return Number(amount).toLocaleString("fr", {
     style: "currency",
     currency,

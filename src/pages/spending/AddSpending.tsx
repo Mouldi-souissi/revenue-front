@@ -1,28 +1,30 @@
-import { useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import store_move from "../../stores/store_move";
 import { MOVE_TYPES, MOVE_SUBTYPES, ACCOUNT_TYPES } from "../../constants";
 import { formatInput } from "../../helpers/input";
-import MoveValidator from "../../payloadValidators/moveValidator";
+import MoveBuilder from "../../payloadValidators/MoveBuilder";
 import store_account from "../../stores/store_account";
 import { Notyf } from "notyf";
 const notyf = new Notyf();
 
 const AddSpending = () => {
   const [isLoading, setLoading] = useState(false);
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState<number | string>("");
   const [description, setDescription] = useState("");
-  const refClose = useRef();
+  const refClose = useRef<HTMLButtonElement>(null);
 
   const addMove = store_move((state) => state.addMove);
 
   const accounts = store_account((state) => state.accounts);
 
-  const handleInput = (e) => {
+  const handleInput = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const value = e.target.value;
     setAmount(formatInput(value));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       setLoading(true);
@@ -36,7 +38,7 @@ const AddSpending = () => {
         return;
       }
 
-      const payload = new MoveValidator(
+      const payload = new MoveBuilder(
         MOVE_TYPES.out,
         MOVE_SUBTYPES.spending,
         amount,
@@ -53,14 +55,14 @@ const AddSpending = () => {
         return;
       }
 
-      const success = await addMove(payload);
+      const success = await addMove(payload.getMove());
       if (!success) {
         notyf.error("Opération échouée");
       } else {
         notyf.success("Opération réussie");
         setAmount("");
         setDescription("");
-        refClose.current.click();
+        refClose.current?.click();
       }
     } catch (error) {
       console.log(error);
@@ -74,7 +76,7 @@ const AddSpending = () => {
     <div
       className="modal fade"
       id="addSpending"
-      tabIndex="-1"
+      tabIndex={-1}
       aria-labelledby="addSpendingLabel"
       aria-hidden="true"
     >

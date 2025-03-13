@@ -10,19 +10,10 @@ import store_account from "../../stores/store_account";
 import { MOVE_SUBTYPES, PERIOD_VALUES, USER_ROLES } from "../../constants";
 import { usePagination } from "../../hooks/usePagination";
 import Pagination from "../../components/UI/Pagination";
-
-import { Move } from "../../models/Move";
-
-const defaultMove: Move = {
-  type: "",
-  amount: 0,
-  subType: "",
-  account: "",
-  user: "",
-};
+import { Move, defaultMove } from "../../models/Move";
 
 const Spending = () => {
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState(false);
   const [spendingDoc, setSpendingDoc] = useState<Move>(defaultMove);
 
   const getMoves = store_move((state) => state.getMoves);
@@ -62,7 +53,7 @@ const Spending = () => {
     onPageChange,
   } = usePagination(10);
 
-  let paginated = spending.slice(startIndex, endIndex);
+  const paginated = spending.slice(startIndex, endIndex);
 
   const checkUser = (user: string): boolean => {
     if (role === USER_ROLES.ADMIN) {

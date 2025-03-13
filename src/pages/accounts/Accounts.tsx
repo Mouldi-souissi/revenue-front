@@ -7,9 +7,10 @@ import Wrapper from "../../components/layout/Wrapper";
 import { toTunisTime } from "../../helpers/timeAndDate";
 import { formatNumber } from "../../helpers/currency";
 import { ACCOUNT_TYPES } from "../../constants";
+import { defaultAccount } from "../../models/Account";
 
 const Sites = () => {
-  const [account, setAccount] = useState("");
+  const [account, setAccount] = useState(defaultAccount);
   const [isLoading, setLoading] = useState(false);
 
   const accounts = store_account((state) => state.accounts);
@@ -25,7 +26,7 @@ const Sites = () => {
   }, []);
 
   return (
-    <Wrapper className="container">
+    <Wrapper>
       <div className="d-flex align-items-center justify-content-between gap-2 p-3">
         <div className="d-flex gap-2 align-items-center">
           <button
@@ -102,7 +103,7 @@ const Sites = () => {
               ))}
             {!accounts.length && (
               <tr>
-                <td colSpan="7" className="text-center">
+                <td colSpan={5} className="text-center">
                   pas de donnée
                 </td>
               </tr>

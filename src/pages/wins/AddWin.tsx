@@ -1,59 +1,47 @@
-import { useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import store_account from "../../stores/store_account";
 import store_move from "../../stores/store_move";
 import { MOVE_TYPES, MOVE_SUBTYPES, ACCOUNT_TYPES } from "../../constants";
 import { formatInput } from "../../helpers/input";
-import MoveValidator from "../../payloadValidators/moveValidator";
+import MoveBuilder from "../../payloadValidators/MoveBuilder";
 import { Notyf } from "notyf";
 const notyf = new Notyf();
 
-const AddSale = () => {
+const AddWin = () => {
   const [isLoading, setLoading] = useState(false);
-  const [depositEnd, setDepositEnd] = useState("");
-  const refClose = useRef();
+  const [amount, setAmount] = useState<string | number>("");
+  const refClose = useRef<HTMLButtonElement>(null);
 
   const addMove = store_move((state) => state.addMove);
 
-  const getAccounts = store_account((state) => state.getAccounts);
   const accounts = store_account((state) => state.accounts);
   const selectedAccount = store_account((state) => state.selectedAccount);
   const selectAccount = store_account((state) => state.selectAccount);
   const resetAccount = store_account((state) => state.resetAccount);
 
-  const handleInput = (e) => {
+  const handleInput = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const value = e.target.value;
-    setDepositEnd(formatInput(value));
+    setAmount(formatInput(value));
   };
 
-  const setSelectedAccount = (id) => {
+  const setSelectedAccount = (id: string) => {
     const account = accounts.find((acc) => acc._id === id);
     if (account) {
       selectAccount(account);
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
+      e.preventDefault();
       setLoading(true);
-      const accounts_state = await getAccounts();
-      const account = accounts_state.find(
-        (acc) => acc._id === selectedAccount._id,
-      );
 
-      const amount =
-        (Number(account.deposit) - Number(depositEnd)) * Number(account.rate);
-
-      if (amount <= 0) {
-        notyf.error(
-          "La vente ne peut pas etre negative! Veuillez saisir les gains d'abord",
-        );
-        return;
-      }
-      const payload = new MoveValidator(
-        MOVE_TYPES.in,
-        MOVE_SUBTYPES.sale,
-        Number(amount).toFixed(0),
+      const payload = new MoveBuilder(
+        MOVE_TYPES.out,
+        MOVE_SUBTYPES.win,
+        amount,
         selectedAccount.name,
         selectedAccount._id,
       );
@@ -62,35 +50,35 @@ const AddSale = () => {
 
       if (!isValid) {
         notyf.error("Opération échouée");
-
         console.log({ error });
         return;
       }
 
-      const success = await addMove(payload);
+      const suceess = await addMove(payload.getMove());
 
-      if (!success) {
+      if (!suceess) {
         notyf.error("Opération échouée");
       } else {
         notyf.success("Opération réussie");
-        setDepositEnd("");
+
+        setAmount("");
         resetAccount();
-        refClose.current.click();
+        refClose.current?.click();
       }
     } catch (error) {
-      console.log(error);
       notyf.error("Opération échouée");
+      console.log(error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="modal fade" id="addSale" tabIndex="-1" aria-hidden="true">
+    <div className="modal fade" id="addWin" tabIndex={-1} aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <form className="modal-content p-3" onSubmit={handleSubmit}>
           <div className="d-flex justify-content-between align-items-center">
-            <div className="text-black">Ajouter une vente</div>
+            <div className="text-black">Ajouter un gain</div>
             <button
               type="button"
               className="btn-close"
@@ -106,7 +94,7 @@ const AddSale = () => {
                 name="account"
                 onChange={(e) => setSelectedAccount(e.target.value)}
                 value={selectedAccount._id}
-                id="sale-account"
+                id="win-account"
               >
                 {accounts
                   .filter((account) => account.type !== ACCOUNT_TYPES.primary)
@@ -116,23 +104,21 @@ const AddSale = () => {
                     </option>
                   ))}
               </select>
-              <label htmlFor="sale-account">Type</label>
+              <label htmlFor="win-account">Type</label>
             </div>
-            <div className="form-floating">
+            <div className="form-floating ">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Montant"
-                name="depositEnd"
+                name="amount"
                 onChange={handleInput}
-                value={depositEnd}
+                value={amount}
                 required
                 autoComplete="off"
-                id="sale-deposit"
+                id="win-amount"
               />
-              <label htmlFor="sale-deposit">
-                Balance {selectedAccount.name} fin
-              </label>
+              <label htmlFor="win-amount">Montant</label>
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mb-3">
@@ -158,4 +144,4 @@ const AddSale = () => {
   );
 };
 
-export default AddSale;
+export default AddWin;

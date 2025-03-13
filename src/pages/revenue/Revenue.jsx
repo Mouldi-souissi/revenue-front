@@ -4,16 +4,16 @@ import store_move from "../../stores/store_move";
 import store_user from "../../stores/store_user";
 import {
   formatDateTimeLocal,
-  getStartOfday,
-  getEndOfday,
+  getStartOfDay,
+  getEndOfDay,
   subtract30Days,
 } from "../../helpers/timeAndDate";
 import RevenueCards from "../shared/RevenueCards";
 
 const Revenue = () => {
   const today = new Date();
-  const startOfDay = formatDateTimeLocal(getStartOfday(today));
-  const endOfDay = formatDateTimeLocal(getEndOfday(today));
+  const startOfDay = formatDateTimeLocal(getStartOfDay(today));
+  const endOfDay = formatDateTimeLocal(getEndOfDay(today));
   const thirtydays = formatDateTimeLocal(subtract30Days(today));
 
   const [isLoading, setLoading] = useState(false);

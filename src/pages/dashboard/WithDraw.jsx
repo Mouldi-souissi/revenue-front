@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import store_move from "../../stores/store_move";
 import store_account from "../../stores/store_account";
 import { MOVE_TYPES, MOVE_SUBTYPES } from "../../constants";
-import MoveValidator from "../../payloadValidators/moveValidator";
+import MoveBuilder from "../../payloadValidators/MoveBuilder";
 import { formatInput } from "../../helpers/input";
 import { Notyf } from "notyf";
 const notyf = new Notyf();
@@ -28,7 +28,7 @@ const WithDraw = () => {
       e.preventDefault();
       setLoading(true);
 
-      const payload = new MoveValidator(
+      const payload = new MoveBuilder(
         MOVE_TYPES.out,
         MOVE_SUBTYPES.withdraw,
         amount,

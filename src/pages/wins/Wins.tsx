@@ -15,11 +15,12 @@ import {
 } from "../../constants";
 import { usePagination } from "../../hooks/usePagination";
 import Pagination from "../../components/UI/Pagination";
+import { Move, defaultMove } from "../../models/Move";
 
 const Wins = () => {
   const [isLoading, setLoading] = useState(false);
-  const [winDoc, setWinDoc] = useState("");
-  const addWinModal = useRef();
+  const [winDoc, setWinDoc] = useState<Move>(defaultMove);
+  const addWinModal = useRef<HTMLButtonElement>(null);
 
   const getMoves = store_move((state) => state.getMoves);
   const wins = store_move((state) => state.wins).sort((a, b) =>
@@ -57,9 +58,9 @@ const Wins = () => {
     onPageChange,
   } = usePagination(10);
 
-  let paginated = wins.slice(startIndex, endIndex);
+  const paginated = wins.slice(startIndex, endIndex);
 
-  const checkUser = (user) => {
+  const checkUser = (user: string) => {
     if (role === USER_ROLES.ADMIN) {
       return true;
     } else {
@@ -77,7 +78,7 @@ const Wins = () => {
     );
     if (filtered.length) {
       selectAccount(filtered[0]);
-      addWinModal.current.click();
+      addWinModal.current?.click();
     }
   };
 
@@ -154,7 +155,7 @@ const Wins = () => {
             ))}
             {!paginated.length && (
               <tr>
-                <td colSpan="7" className="text-center">
+                <td colSpan={5} className="text-center">
                   pas de donnée
                 </td>
               </tr>

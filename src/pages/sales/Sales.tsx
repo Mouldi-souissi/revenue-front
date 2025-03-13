@@ -15,11 +15,12 @@ import {
 } from "../../constants";
 import { usePagination } from "../../hooks/usePagination";
 import Pagination from "../../components/UI/Pagination";
+import { defaultMove } from "../../models/Move";
 
 const Sales = () => {
-  const [sale, setSale] = useState("");
+  const [sale, setSale] = useState(defaultMove);
   const [isLoading, setLoading] = useState(false);
-  const addSaleModal = useRef();
+  const addSaleModal = useRef<HTMLButtonElement>(null);
 
   const sales = store_move((state) => state.sales).sort((a, b) =>
     compareDates(a.date, b.date),
@@ -59,7 +60,7 @@ const Sales = () => {
 
   let paginated = sales.slice(startIndex, endIndex);
 
-  const checkUser = (user) => {
+  const checkUser = (user: string) => {
     if (role === USER_ROLES.ADMIN) {
       return true;
     } else {
@@ -77,7 +78,7 @@ const Sales = () => {
     );
     if (filtered.length) {
       selectAccount(filtered[0]);
-      addSaleModal.current.click();
+      addSaleModal.current?.click();
     }
   };
 
@@ -154,7 +155,7 @@ const Sales = () => {
             ))}
             {!paginated.length && (
               <tr>
-                <td colSpan="7" className="text-center">
+                <td colSpan={5} className="text-center">
                   pas de donnée
                 </td>
               </tr>

@@ -1,6 +1,6 @@
 import httpClient from "../libs/httpClient";
 import { getHeaders } from "../helpers/getHeaders";
-import { User } from "../models/User";
+import { User, UserPayload } from "../models/User";
 
 const login = async (email: string, password: string): Promise<string> => {
   return httpClient.post(`/users/login`, {
@@ -13,7 +13,7 @@ const getUsers = async (): Promise<User[]> => {
   return httpClient.get(`/users`, getHeaders());
 };
 
-const addUser = async (userData: User): Promise<User> => {
+const addUser = async (userData: UserPayload): Promise<User> => {
   return httpClient.post(`/users/register`, userData, getHeaders());
 };
 

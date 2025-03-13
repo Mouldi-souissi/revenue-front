@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { Move } from "../models/Move";
 
-export const useMovesFilter = (moves) => {
-  const [userFilter, setUserFilter] = useState("all");
+export const useMovesFilter = (moves: Move[]) => {
+  const [userFilter, setUserFilter] = useState<string>("all");
 
-  let filteredMoves = [];
+  let filteredMoves: Move[] = [];
 
   if (userFilter === "all") {
     filteredMoves = moves;

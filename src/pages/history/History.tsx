@@ -2,8 +2,8 @@ import { useState } from "react";
 import Wrapper from "../../components/layout/Wrapper";
 import {
   formatDateTimeLocal,
-  getStartOfday,
-  getEndOfday,
+  getStartOfDay,
+  getEndOfDay,
   toTunisTime,
   subtract30Days,
 } from "../../helpers/timeAndDate";
@@ -16,8 +16,8 @@ import IconSVG from "../../components/UI/IconSVG";
 
 const History = () => {
   const today = new Date();
-  const startOfDay = formatDateTimeLocal(getStartOfday(today));
-  const endOfDay = formatDateTimeLocal(getEndOfday(today));
+  const startOfDay = formatDateTimeLocal(getStartOfDay(today));
+  const endOfDay = formatDateTimeLocal(getEndOfDay(today));
   const thirtydays = formatDateTimeLocal(subtract30Days(today));
 
   const [isLoading, setLoading] = useState(false);

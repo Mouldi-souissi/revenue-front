@@ -9,7 +9,8 @@ import {
   reset,
 } from "../api/move";
 
-import { Move, Revenue } from "../models/Move";
+import { Move, MovePayload, Revenue } from "../models/Move";
+import { History } from "../models/History";
 
 interface MoveState {
   moves: Move[];
@@ -17,11 +18,11 @@ interface MoveState {
   wins: Move[];
   sales: Move[];
   revenue: Revenue;
-  history: any[];
+  history: History[];
 
   // actions
   getMoves: (period?: Period, subType?: MoveSubType) => Promise<void>;
-  addMove: (move: Move) => Promise<boolean>;
+  addMove: (move: MovePayload) => Promise<boolean>;
   deleteMove: (id: string) => Promise<boolean>;
   getRevenue: (start: string, end: string, user?: string) => Promise<void>;
   getHistory: (start: string, end: string) => Promise<void>;

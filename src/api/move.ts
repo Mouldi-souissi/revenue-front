@@ -1,7 +1,8 @@
 import httpClient from "../libs/httpClient";
 import { getHeaders } from "../helpers/getHeaders";
-import { Move, Revenue } from "../models/Move";
+import { Move, Revenue, MovePayload } from "../models/Move";
 import { Period, MoveSubType } from "../constants";
+import { History } from "../models/History";
 
 const getMoves = async (
   period: Period,
@@ -10,7 +11,7 @@ const getMoves = async (
   return httpClient.get<Move[]>(`/moves/${period}/${subType}`, getHeaders());
 };
 
-const addMove = (move: Move): Promise<Move> => {
+const addMove = (move: MovePayload): Promise<Move> => {
   return httpClient.post<Move>("/moves", move, getHeaders());
 };
 
@@ -29,8 +30,8 @@ const getRevenue = (
   );
 };
 
-const getHistory = (start: string, end: string): Promise<Move[]> => {
-  return httpClient.get<Move[]>(`/history/${start}/${end}`, getHeaders());
+const getHistory = (start: string, end: string): Promise<History[]> => {
+  return httpClient.get<History[]>(`/history/${start}/${end}`, getHeaders());
 };
 
 const reset = (password: string): Promise<void> => {

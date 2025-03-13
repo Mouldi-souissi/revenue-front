@@ -9,11 +9,11 @@ type props = {
 
 const notyf = new Notyf();
 
-const DeleteUser = ({ user }: props): JSX.Element => {
+const DeleteUser = ({ user }: props) => {
   const deleteUser = store_user((state) => state.deleteUser);
   const refClose = useRef<HTMLButtonElement>(null);
 
-  const handleDelete = async (): Promise<void> => {
+  const handleDelete = async () => {
     try {
       const success = await deleteUser(user._id as string);
 

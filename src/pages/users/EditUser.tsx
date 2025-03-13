@@ -2,21 +2,19 @@ import { useEffect, useRef, useState, ChangeEvent, FormEvent } from "react";
 import store_user from "../../stores/store_user";
 import { Notyf } from "notyf";
 const notyf = new Notyf();
-import { User } from "../../models/User";
+import { User, UserEditPayload } from "../../models/User";
 
 type props = {
   user: User;
 };
 
-const defaultUser: User = {
-  _id: "",
+const defaultUser: UserEditPayload = {
   name: "",
-  email: "",
   type: "utilisateur",
 };
 
-const EditUser = ({ user }: props): JSX.Element => {
-  const [data, setData] = useState<User>(defaultUser);
+const EditUser = ({ user }: props) => {
+  const [data, setData] = useState<UserEditPayload>(defaultUser);
   const editUser = store_user((state) => state.editUser);
   const refClose = useRef<HTMLButtonElement>(null);
 
@@ -26,10 +24,14 @@ const EditUser = ({ user }: props): JSX.Element => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      const success = await editUser(data);
+      const success = await editUser({
+        ...user,
+        name: data.name,
+        type: data.type,
+      });
 
       if (!success) {
         notyf.error("Opération échouée");

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import cash from "/cash.webp";
 import store_user from "../stores/store_user";
 import { Notyf } from "notyf";
@@ -6,17 +6,14 @@ const notyf = new Notyf();
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "" });
-
   const login = store_user((state) => state.login);
-  const loginError = store_user((store) => store.loginError);
-
   const [isLoading, setLoading] = useState(false);
 
-  const handleInput = (e) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       setLoading(true);
@@ -35,17 +32,10 @@ const Login = () => {
 
   return (
     <div className="container py-5">
-      {loginError && (
-        <div className="alert alert-danger mt-2" role="alert">
-          {loginError}
-        </div>
-      )}
       <div className="signinCard">
         <div className="row">
           <div className="col-lg-6 signup_container">
             <div className="signup_hero text-center">
-              {/*<img alt="logo" src={cash} className="mb-3" width="200px" />*/}
-
               <div className="signup_hero_text mt-2">Caisse</div>
             </div>
             <div className="signup_img">
