@@ -18,7 +18,6 @@ import {
   ACCOUNT_TYPES,
   USER_ROLES,
   Period,
-  MoveType,
 } from "../../constants";
 import IconSVG from "../../components/UI/IconSVG";
 import { getIconColor } from "../../helpers/getIconColor";
@@ -151,7 +150,7 @@ const Dashboard = () => {
       data.push(formated);
     }
 
-    const filename = `Les opérations - ${toTunisTime(new Date())}`;
+    const filename = `Les opérations - ${toTunisTime(new Date().toISOString())}`;
 
     exportToCSV(data, filename);
   };

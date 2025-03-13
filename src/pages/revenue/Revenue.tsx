@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import Wrapper from "../../components/layout/Wrapper";
 import store_move from "../../stores/store_move";
 import store_user from "../../stores/store_user";
@@ -32,7 +32,7 @@ const Revenue = () => {
     getUsers();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement | HTMLButtonElement>) => {
     e.preventDefault();
     setLoading(true);
     getRevenue(

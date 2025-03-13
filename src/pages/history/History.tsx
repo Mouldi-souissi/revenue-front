@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Wrapper from "../../components/layout/Wrapper";
 import {
   formatDateTimeLocal,
@@ -37,9 +37,9 @@ const History = () => {
     onPageChange,
   } = usePagination(10);
 
-  let paginated = history.slice(startIndex, endIndex);
+  const paginated = history.slice(startIndex, endIndex);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement | HTMLButtonElement>) => {
     e.preventDefault();
     setCurrentPage(1);
     setLoading(true);

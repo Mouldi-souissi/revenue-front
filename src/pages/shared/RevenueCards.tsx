@@ -3,9 +3,14 @@ import { formatNumber } from "../../helpers/currency";
 import IconSVG from "../../components/UI/IconSVG";
 import { getIconColor } from "../../helpers/getIconColor";
 
-const RevenueCards = (props) => {
-  const { revenue = 0, sales = 0, wins = 0, spending = 0 } = props;
+type props = {
+  revenue: number;
+  sales: number;
+  wins: number;
+  spending: number;
+};
 
+const RevenueCards = ({ revenue, sales, wins, spending }: props) => {
   return (
     <div className="circles my-3">
       <div className="circle">

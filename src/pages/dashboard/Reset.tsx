@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, ChangeEvent, FormEvent } from "react";
 import store_move from "../../stores/store_move";
 import store_account from "../../stores/store_account";
 
@@ -7,17 +7,17 @@ const Reset = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const refClose = useRef();
+  const refClose = useRef<HTMLButtonElement>(null);
 
   const reset = store_move((state) => state.reset);
   const getAccounts = store_account((state) => state.getAccounts);
 
-  const handleInput = (e) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setPassword(value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       setLoading(true);
@@ -31,7 +31,7 @@ const Reset = () => {
       await getAccounts();
 
       setPassword("");
-      refClose.current.click();
+      refClose.current?.click();
     } catch (error) {
       console.log(error);
     } finally {
@@ -40,7 +40,7 @@ const Reset = () => {
   };
 
   return (
-    <div className="modal fade" id="reset" tabIndex="-1" aria-hidden="true">
+    <div className="modal fade" id="reset" tabIndex={-1} aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <form
           className="modal-content p-3"

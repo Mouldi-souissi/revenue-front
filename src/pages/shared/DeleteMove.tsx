@@ -3,12 +3,17 @@ import store_move from "../../stores/store_move";
 import store_account from "../../stores/store_account";
 import { Notyf } from "notyf";
 const notyf = new Notyf();
+import { Move } from "../../models/Move";
 
-const DeleteMove = ({ move }) => {
+type props = {
+  move: Move;
+};
+
+const DeleteMove = ({ move }: props) => {
   const deleteMove = store_move((state) => state.deleteMove);
   const getAccounts = store_account((state) => state.getAccounts);
 
-  const refClose = useRef();
+  const refClose = useRef<HTMLButtonElement>(null);
   const [isLoading, setLoading] = useState(false);
 
   const handleDelete = async () => {
@@ -25,7 +30,7 @@ const DeleteMove = ({ move }) => {
           setLoading(false);
           notyf.success("Opération réussie");
           await getAccounts();
-          refClose.current.click();
+          refClose.current?.click();
         }
       }
     } catch (error) {
@@ -38,7 +43,7 @@ const DeleteMove = ({ move }) => {
     <div
       className="modal fade"
       id="deleteMove"
-      tabIndex="-1"
+      tabIndex={-1}
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
@@ -56,7 +61,7 @@ const DeleteMove = ({ move }) => {
           <div className="modal-body my-3">
             <div> Veuillez confirmer la suppression de l'opération:</div>
             <div className="text-black text-center">
-              {move?.subType} {move?.amount}
+              {move.subType} {move.amount}
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mb-3">
