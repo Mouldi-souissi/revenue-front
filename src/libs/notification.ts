@@ -20,11 +20,11 @@ class Notification {
   }
 
   error(message: string) {
-    this.notyf.success(message);
+    this.notyf.error(message);
   }
 
   success(message: string) {
-    this.notyf.error(message);
+    this.notyf.success(message);
   }
 }
 

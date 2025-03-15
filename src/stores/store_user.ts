@@ -7,6 +7,7 @@ import { login, getUsers, addUser, deleteUser, editUser } from "../api/user";
 import { User, UserPayload } from "../models/User";
 import { Route } from "../models/Route";
 import { DecodedToken } from "../models/DecodedToken";
+import storage from "../libs/storage";
 
 type UserState = {
   activeRoute: string;
@@ -51,7 +52,7 @@ const store_user = create<UserState>((set) => ({
 
   switchRoute: (route) => {
     set({ activeRoute: route });
-    sessionStorage.setItem("activeRoute", route);
+    storage.setItem("activeRoute", route);
   },
 
   login: async (email, password) => {
@@ -60,7 +61,7 @@ const store_user = create<UserState>((set) => ({
       if (!data) {
         return false;
       }
-      sessionStorage.setItem("token", data);
+      storage.setItem("token", data);
 
       const decodedToken = decodeToken<DecodedToken>(data);
 
@@ -91,11 +92,12 @@ const store_user = create<UserState>((set) => ({
 
   checkAuth: () => {
     try {
-      const token = sessionStorage.getItem("token") || null;
+      const token = storage.getItem<string>("token");
+      if (!token) return;
       const decodedToken = decodeToken<DecodedToken>(token);
-      const activeRoute = sessionStorage.getItem("activeRoute") || "/";
+      const activeRoute = storage.getItem<string>("activeRoute") || "/";
 
-      if (token && decodedToken) {
+      if (token && decodedToken && activeRoute) {
         const { type, name, shop, id } = decodedToken;
         const routes = getRoutes(type);
         set({
@@ -118,7 +120,7 @@ const store_user = create<UserState>((set) => ({
   },
 
   logout: () => {
-    window.sessionStorage.removeItem("token");
+    storage.clear();
     set({
       isAuthenticated: false,
     });

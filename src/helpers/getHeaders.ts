@@ -1,5 +1,7 @@
+import storage from "../libs/storage";
+
 export const getHeaders = () => {
-  const token = sessionStorage.getItem("token") || null;
+  const token = storage.getItem("token");
 
   if (!token) return {};
 

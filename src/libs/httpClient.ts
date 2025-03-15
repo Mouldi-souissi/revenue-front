@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { navigate } from "wouter/use-browser-location";
+import storage from "./storage";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -21,7 +22,7 @@ class HttpClient {
           error.response &&
           (error.response.status === 401 || error.response.status === 403)
         ) {
-          sessionStorage.removeItem("token");
+          storage.clear();
           navigate("/login", { replace: true });
         }
         console.error("API Error:", error);
