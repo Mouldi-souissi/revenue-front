@@ -1,5 +1,3 @@
-import React from "react";
-
 const IconSVG = ({ name, size = 24, color = "white" }) => {
   const icons = {
     vente: (
