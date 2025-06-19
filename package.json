@@ -12,7 +12,8 @@
     "lint:fix": "eslint . --fix",
     "test": "playwright test --reporter=html",
     "test:ui": "playwright test --ui",
-    "test:headed": "playwright test --headed"
+    "test:headed": "playwright test --headed",
+    "bdd": "npx bddgen && npx playwright test"
   },
   "dependencies": {
     "axios": "^1.2.1",
@@ -25,7 +26,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.53.0",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
@@ -33,6 +34,7 @@
     "eslint-plugin-react": "^7.37.4",
     "globals": "^15.14.0",
     "playwright": "^1.52.0",
+    "playwright-bdd": "^8.3.0",
     "sass": "^1.56.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.21.0",
