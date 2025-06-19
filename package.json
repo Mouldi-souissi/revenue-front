@@ -13,7 +13,7 @@
     "test": "playwright test --reporter=html",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
-    "bdd": "npx bddgen && npx playwright test"
+    "bdd": "cucumber-js --config cucumber.cjs"
   },
   "dependencies": {
     "axios": "^1.2.1",
@@ -25,6 +25,7 @@
     "zustand": "^4.1.5"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^11.3.0",
     "@eslint/js": "^9.18.0",
     "@playwright/test": "^1.53.0",
     "@types/react": "^18.3.18",
@@ -33,7 +34,7 @@
     "eslint": "^9.18.0",
     "eslint-plugin-react": "^7.37.4",
     "globals": "^15.14.0",
-    "playwright": "^1.52.0",
+    "playwright": "^1.53.1",
     "playwright-bdd": "^8.3.0",
     "sass": "^1.56.2",
     "typescript": "^5.7.3",
