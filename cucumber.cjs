@@ -1,7 +1,7 @@
 module.exports = {
   default: {
-    import: ["steps/**/*.js"],
+    import: ["cucumber/steps/**/*.js"],
     format: ["progress-bar"],
-    paths: ["features/**/*.feature"],
+    paths: ["cucumber/features/**/*.feature"],
   },
 };
