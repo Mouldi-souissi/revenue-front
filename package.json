@@ -9,7 +9,11 @@
     "build": "VITE_API_BASE_URL=https://revenue-api-dev.vercel.app/api vite build",
     "preview": "VITE_API_BASE_URL=https://revenue-api-dev.vercel.app/api vite preview",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed"
   },
   "dependencies": {
     "jwt-decode": "^3.1.2",
@@ -21,6 +25,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.7.2",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
