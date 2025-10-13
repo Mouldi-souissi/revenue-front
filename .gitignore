@@ -29,3 +29,6 @@ dist-ssr
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# dotenv environment variables files
+.env
